@@ -19,7 +19,7 @@ public class Fade : MonoBehaviour {
 		StartCoroutine(FadeOut(scene));
 	}
 
-	IEnumerator FadeIn ()
+	IEnumerator FadeIn()
 	{
 		float t = 1f;
 
@@ -29,7 +29,7 @@ public class Fade : MonoBehaviour {
 			float a = curve.Evaluate(t);
 			img.color = new Color (0f, 0f, 0f, a);
 			if(a == 0) {
-				Destroy(fadePrefab);
+				fadePrefab.SetActive(false);
 			}
 			yield return 0;
 		}
@@ -37,6 +37,8 @@ public class Fade : MonoBehaviour {
 
 	IEnumerator FadeOut(string scene)
 	{
+		fadePrefab.SetActive(true);
+
 		float t = 0f;
 
 		while (t < 1f)

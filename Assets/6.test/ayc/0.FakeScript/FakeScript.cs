@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class FakeScript : MonoBehaviour
 {
-    public static bool firstLoading = false;
-    public Fade fade;
+    public static bool firstLoading = true;
 
     void Update()
     {

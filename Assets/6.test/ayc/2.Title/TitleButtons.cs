@@ -5,10 +5,11 @@ using UnityEngine.SceneManagement;
 
 public class TitleButtons : MonoBehaviour
 {
+    public Fade fade;
 
     public void OnClickStart()
     {
-        SceneManager.LoadScene("3.Main");  // 메인 화면으로 이동
+        SceneManager.LoadScene("3.Main");
     }
 
     public void OnClickExit()
