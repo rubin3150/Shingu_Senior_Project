@@ -26,6 +26,7 @@ public class Building : MonoBehaviour
 
     public void Destroy()
     {
+        SnapTool.Instance.editMode = false;
         Destroy(gameObject);
     }
 
