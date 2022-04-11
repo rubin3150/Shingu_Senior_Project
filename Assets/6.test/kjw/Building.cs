@@ -9,7 +9,8 @@ public class Building : MonoBehaviour
     public Canvas canvas;
     public List<GameObject> UiItems = new List<GameObject>();
 
-    public void Start()
+
+    public void OnEnable()
     {
         for (int i = 0; i < canvas.transform.childCount; i++)
         {
