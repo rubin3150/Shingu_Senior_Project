@@ -8490,8 +8490,8 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
+  near clip plane: 0.01
+  far clip plane: 100
   field of view: 60
   orthographic: 1
   orthographic size: 15
@@ -8518,7 +8518,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 450124589}
   m_LocalRotation: {x: 0.42261827, y: 0, z: 0, w: 0.9063079}
-  m_LocalPosition: {x: 13.5, y: 50, z: -44}
+  m_LocalPosition: {x: 13.5, y: 16, z: -15.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -18365,6 +18365,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e08e4f4f35b6aa246959a0dc9acb0dc4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pickScaleX: 0
+  pickScaleZ: 0
 --- !u!114 &927335885
 MonoBehaviour:
   m_ObjectHideFlags: 0
