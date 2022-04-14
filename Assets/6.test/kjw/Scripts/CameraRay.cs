@@ -73,6 +73,7 @@ public class CameraRay : MonoBehaviour
         }
         else if (Physics.Raycast(ray, out hit, float.MaxValue, wallLayerMask))
         {
+            CameraMove.Instance.isMove = true;
             // 0x0 return;
             if (prefab == null) return;
 
@@ -90,7 +91,6 @@ public class CameraRay : MonoBehaviour
 
             // 1 pick
             prefab = null;
-            CameraMove.Instance.isMove = true;
         }
     }
 
