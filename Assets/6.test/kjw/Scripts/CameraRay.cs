@@ -58,7 +58,7 @@ public class CameraRay : MonoBehaviour
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        //이걸 바꿔주세요
+        //fix require
         if (Physics.Raycast(ray, out hit, 50f, unitLayerMask))
         {
             index = int.Parse(hit.transform.parent.name);
@@ -68,6 +68,8 @@ public class CameraRay : MonoBehaviour
 
             IsBool(index, false, pickScaleX, pickScaleZ);
             pickObject = hit.transform;
+
+            CameraMove.Instance.isMove = false;
         }
         else if (Physics.Raycast(ray, out hit, float.MaxValue, wallLayerMask))
         {
@@ -88,6 +90,7 @@ public class CameraRay : MonoBehaviour
 
             // 1 pick
             prefab = null;
+            CameraMove.Instance.isMove = true;
         }
     }
 

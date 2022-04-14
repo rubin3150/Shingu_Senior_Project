@@ -1959,6 +1959,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 927335886}
+        m_TargetAssemblyTypeName: CameraMove, Assembly-CSharp
+        m_MethodName: set_IsMove
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &55563989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10733,6 +10745,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 927335886}
+        m_TargetAssemblyTypeName: CameraMove, Assembly-CSharp
+        m_MethodName: set_IsMove
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &582995535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17889,8 +17913,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 927335883}
-  - component: {fileID: 927335884}
   - component: {fileID: 927335885}
+  - component: {fileID: 927335884}
+  - component: {fileID: 927335886}
   m_Layer: 6
   m_Name: Map
   m_TagString: Untagged
@@ -18381,6 +18406,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab1: {fileID: 1550255400771488719, guid: 9905f0490fd80b04d8735c0b2b737b05, type: 3}
   prefab2: {fileID: 1293584477952406514, guid: ac7642e07bb02594d98fb238659163f0, type: 3}
+--- !u!114 &927335886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 927335882}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41e0df9ec9625924fb1d6ce6b6f4b243, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsSingelton: 0
+  IsPersistant: 0
+  cam: {fileID: 450124591}
+  zoomSpeed: -5
+  isMove: 1
 --- !u!1 &927366988
 GameObject:
   m_ObjectHideFlags: 0
@@ -36785,6 +36827,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 8257094172239632978, guid: 0b1c90774c6aa644b86272a3796471e4, type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 927335886}
+        m_TargetAssemblyTypeName: CameraMove, Assembly-CSharp
+        m_MethodName: set_IsMove
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
