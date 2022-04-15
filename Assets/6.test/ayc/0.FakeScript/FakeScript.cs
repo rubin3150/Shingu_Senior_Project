@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class FakeScript : MonoBehaviour
 {
-    public static bool firstLoading = true;
+    public static bool firstLoading = false;
 
     void Update()
     {

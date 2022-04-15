@@ -15,3 +15,10 @@ MonoBehaviour:
   unitName: Mona
   unitImage: {fileID: 21300000, guid: 4f3b452ace10b9a41ad4f4d0754ed55f, type: 3}
   unitPrefab: {fileID: 1609125915385617593, guid: c0f793c8c4aec044f8bbfa807319334f, type: 3}
+  moonEnergy: 10
+  hpStat: 50
+  attackStat: 10
+  speedStat: 150
+  coolTime: 1
+  attackRangeStat: 0
+  attackDelayStat: 5

@@ -15,3 +15,10 @@ MonoBehaviour:
   unitName: Ayato
   unitImage: {fileID: 21300000, guid: 809c5a33933ed214b8404b6a70d0285d, type: 3}
   unitPrefab: {fileID: 1609125915385617593, guid: 652465b445924f14390ade2c4e36f5bd, type: 3}
+  moonEnergy: 10
+  hpStat: 50
+  attackStat: 10
+  speedStat: 150
+  coolTime: 1
+  attackRangeStat: 0
+  attackDelayStat: 5

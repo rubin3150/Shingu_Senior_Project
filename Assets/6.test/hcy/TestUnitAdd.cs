@@ -15,19 +15,21 @@ public class TestUnitAdd : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
+            
             _r = Random.Range(0, Units.Length);
 
             if (Units[_r] != null)
             {
-                theBase.AcquireUnit(Units[_r].GetComponent<UnitPickUp>().unit);
+                theBase.AddMaxUnit(Units[_r].GetComponent<UnitPickUp>().unit);
                 Units[_r] = null;
             }
             else if (Units[_r] == null)
             {
+                
                 _r = Random.Range(0, Units.Length);
                 if (Units[_r] != null)
                 {
-                    theBase.AcquireUnit(Units[_r].GetComponent<UnitPickUp>().unit);
+                    theBase.AddMaxUnit(Units[_r].GetComponent<UnitPickUp>().unit);
                 }
 
                 Units[_r] = null;

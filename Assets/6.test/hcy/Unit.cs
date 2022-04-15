@@ -5,10 +5,26 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Unit", menuName = "New Unit/unit")]
 public class Unit : ScriptableObject
 {
-    public string unitName; // 유닛의 이름
-    public Sprite unitImage; // 유닛의 이미지
+    // 유닛의 이름
+    public string unitName;
+    
+    // 유닛의 이미지
+    public Sprite unitImage; 
 
-    public GameObject unitPrefab; // 유닛의 프리팹
-    
-    
+    // 유닛의 프리팹
+    public GameObject unitPrefab;
+
+    public float moonEnergy;
+
+    public float hpStat;
+
+    public float attackStat;
+
+    public float speedStat;
+
+    public float coolTime;
+
+    public float attackRangeStat;
+
+    public float attackDelayStat;
 }

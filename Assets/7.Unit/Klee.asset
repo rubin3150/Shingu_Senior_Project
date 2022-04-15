@@ -15,3 +15,10 @@ MonoBehaviour:
   unitName: Klee
   unitImage: {fileID: 21300000, guid: 42ead4b0d4aa1b74bae862035537299f, type: 3}
   unitPrefab: {fileID: 1609125915385617593, guid: ad3710b1b5bd07245986aee5dad51ca6, type: 3}
+  moonEnergy: 20
+  hpStat: 60
+  attackStat: 20
+  speedStat: 160
+  coolTime: 2
+  attackRangeStat: 0
+  attackDelayStat: 5

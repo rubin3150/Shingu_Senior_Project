@@ -1,96 +1,206 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
-public class UnitSlot : MonoBehaviour
+public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public Unit unit; // 획득한 유닛
-    public Image unitImage; // 유닛의 이미지
+    // 유닛 스크립트를 담을 변수
+    public Unit unit;
     
-    public GameObject StartBtn;
-    public Text startText;
+    // SelectUnitBase 스크립트를 담을 변수
+    [SerializeField] private SelectUnitBase selectUnitBase;
 
-    public GameObject parentTrans;
+    [SerializeField] private StageManager stageManager;
 
-    [SerializeField] private SelectUnitBase _selectUnitBase;
+        // 유닛의 이미지를 담을 변수
+    [SerializeField] private Image unitImage; 
+    
+    // 전투 시작 버튼 오브젝트를 담을 변수
+    [SerializeField] private GameObject startBtn;
+    
+    // 유닛을 소환할 때 부모로 사용할 오브젝트 (캔버스)
+    [SerializeField] private GameObject parentTrans;
+    
+    // 전투 시작 텍스트 오브젝트를 담을 변수
+    [SerializeField] private Text startText;
 
-    public void SetColor(float _alpha)
+    public UnitToolTip unitToolTip;
+
+    public bool isQuickSlot;
+
+    public CoolTimeManager coolTimeManager;
+
+    private int _ranValue;
+    
+    /// <summary>
+    /// 이미지의 알파 값을 조절하는 함수
+    /// </summary>
+    /// <param name="alpha"></param>
+    public void SetColor(float alpha)
     {
+        // 변수에 유닛의 이미지 색을 넣음
         Color color = unitImage.color;
-        color.a = _alpha;
+        
+        // 이미지의 알파값에 인자 값을 넣음
+        color.a = alpha;
+        
+        // 바뀐 알파 값을 적용함
         unitImage.color = color;
     }
 
+    /// <summary>
+    /// 유닛의 정보를 넣는 함수
+    /// </summary>
+    /// <param name="_unit"></param>
     public void AddUnit(Unit _unit)
     {
+        // 변수에 받은 유닛의 정보를 넣음
         unit = _unit;
+        
+        // 변수에 받은 유닛의 이미를 넣음
         unitImage.sprite = unit.unitImage;
         
+        // 함수 호출
         SetColor(1);
     }
 
-    public void ClearUnit()
+    /// <summary>
+    /// 퀵슬롯에 유닛을 장착하는 함수
+    /// </summary>
+    private void MountingUnit()
     {
-        _selectUnitBase.startFlag = true;
-        //unit = null;
-        //unitImage.sprite = null;
+        // 변수에 참이라는 값을 넣음 (전투 시작 버튼을 누를 수 있음)
+        selectUnitBase.startFlag = true;
+        
+        // 함수 호출
         SetColor(0.5f);
-        StartBtn.GetComponent<Image>().color = new Color(100f / 255f, 100f / 255f, 100f / 255f, 255f / 255f);
-        startText.color = new Color(1, 1, 1, 1);
-        _selectUnitBase.AddQuickSlot(unit);
+        
+        // 함수 호출
+        StartBtnColorSet(255f, 1);
+
+        // 함수 호출
+        selectUnitBase.AddQuickSlot(unit);
     }
 
-    public void StartBrnColorSet()
+    /// <summary>
+    /// 전투 시작 버튼과 전투 시작 텍스트의 알파값을 조절할 함수
+    /// </summary>
+    public void StartBtnColorSet(float btnAlpha, float textAlpha)
     {
-        StartBtn.GetComponent<Image>().color = new Color(100f / 255f, 100f / 255f, 100f / 255f, 155f / 255f);
-        startText.color = new Color(1, 1, 1, 0.5f);
+        // 전투 시작 버튼 알파 값 조절
+        startBtn.GetComponent<Image>().color = new Color(100f / 255f, 100f / 255f, 100f / 255f, btnAlpha / 255f);
+        
+        // 전투 시작 글자 알파 값 조절
+        startText.color = new Color(1, 1, 1, textAlpha);
     }
 
-    public void BtnClick()
+    /// <summary>
+    /// 유닛슬롯에서 유닛을 클릭할떄 호출하는 함수
+    /// </summary>
+    public void UnitBtnClick()
     {
+        // 변수 값이 없지 않다면 아래 코드 실행 (유닛이 비어있지않다면)
         if (unit != null)
         {
-            for (int i = 0; i < _selectUnitBase.quickSlot.Length; i++)
+            // 변수가 유닛 슬롯의 최대 길이보다 크거나 같아질때까지 아래 코드 반복 실행
+            for (int i = 0; i < selectUnitBase.quickSlot.Length; i++)
             {
-                if (_selectUnitBase.quickSlot[i].unit == null)
+                // i번쨰 퀵슬롯의 유닛이 비어있다면 아래 코드 실행
+                if (selectUnitBase.quickSlot[i].unit == null)
                 {
-                    ClearUnit();
+                    // 함수 호출
+                    MountingUnit();
                 }
             }
-            // 몬스터 생성
-            
         }
     }
 
+    /// <summary>
+    /// 유닛을 담는 칸의 정보를 초기화시키는 함수
+    /// </summary>
     public void Clear()
     {
+        SetColor(0);
+        
+        // 유닛의 정보를 비어있음으로 설정
         unit = null;
+
+        // 유닛의 이미지를 비어있음으로 설정
         unitImage.sprite = null;
     }
 
-    public void BtnRightClick(int Num) // int
+    /// <summary>
+    /// 퀵슬롯에서 유닛을 클릭할떄 호출하는 함수
+    /// </summary>
+    /// <param name="Num"></param>
+    public void QuickSlotBtnClick(int Num) // int
     {
-        if (_selectUnitBase.inStage == false)
+        // 변수 값이 거짓이라면 아래 코드 실행 (전투 스테이지가 아니라면)
+        if (stageManager.inStage == false)
         {
+            // 유닛의 정보가 없지 않다면 아래 코드 실행
             if (unit != null)
             {
-                _selectUnitBase.ResetSelectUnit(unit);
+                unitToolTip.HideToolTip();
+                
+                // 함수 호출
+                selectUnitBase.ResetSelectUnit(unit);
+                
+                // 함수 호출
                 Clear();
-                _selectUnitBase.ResetBtn(Num);
+
+                // 함수 호출
+                selectUnitBase.QuickSlotSort(Num);
             }
         }
+        // 변수 값이 참이라면 아래 코드 실행 (전투 스테이지라면)
         else
         {
-            GameObject go = Instantiate(unit.unitPrefab, Vector3.zero, Quaternion.identity);
-
-            go.transform.parent = parentTrans.transform;
-
-            go.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
-            
-            go.GetComponent<RectTransform>().localPosition = new Vector3(-800, 0,0 );
-            
-            go.GetComponent<RectTransform>().sizeDelta = new Vector2(300, 400);
+            SpawnUnit(Num);
         }
     }
+
+    public void SpawnUnit(int num)
+    {
+        if (!coolTimeManager.isCoolTime[num - 1])
+        {
+            if (stageManager.nowMoonEnergy >= unit.moonEnergy)
+            {
+                coolTimeManager.CoolTime(num);
+                
+                stageManager.nowMoonEnergy -= unit.moonEnergy;
+
+                _ranValue = Random.Range(0, 3);
+
+                // 몬스터 생성 부분 작성
+                GameObject go = Instantiate(unit.unitPrefab, Vector3.zero, Quaternion.identity);
+
+                go.GetComponent<RectTransform>().SetParent(parentTrans.transform, false);
+
+                go.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+
+                go.GetComponent<RectTransform>().localPosition = new Vector3(-800f, 75 * _ranValue, 0);
+            }
+        }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (unit != null)
+        {
+            unitToolTip.ShowToolTip(unit, isQuickSlot, transform.position);
+        }
+    }
+    
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        unitToolTip.HideToolTip();
+    }
+
+    
 }

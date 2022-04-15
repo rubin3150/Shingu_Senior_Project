@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,11 +7,16 @@ using UnityEngine.UI;
 
 public class SelectUnitBase : MonoBehaviour
 {
-    // 유닛 세팅을 하는 씬을 담을 변수 
-    [SerializeField] GameObject selectUnitBase;
+    // FadeIn 스크립트를 관리할 변수
+    [SerializeField] private FadeIn fadeIn;
     
     // 유닛슬롯의 부모 오브젝트를 담을 변수
     [SerializeField] private GameObject unitSlotParent;
+    // 유닛 세팅을 하는 씬의 알파값 이미지를 담을 변수
+    [SerializeField] private GameObject unitBaseAlpha;
+    
+        // 유닛 선택시 확인 메시지를 담을 텍스트 변수
+    [SerializeField] private Text confirmationTxt;
     
     // 퀵슬롯의 스크립트를 관리할 변수 
     public UnitSlot[] quickSlot;
@@ -18,15 +24,21 @@ public class SelectUnitBase : MonoBehaviour
     // 킉슬롯에 오브젝트가 하나라도 있는지 없는지 체크하기 위한 변수
     public bool startFlag;
 
-    // 스테이지에 진입 했는지 아닌지 체크할 변수
-    public bool inStage;
-
     // 유닛슬롯의 스크립트를 관리할 변수
     private UnitSlot[] _unitSlots;
-
-    // 유닛 세팅을 하는 씬의 알파값 이미지를 담을 변수
-    [SerializeField] private GameObject unitBaseAlpha;
     
+    // 현재 페이지
+    private int page = 1;
+    private int numK;
+    public Text pageText;
+    public Image leftArrow;
+
+    // 들어갈 유닛들
+    [SerializeField] private Unit[] maxUnit;
+
+    [SerializeField] private Player player;
+    public Text playerInfoText;
+
     /// <summary>
     /// 씬 시작시 처음 호출 되는 함수
     /// </summary>
@@ -34,24 +46,25 @@ public class SelectUnitBase : MonoBehaviour
     {
         // 유닛슬롯의 하위 오브젝트들을 모두 변수에 넣음
         _unitSlots = unitSlotParent.GetComponentsInChildren<UnitSlot>();
+        playerInfoText.text = "체력 : " + player.hpStat + "\n스피드 : " + player.speedStat;
     }
 
     /// <summary>
-    /// 유닛슬롯 중 어느 슬롯에 유닛을 넣을 수 있는지 확인 하는 함수
+    /// 유닛슬롯 중 어느 슬롯에 유닛을 넣을 수 있는지 확인 하는 함수 (현재 페이지에 유닛을 넣을 수 있음)
     /// </summary>
-    /// <param name="_unit"></param>
-    public void AcquireUnit(Unit _unit)
+    /// <param name="unit"></param>
+    public void AcquireUnit(Unit unit)
     {
         // 변수 값이 유닛슬롯의 최대 갯수보다 크거나 같아질때까지 아래 코드 반복 실행
         for (int i = 0; i < _unitSlots.Length; i++)
         {
-            // i번째의 유닛 슬롯이 비어있다면 아래 코드 실행
+            // i번째 유닛슬롯이 비어있다면 아래 코드 실행
             if (_unitSlots[i].unit == null)
             {
-                // i번쨰 스크립트에서 함수 호출
-                _unitSlots[i].AddUnit(_unit);
+                // i번쨰 유닛술롯의 스크립트에서 함수 호출
+                _unitSlots[i].AddUnit(unit);
                 
-                // 조건이 충족되면 해당 함수를 끝낸다
+                // 해당 함수를 끝낸다
                 return;
             }
         }
@@ -60,19 +73,34 @@ public class SelectUnitBase : MonoBehaviour
     /// <summary>
     /// 퀵슬롯의 유닛을 클릭하였을때 호출하는 함수
     /// </summary>
-    /// <param name="_unit"></param>
-    public void ResetSelectUnit(Unit _unit)
+    /// <param name="unit"></param>
+    public void ResetSelectUnit(Unit unit)
     {
         // 변수 값이 유닛슬롯의 최대 갯수보다 크거나 같아질때까지 아래 코드 반복 실행
         for (int i = 0; i < _unitSlots.Length; i++)
         {
-            // 유닛슬롯의 i번째 유닛의 이름과 클릭한 유닛의 이름이 같다면 아래 코드 실행
-            if (_unitSlots[i].unit.unitName == _unit.unitName)
+            // i번째 유닛슬롯의 유닛 이름과 클릭한 유닛의 이름이 같다면 아래 코드 실행
+            if (_unitSlots[i].unit != null)
             {
-                // i번째 스크립트에서 함수 호출
-                _unitSlots[i].SetColor(1);
+                if (_unitSlots[i].unit.unitName == unit.unitName)
+                {
+                    // i번째 유닛스롯의 스크립트에서 함수 호출
+                    _unitSlots[i].SetColor(1);
                 
-                // 조건이 충족되면 해당 함수를 끝낸다
+                    // 해당 함수를 끝낸다
+                    return;
+                }
+                else
+                {
+                    if (i == _unitSlots.Length)
+                    {
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                
                 return;
             }
         }
@@ -81,70 +109,249 @@ public class SelectUnitBase : MonoBehaviour
     /// <summary>
     /// 퀵슬롯 중 어느 슬롯에 유닛을 넣을 수 있는지 확인 하는 함수
     /// </summary>
-    /// <param name="_unit"></param>
-    public void AddQuickSlot(Unit _unit)
+    /// <param name="unit"></param>
+    public void AddQuickSlot(Unit unit)
     {
         // 변수 값이 퀵슬롯의 최대 갯수보다 크거나 같아질때까지 아래 코드 반복 실행
         for (int i = 0; i < quickSlot.Length; i++)
         {
-            // 퀵슬롯의 i번째 유닛이 비어있다면 아래 코드 실행
+            // i번째 퀵슬롯의 유닛이 비어있다면 아래 코드 실행
             if (quickSlot[i].unit == null)
             {
-                // 퀵슬롯의 
-                quickSlot[i].AddUnit(_unit);
+                // 퀵슬롯의 i번째 스크립트에서 함수 호출
+                quickSlot[i].AddUnit(unit);
+                
+                // 해당 함수를 끝낸다
                 return;
             }
-            if (quickSlot[i].unit.unitName == _unit.unitName)
+            // i번째 퀵슬롯의 유닛이름과 클릭한 유닛의 이름이 같다면 아래 코드 실행
+            if (quickSlot[i].unit.unitName == unit.unitName)
             {
+                // 해당 함수를 끝낸다
                 return;
             }
         }
     }
 
-    public void StartStage()
+    /// <summary>
+    /// 전투 시작 버튼을 눌렀을때 호출하는 함수
+    /// </summary>
+    public void CheckUnit()
     {
+        // 변수 값이 참이라면 아래 코드 실행 (유닛이 하나라도 선택되었다면)
         if (startFlag == true)
         {
+            // 유닛 세팅을 하는 씬의 알파값 이미지 오브젝트를 활성화 시킴
             unitBaseAlpha.SetActive(true);
-           // SelectScene.SetActive(false);
-            inStage = true;
+
+            // 변수 값이 퀵슬롯의 최대 갯수보다 크거나 같아질때까지 아래 코드 반복 실행
+            for (int i = 0; i < quickSlot.Length; i++)
+            {
+                // i번째 퀵슬롯의 유닛이 비어있지 않다면 아래 코드 실행 (퀵슬롯의 모든 유닛이 들어가 있다면)
+                if (quickSlot[i].unit != null)
+                {
+                    // 텍스트에 설정한 텍스트를 삽입함
+                    confirmationTxt.text = "전투 스테이지를 시작하겠습니까?";
+                }
+                // i번째 퀵슬롯의 유닛이 있다면 아래 코드 실행 (퀵슬롯의 모든 유닛이 들어가 있지 않고 하나 이상의 유닛이 있다면)
+                else
+                {
+                    // 텍스트에 설정한 텍스트를 삽입함
+                    confirmationTxt.text = "유닛을 다 선택하지 않았습니다. 이대로 시작하겠습니까?";
+                    
+                    // 해당 함수를 끝낸다
+                    return;
+                }
+            }
+            
         }
     }
 
-    public void ResetBtn(int Num) // Num은 1부터 시작
+    /// <summary>
+    /// 퀵슬롯의 유닛 순서를 정렬하는 함수
+    /// </summary>
+    /// <param name="num"></param>
+    public void QuickSlotSort(int num) // Num은 1부터 시작
     {
-        if (Num != 5)
+        // 인자 값이 5가 아니라면 아래 코드 실행 (누른 퀵슬롯의 유닛 순서가 5번째 퀵슬롯 유닛이 아니라면)
+        if (num != 5)
         {
-            int a = Num;
-            // 아래 부분 부터 구현 시작
-                for (int k = 0; k < quickSlot.Length - Num; k++)
-                {
-                  
-                    if (quickSlot[a - 1].unit == null && quickSlot[a].unit != null)
-                    {
-                    
-                            quickSlot[a - 1].unit = quickSlot[a].unit;
-                            
-                            quickSlot[a].Clear();
-                            quickSlot[a - 1].AddUnit(quickSlot[a - 1].unit);
+            // 변수에 인자 값을 넣음
+            int a = num;
 
-                            a++;
-                    }
+            // 변수 값이 퀵슬롯의 최대 길이 - 인자값을 계산해 계산한 값보다 크거나 같아질때까지 아래 코드 반복 실행 (누른 퀵슬롯을 기준으로 오른쪽의 퀵슬롯의 수만큼 반복)
+            for (int k = 0; k < quickSlot.Length - num; k++)
+            { 
+                // a - 1번쨰 퀵슬롯의 유닛이 비어 있고 오른쪽 퀵슬롯에 유닛이 있다면 아래 코드 실행
+                if (quickSlot[a - 1].unit == null && quickSlot[a].unit != null)
+                {
+                    // 현재 퀵슬롯의 유닛에 오른쪽 퀵슬롯에 있던 유닛의 정보를 넣어줌
+                    quickSlot[a - 1].unit = quickSlot[a].unit;
+
+                    // 오른쪽 퀵술롯의 스크립트에서 함수 호출
+                    quickSlot[a].Clear();
+                    
+                    // 현재 퀵슬롯의 스크립트에서 함수 호출
+                    quickSlot[a - 1].AddUnit(quickSlot[a - 1].unit);
+
+                    // 변수에 1을 더해줌
+                    a++;
                 }
-            
+            }
         }
 
+        // 변수 값이 퀵슬롯의 최대 갯수보다 크거나 같아질때까지 아래 코드 반복 실행
         for (int i = 0; i < quickSlot.Length; i++)
         {
+            // i번째 퀵슬롯의 유닛이 비어있다면 아래 코드 실행 (퀵슬롯의 모든 유닛이 비어 있다면)
             if (quickSlot[i].unit == null)
             {
+                // 변수에 거짓이라는 값을 넣음 (전투 시작 버튼을 누를 수 없음)
                 startFlag = false;
-                quickSlot[i].StartBrnColorSet();
+                
+                // i번째 퀵슬롯의 스크립트에서 함수 호출
+                quickSlot[i].StartBtnColorSet(155f, 0.5f);
+            }
+            // i번째 퀵슬롯의 유닛이 있다면 아래 코드 실행 (퀵슬롯에 유닛이 하나라도 있다면)
+            else
+            {
+                // 해당 함수를 끝낸다
+                return;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 최대 페이지까지 유닛을 넣을 수 있음
+    /// </summary>
+    /// <param name="unit"></param>
+    public void AddMaxUnit(Unit unit)
+    {
+        for (int i = 0; i < maxUnit.Length; i++)
+        {
+            // i번째 유닛슬롯이 비어있다면 아래 코드 실행
+            if (maxUnit[i] == null)
+            {
+                // i번쨰 유닛술롯의 스크립트에서 함수 호출
+                maxUnit[i] = unit;
+                
+                
+                // 해당 함수를 끝낸다
+                break;
+            }
+        }
+
+        if (page > 1 && maxUnit[(page - 1) * _unitSlots.Length] != null) 
+        {
+            AcquireUnit(unit);
+        }
+        else if (page == 1)
+        {
+            AcquireUnit(unit);
+        }
+            
+    }
+    
+    private void PageSetting()
+    {
+        // 초기화 작업
+        for (int i = 0; i < _unitSlots.Length; i++)
+        {
+            _unitSlots[i].Clear();
+        }
+
+        numK = 0;
+
+        int startUnitNumber = (page - 1) * _unitSlots.Length; //24는 한페이지의 슬롯 개수 // 2페이지면 24가됨
+
+        for (int i = startUnitNumber; i < maxUnit.Length; i++)
+        {
+            if (i == page * _unitSlots.Length)
+            {
+                break;
+            }
+
+            if (maxUnit[i] != null)
+            {
+                _unitSlots[numK].unit = maxUnit[i];
+                _unitSlots[numK].AddUnit(_unitSlots[numK].unit);
+                numK++;
+            }
+
+        }
+
+        CheckQuickSlotUnit();
+        
+    }
+
+    private void CheckQuickSlotUnit()
+    {
+        for (int i = 0; i < quickSlot.Length; i++)
+        {
+            if (quickSlot[i].unit != null)
+            {
+                for (int k = 0; k < _unitSlots.Length; k++)
+                {
+                    if (_unitSlots[k].unit != null)
+                    {
+                        if (quickSlot[i].unit.unitName == _unitSlots[k].unit.unitName)
+                        {
+                            _unitSlots[k].SetColor(0.5f);
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
             }
             else
             {
                 return;
             }
         }
+    }
+
+    public void RightPageSetting()
+    {
+        if (page < maxUnit.Length / 12)
+        {
+            page++;
+            pageText.text = "< " + page + "/" + maxUnit.Length / 12 + " >";
+            leftArrow.color = new Color(255f / 255f, 255f / 255f, 255f / 255f, 255f / 255f);
+            PageSetting();
+        }
+        
+    }
+
+    public void LeftPageSetting()
+    {
+        if (page > 1)
+        {
+            page--;
+            pageText.text = "< " + page + "/" + maxUnit.Length / 12 + " >";
+            leftArrow.color = new Color(100f / 255f, 100f / 255f, 100f / 255f, 155f / 255f);
+            PageSetting();
+            
+        }
+    }
+
+    /// <summary>
+    /// 시작하기 버튼을 눌렀을때 호출하는 함수
+    /// </summary>
+    public void StartBattleBtnClick()
+    {
+        // 함수 호출
+        fadeIn.Fade();
+        // 함수 호출
+    }
+
+    /// <summary>
+    /// 취소하기 버튼을 눌렀을때 호출하는 함수
+    /// </summary>
+    public void CancelBtnClick()
+    {
+        // 유닛 세팅을 하는 씬의 알파값 이미지 오브젝트를 비활성화 시킴
+        unitBaseAlpha.SetActive(false);
     }
 }
