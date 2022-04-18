@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class FadeIn : MonoBehaviour
 {
+    #region 변수 영역
+
     // StageManager 스크립트를 담을 변수
     [SerializeField] private StageManager stageManager;
     
@@ -15,7 +17,10 @@ public class FadeIn : MonoBehaviour
     [SerializeField] private GameObject confirmationWindow;
     // 달빛 에너지 오브젝트를 담을 변수
     [SerializeField] private GameObject moonEnergyBackImage;
+    
+    // 퀵슬롯 이미지의 위치를 담을 변수
     [SerializeField] private RectTransform quickBackImage;
+    // 달빛 에너지 이미지의 위치를 담을 변수
     [SerializeField] private RectTransform moonEnergyImage;
     
     // Fade 이미지를 담을 변수
@@ -23,9 +28,10 @@ public class FadeIn : MonoBehaviour
 
     // 실제 시간을 담을 변수
     private float _time;
-    
     // 몇초 동안 페이드인 또는 페이드 아웃을 시킬지 정하는 변수 (1초로 설정)
     private float _currentFadeTime = 1f;
+
+    #endregion
 
     /// <summary>
     /// 코루틴을 호출시키는 함수
@@ -88,23 +94,30 @@ public class FadeIn : MonoBehaviour
             selectUnitBase.SetActive(false);
             // 확인 창 오브젝트를 비활성화 시킴
             confirmationWindow.SetActive(false);
-            
+            // 달빛 에너지 이미지 오브젝트를 활성화 시킴
             moonEnergyBackImage.SetActive(true);
+            
+            // 0 / 달빛 에너지 최대치로 설정 후 변수에 넣음
             stageManager.moonText.text = 0 + " / " + stageManager.maxMoonEnergy;
+            
+            // 퀵슬롯 이미지의 위치 변경
             quickBackImage.localPosition = new Vector3(-180f, -400f, 0);
+            // 달빛 에너지 이미지 위치 변경
             moonEnergyImage.localPosition = new Vector3(-435f, -250f, 0);
             
             // 함수 호출
             stageManager.SetActiveUnitText();
-            
-            
-            
+
             // 다음 1프레임까지 대기
             yield return null;
         }
-        // 씬시작
+        // fadeImage를 비활성화 시킴
         fadeImage.gameObject.SetActive(false);
+        
+        // 변수에 참이라는 값을 넣음 (전투 스테이지 진입)
         stageManager.inStage = true;
+        
+        // 다음 1프레임까지 대기
         yield return null;
     }
 }

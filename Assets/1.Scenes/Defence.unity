@@ -1262,7 +1262,7 @@ RectTransform:
   m_GameObject: {fileID: 269473934}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 694368598}
   m_RootOrder: 0
@@ -1294,11 +1294,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 35
+    m_FontSize: 50
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 40
+    m_MaxSize: 100
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -1965,7 +1965,7 @@ MonoBehaviour:
   theCam: {fileID: 1573456029}
   stageManager: {fileID: 1478871233}
   isLeft: 0
-  cameraSpeed: 150
+  cameraSpeed: 450
 --- !u!114 &405026357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2039,8 +2039,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 290, y: 290}
-  m_SizeDelta: {x: 2500, y: 500}
+  m_AnchoredPosition: {x: 550, y: 290}
+  m_SizeDelta: {x: 3000, y: 500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &456365590
 MonoBehaviour:
@@ -2093,7 +2093,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 5, y: -290}
+  m_Offset: {x: 0, y: -290}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -2104,7 +2104,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2490, y: 1080}
+  m_Size: {x: 3000, y: 1080}
   m_EdgeRadius: 0
 --- !u!1 &511470974
 GameObject:
@@ -2348,8 +2348,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 290, y: -400}
-  m_SizeDelta: {x: 2500, y: 280}
+  m_AnchoredPosition: {x: 550, y: -400}
+  m_SizeDelta: {x: 3000, y: 280}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &584016241
 MonoBehaviour:
@@ -3069,7 +3069,7 @@ RectTransform:
   m_GameObject: {fileID: 781787999}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1465835197}
   m_RootOrder: 0
@@ -3101,11 +3101,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 35
+    m_FontSize: 50
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 3
-    m_MaxSize: 40
+    m_MaxSize: 50
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -3750,9 +3750,9 @@ GameObject:
   - component: {fileID: 990301886}
   - component: {fileID: 990301885}
   - component: {fileID: 990301884}
-  m_Layer: 5
+  m_Layer: 7
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3787,7 +3787,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -3815,16 +3815,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c3aca8c9689caa409ab730ffe1822d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hpStat: 0
-  maxHpStat: 100
-  speedStat: 175
-  hpImage: {fileID: 20920683}
   stageManager: {fileID: 1478871233}
   layerMask:
     serializedVersion: 2
-    m_Bits: 64
-  donLeftMove: 0
-  donRightMove: 0
+    m_Bits: 320
+  hpImage: {fileID: 20920683}
+  maxHpStat: 100
+  hpStat: 0
+  speedStat: 175
 --- !u!114 &990301886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5307,7 +5305,11 @@ MonoBehaviour:
   fadeIn: {fileID: 1478871236}
   unitSlotParent: {fileID: 1041883000}
   unitBaseAlpha: {fileID: 758691214}
+  leftArrow: {fileID: 660083224}
+  player: {fileID: 990301885}
   confirmationTxt: {fileID: 203352649}
+  pageText: {fileID: 511470976}
+  playerInfoText: {fileID: 1794574579}
   quickSlot:
   - {fileID: 83621362}
   - {fileID: 917737818}
@@ -5315,8 +5317,6 @@ MonoBehaviour:
   - {fileID: 1246741676}
   - {fileID: 1093643020}
   startFlag: 0
-  pageText: {fileID: 511470976}
-  leftArrow: {fileID: 660083224}
   maxUnit:
   - {fileID: 0}
   - {fileID: 0}
@@ -5342,8 +5342,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  player: {fileID: 990301885}
-  playerInfoText: {fileID: 1794574579}
 --- !u!1001 &1319896542
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6576,7 +6574,7 @@ GameObject:
   - component: {fileID: 1522432087}
   - component: {fileID: 1522432089}
   - component: {fileID: 1522432090}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: EnemyTower
   m_TagString: Tower
   m_Icon: {fileID: 0}
@@ -6600,7 +6598,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1314, y: 10}
+  m_AnchoredPosition: {x: 1825, y: 10}
   m_SizeDelta: {x: 450, y: 675}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1522432087
@@ -6682,6 +6680,12 @@ MonoBehaviour:
   maxTowerHp: 100
   towerHp: 0
   towerHpImage: {fileID: 594952633}
+  _stageManager: {fileID: 1478871233}
+  parentTrans: {fileID: 1579977906}
+  Units:
+  - {fileID: 11400000, guid: 7e9ec508df4766c45b140b6f3ad831f6, type: 2}
+  maxSpwanEnemy: 5
+  spawnDelay: 15
 --- !u!1001 &1529596654
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6890,8 +6894,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 290, y: -110}
-  m_SizeDelta: {x: 2500, y: 300}
+  m_AnchoredPosition: {x: 550, y: -110}
+  m_SizeDelta: {x: 3000, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1549585694
 MonoBehaviour:
@@ -8897,7 +8901,7 @@ MonoBehaviour:
   theCam: {fileID: 1573456029}
   stageManager: {fileID: 1478871233}
   isLeft: 1
-  cameraSpeed: 150
+  cameraSpeed: 450
 --- !u!114 &2097323166
 MonoBehaviour:
   m_ObjectHideFlags: 0

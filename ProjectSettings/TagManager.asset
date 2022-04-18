@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Unit
   - Building
+  - SelectBase
+  - Tower
+  - Wall
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -15,7 +19,7 @@ TagManager:
   - UI
   - Wall
   - Unit
-  - 
+  - Enemy
   - 
   - 
   - 

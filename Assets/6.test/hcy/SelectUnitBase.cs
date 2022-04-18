@@ -15,8 +15,18 @@ public class SelectUnitBase : MonoBehaviour
     // 유닛 세팅을 하는 씬의 알파값 이미지를 담을 변수
     [SerializeField] private GameObject unitBaseAlpha;
     
-        // 유닛 선택시 확인 메시지를 담을 텍스트 변수
+    // 왼쪽 화살표 이미지를 담을 변수
+    [SerializeField] private Image leftArrow;
+    
+    // Player 스크립트를 담을 변수
+    [SerializeField] private Player player;
+    
+    // 유닛 선택시 확인 메시지를 담을 텍스트 변수
     [SerializeField] private Text confirmationTxt;
+    // 페이지 텍스트를 담을 변수
+    [SerializeField] private Text pageText;
+    // 플레이어 정보 텍스트를 담을 변수
+    [SerializeField] private Text playerInfoText;
     
     // 퀵슬롯의 스크립트를 관리할 변수 
     public UnitSlot[] quickSlot;
@@ -24,20 +34,16 @@ public class SelectUnitBase : MonoBehaviour
     // 킉슬롯에 오브젝트가 하나라도 있는지 없는지 체크하기 위한 변수
     public bool startFlag;
 
-    // 유닛슬롯의 스크립트를 관리할 변수
+    // 현재 페이지 유닛슬롯의 스크립트를 관리할 변수
     private UnitSlot[] _unitSlots;
     
-    // 현재 페이지
-    private int page = 1;
-    private int numK;
-    public Text pageText;
-    public Image leftArrow;
+    // 현재 페이지를 담을 변수
+    private int _page = 1;
+    // 몇번째 유닛 슬롯인지 체크할 변수 
+    private int _num;
 
-    // 들어갈 유닛들
+    // 모든 페이지의 유닛들을 담을 변수
     [SerializeField] private Unit[] maxUnit;
-
-    [SerializeField] private Player player;
-    public Text playerInfoText;
 
     /// <summary>
     /// 씬 시작시 처음 호출 되는 함수
@@ -46,6 +52,8 @@ public class SelectUnitBase : MonoBehaviour
     {
         // 유닛슬롯의 하위 오브젝트들을 모두 변수에 넣음
         _unitSlots = unitSlotParent.GetComponentsInChildren<UnitSlot>();
+        
+        // 변수에 설정한 플레이어의 스텟을 넣어줌
         playerInfoText.text = "체력 : " + player.hpStat + "\n스피드 : " + player.speedStat;
     }
 
@@ -53,7 +61,7 @@ public class SelectUnitBase : MonoBehaviour
     /// 유닛슬롯 중 어느 슬롯에 유닛을 넣을 수 있는지 확인 하는 함수 (현재 페이지에 유닛을 넣을 수 있음)
     /// </summary>
     /// <param name="unit"></param>
-    public void AcquireUnit(Unit unit)
+    private void AcquireUnit(Unit unit)
     {
         // 변수 값이 유닛슬롯의 최대 갯수보다 크거나 같아질때까지 아래 코드 반복 실행
         for (int i = 0; i < _unitSlots.Length; i++)
@@ -79,9 +87,10 @@ public class SelectUnitBase : MonoBehaviour
         // 변수 값이 유닛슬롯의 최대 갯수보다 크거나 같아질때까지 아래 코드 반복 실행
         for (int i = 0; i < _unitSlots.Length; i++)
         {
-            // i번째 유닛슬롯의 유닛 이름과 클릭한 유닛의 이름이 같다면 아래 코드 실행
+            // i번쨰 유닛슬롯의 유닛이 비어있지 않다면 아래 코드 실행
             if (_unitSlots[i].unit != null)
             {
+                // i번째 유닛슬롯의 유닛 이름과 클릭한 유닛의 이름이 같다면 아래 코드 실행
                 if (_unitSlots[i].unit.unitName == unit.unitName)
                 {
                     // i번째 유닛스롯의 스크립트에서 함수 호출
@@ -90,17 +99,11 @@ public class SelectUnitBase : MonoBehaviour
                     // 해당 함수를 끝낸다
                     return;
                 }
-                else
-                {
-                    if (i == _unitSlots.Length)
-                    {
-                        return;
-                    }
-                }
             }
+            // i번쨰 유닛 슬롯의 유닛이 비어있다면 아래 코드 실행
             else
             {
-                
+                // 해당 함수를 끝낸다
                 return;
             }
         }
@@ -241,11 +244,11 @@ public class SelectUnitBase : MonoBehaviour
             }
         }
 
-        if (page > 1 && maxUnit[(page - 1) * _unitSlots.Length] != null) 
+        if (_page > 1 && maxUnit[(_page - 1) * _unitSlots.Length] != null) 
         {
             AcquireUnit(unit);
         }
-        else if (page == 1)
+        else if (_page == 1)
         {
             AcquireUnit(unit);
         }
@@ -260,22 +263,22 @@ public class SelectUnitBase : MonoBehaviour
             _unitSlots[i].Clear();
         }
 
-        numK = 0;
+        _num = 0;
 
-        int startUnitNumber = (page - 1) * _unitSlots.Length; //24는 한페이지의 슬롯 개수 // 2페이지면 24가됨
+        int startUnitNumber = (_page - 1) * _unitSlots.Length; //24는 한페이지의 슬롯 개수 // 2페이지면 24가됨
 
         for (int i = startUnitNumber; i < maxUnit.Length; i++)
         {
-            if (i == page * _unitSlots.Length)
+            if (i == _page * _unitSlots.Length)
             {
                 break;
             }
 
             if (maxUnit[i] != null)
             {
-                _unitSlots[numK].unit = maxUnit[i];
-                _unitSlots[numK].AddUnit(_unitSlots[numK].unit);
-                numK++;
+                _unitSlots[_num].unit = maxUnit[i];
+                _unitSlots[_num].AddUnit(_unitSlots[_num].unit);
+                _num++;
             }
 
         }
@@ -314,10 +317,10 @@ public class SelectUnitBase : MonoBehaviour
 
     public void RightPageSetting()
     {
-        if (page < maxUnit.Length / 12)
+        if (_page < maxUnit.Length / 12)
         {
-            page++;
-            pageText.text = "< " + page + "/" + maxUnit.Length / 12 + " >";
+            _page++;
+            pageText.text = "< " + _page + "/" + maxUnit.Length / 12 + " >";
             leftArrow.color = new Color(255f / 255f, 255f / 255f, 255f / 255f, 255f / 255f);
             PageSetting();
         }
@@ -326,10 +329,10 @@ public class SelectUnitBase : MonoBehaviour
 
     public void LeftPageSetting()
     {
-        if (page > 1)
+        if (_page > 1)
         {
-            page--;
-            pageText.text = "< " + page + "/" + maxUnit.Length / 12 + " >";
+            _page--;
+            pageText.text = "< " + _page + "/" + maxUnit.Length / 12 + " >";
             leftArrow.color = new Color(100f / 255f, 100f / 255f, 100f / 255f, 155f / 255f);
             PageSetting();
             

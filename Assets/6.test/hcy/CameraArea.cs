@@ -45,7 +45,9 @@ public class CameraArea : MonoBehaviour
         _halfWidth = _halfHeight * Screen.width / Screen.height;
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// 매 프레임마다 호출되는 함수
+    /// </summary>
     void Update()
     {
         // 이 오브젝트의 X값이 최소 / 최대 사이의 float 값이 value 범위 외의 값이 되지 않도록 합니다

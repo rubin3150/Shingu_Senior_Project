@@ -21,4 +21,5 @@ MonoBehaviour:
   speedStat: 160
   coolTime: 2
   attackRangeStat: 0
-  attackDelayStat: 5
+  attackDelayStat: 3
+  pushRange: 150

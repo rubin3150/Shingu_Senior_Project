@@ -39,7 +39,7 @@ public class CoolTimeManager : MonoBehaviour
     public void CoolTime(int num)
     {
         // 배열 인자값 - 1번째 변수에 배열 인자값 - 1번째 퀵슬롯 유닛에 있는 유닛 쿨타임을 넣어줌 (인자값 - 1은 자기자신을 의미함)
-        currentCoolTIme[num - 1] = selectUnitBase.quickSlot[num - 1].unit.coolTime;
+        currentCoolTIme[num - 1] = selectUnitBase.quickSlot[num - 1].unit.spawnCoolTime;
         
         // 배열 인자값 - 1번째 변수에 참이라는 값을 넣어줌 (쿨타임 실행 가능)
         isCoolTime[num - 1] = true;
@@ -57,7 +57,7 @@ public class CoolTimeManager : MonoBehaviour
             currentCoolTIme[0] -= Time.deltaTime;
             
             // 배열 0번째 쿨타임 이미지를 바꿈
-            coolTimeImage[0].fillAmount = currentCoolTIme[0] / selectUnitBase.quickSlot[0].unit.coolTime;
+            coolTimeImage[0].fillAmount = currentCoolTIme[0] / selectUnitBase.quickSlot[0].unit.spawnCoolTime;
 
             // 배열 0번째 쿨타임 변수의 값이 0보다 작거나 같다면 아래 코드 실행 (유닛의 쿨타임만큼 시간이 되었다면)
             if (currentCoolTIme[0] <= 0)
@@ -74,7 +74,7 @@ public class CoolTimeManager : MonoBehaviour
             currentCoolTIme[1] -= Time.deltaTime;
             
             // 배열 1번째 쿨타임 이미지를 바꿈
-            coolTimeImage[1].fillAmount = currentCoolTIme[1] / selectUnitBase.quickSlot[1].unit.coolTime;
+            coolTimeImage[1].fillAmount = currentCoolTIme[1] / selectUnitBase.quickSlot[1].unit.spawnCoolTime;
 
             // 배열 1번째 쿨타임 변수의 값이 0보다 작거나 같다면 아래 코드 실행 (유닛의 쿨타임만큼 시간이 되었다면)
             if (currentCoolTIme[1] <= 0)
@@ -91,7 +91,7 @@ public class CoolTimeManager : MonoBehaviour
             currentCoolTIme[2] -= Time.deltaTime;
             
             // 배열 2번째 쿨타임 이미지를 바꿈
-            coolTimeImage[2].fillAmount = currentCoolTIme[2] / selectUnitBase.quickSlot[2].unit.coolTime;
+            coolTimeImage[2].fillAmount = currentCoolTIme[2] / selectUnitBase.quickSlot[2].unit.spawnCoolTime;
 
             // 배열 2번쨰 쿨타임 변수의 값이 0보다 작거나 같다면 아래 코드 실행 (유닛의 쿨타임만큼 시간이 되었다면)
             if (currentCoolTIme[2] <= 0)
@@ -108,7 +108,7 @@ public class CoolTimeManager : MonoBehaviour
             currentCoolTIme[3] -= Time.deltaTime;
             
             // 배열 3번째 쿨타임 이미지를 바꿈
-            coolTimeImage[3].fillAmount = currentCoolTIme[3] / selectUnitBase.quickSlot[3].unit.coolTime;
+            coolTimeImage[3].fillAmount = currentCoolTIme[3] / selectUnitBase.quickSlot[3].unit.spawnCoolTime;
 
             // 배열 3번째 쿨타임 변수의 값이 0보다 작거나 같다면 아래 코드 실행 (유닛의 쿨타임만큼 시간이 되었다면)
             if (currentCoolTIme[3] <= 0)
@@ -125,7 +125,7 @@ public class CoolTimeManager : MonoBehaviour
             currentCoolTIme[4] -= Time.deltaTime;
             
             // 배열 4번쨰 쿨타임 이미지를 바꿈
-            coolTimeImage[4].fillAmount = currentCoolTIme[4] / selectUnitBase.quickSlot[4].unit.coolTime;
+            coolTimeImage[4].fillAmount = currentCoolTIme[4] / selectUnitBase.quickSlot[4].unit.spawnCoolTime;
 
             // 배열 4번째 쿨타임 변수의 값이 0보다 작거나 같다면 아래 코드 실행 (유닛의 쿨타임만큼 시간이 되었다면)
             if (currentCoolTIme[4] <= 0)

@@ -22,9 +22,11 @@ public class Unit : ScriptableObject
 
     public float speedStat;
 
-    public float coolTime;
+    public float spawnCoolTime;
 
     public float attackRangeStat;
 
     public float attackDelayStat;
+
+    public float pushRange;      
 }

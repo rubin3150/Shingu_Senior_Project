@@ -50,7 +50,7 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         color.a = alpha;
         
         // 바뀐 알파 값을 적용함
-        unitImage.color = color;
+        unitImage.color = color;                             
     }
 
     /// <summary>

@@ -19,12 +19,13 @@ public class UnitMove : MonoBehaviour
     // public Text hpText;
 
     public bool isMove;
+    public bool donMove;
 
     public Unit unit;
 
     public LayerMask layerMask;
 
-    public bool donMove;
+    public float pushRange;
 
     private RaycastHit2D _ray;
 
@@ -60,6 +61,7 @@ public class UnitMove : MonoBehaviour
                     attack = unit.attackStat;
                     attackRange = unit.attackRangeStat;
                     arrackDelay = unit.attackDelayStat;
+                    pushRange = unit.pushRange;
                     isMove = true;
                 }
             }
@@ -92,11 +94,23 @@ public class UnitMove : MonoBehaviour
         }
     }
     
-    public void UpdateHpBar()
+    public void UpdateHpBar(float damage)
     {
+        
+        nowHpStat -= damage;
+        transform.position -= new Vector3(pushRange, 0, 0);
+        
         // hpText.text = nowHpStat + " / " + unit.hpStat;
         // 체력 게이지 값 설정.
         maxHpStatImage.fillAmount = nowHpStat / unit.hpStat;
+
+        if (nowHpStat <= 0)
+        {
+            Destroy(gameObject);
+        }
+        // hpText.text = nowHpStat + " / " + unit.hpStat;
+        // 체력 게이지 값 설정.
+        
         
         // 텍스트는 now값의 버림 소수점 제거한 값만 받음
     }
@@ -112,6 +126,11 @@ public class UnitMove : MonoBehaviour
         if (_ray.transform.tag == "Tower")
         {
             _ray.transform.GetComponent<Tower>().UpdateHpBar(attack);
+        }
+        else if (_ray.transform.tag == "Enemy")
+        {
+            _ray.transform.GetComponent<Enemy>().UpdateHpBar(attack);
+            UpdateHpBar(_ray.transform.GetComponent<Enemy>().attack);
         }
 
         yield return new WaitForSeconds(arrackDelay);

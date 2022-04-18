@@ -86,11 +86,11 @@ GameObject:
   - component: {fileID: 5600549167890462373}
   - component: {fileID: 1012693145879216387}
   - component: {fileID: 9117947452556880076}
-  - component: {fileID: 531393737671114701}
   - component: {fileID: -8293731515006112393}
-  m_Layer: 7
-  m_Name: DilucUnit
-  m_TagString: Unit
+  - component: {fileID: 6651018740334846190}
+  m_Layer: 8
+  m_Name: EnemyWaterUnit
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: dc2c8a6d90f0d37488c2c50117955679, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a67a9226533e0c44ab108d9b986740fa, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -153,33 +153,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &531393737671114701
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1609125915385617593}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 86a4fb40a7fcf214c8401f9db12bf06a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 0
-  attack: 0
-  attackRange: 0
-  arrackDelay: 0
-  selectUnitBase: {fileID: 0}
-  selectUnitBaseScripts: {fileID: 0}
-  nowHpStat: 0
-  maxHpStatImage: {fileID: 7535620750218157304}
-  isMove: 0
-  donMove: 0
-  unit: {fileID: 0}
-  layerMask:
-    serializedVersion: 2
-    m_Bits: 256
-  pushRange: 0
 --- !u!61 &-8293731515006112393
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -206,3 +179,29 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 300, y: 450}
   m_EdgeRadius: 0
+--- !u!114 &6651018740334846190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609125915385617593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4b1732c101d35a4aaac0b89143eed2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isMove: 0
+  donMove: 0
+  nowHpStat: 0
+  maxHpStat: 0
+  maxHpStatImage: {fileID: 7535620750218157304}
+  pushRange: 0
+  moveSpeed: 0
+  attack: 0
+  attackRange: 0
+  arrackDelay: 0
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 128
+  unit: {fileID: 0}
