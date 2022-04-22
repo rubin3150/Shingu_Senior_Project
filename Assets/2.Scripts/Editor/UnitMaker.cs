@@ -72,6 +72,7 @@ public class UnitMaker : EditorWindow
             unit = new Unit();
             unit.unitName = unitName;
             unit.unitImage = unitImage;
+            unit.moonEnergy = moonEnergy;
             unit.hpStat = hpStat;
             unit.attackStat = attackStat;
             unit.speedStat = speedStat;
@@ -86,7 +87,7 @@ public class UnitMaker : EditorWindow
 
     bool FileCheck(string fileName) 
     {
-        string[] a = AssetDatabase.FindAssets(fileName);
+        string[] a = AssetDatabase.FindAssets(fileName , new[] {"Assets/10.Data/Units/"});
 
         if (a.Length > 0) {
             Debug.Log($"{fileName}과 같은 이름의 파일이 존재합니다. 파일명을 수정하세요");
