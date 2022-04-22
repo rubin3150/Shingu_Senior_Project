@@ -85,16 +85,30 @@ public class UnitMaker : EditorWindow
         }
     }
 
-    bool FileCheck(string fileName) 
+    bool FileCheck(string FileName) 
     {
-        string[] a = AssetDatabase.FindAssets(fileName , new[] {"Assets/10.Data/Units/"});
+        string[] a = AssetDatabase.FindAssets(FileName , new[] {"Assets/10.Data/Units/"});
 
-        if (a.Length > 0) {
-            Debug.Log($"{fileName}과 같은 이름의 파일이 존재합니다. 파일명을 수정하세요");
+        if (a.Length > 0)
+        {
+            Debug.Log($"{FileName}과 같은 이름의 파일이 존재합니다. 파일명을 수정하세요");
             return true;
         } 
         return false;
     }
+    
+    // GameObject FindObject(string ObjectName)
+    // {
+    //     string[] a = AssetDatabase.FindAssets(ObjectName , new[] {"Assets/10.Data/"});
+    //     GameObject obj = ObjectName.
+
+    //     if (a.Length == 0)
+    //     {
+    //         Debug.Log($"{ObjectName}를 찾을 수 없습니다.");
+    //         return null;
+    //     } 
+    //     return ;
+    // }
     
     private void CreateScriptableObject<T>(string name) where T : ScriptableObject 
     {
@@ -106,5 +120,12 @@ public class UnitMaker : EditorWindow
         EditorUtility.FocusProjectWindow();
         Selection.activeObject = value;
     }
+
+    // private void CreatePrefabAsset(string name)
+    // {
+    //     var value = 
+    //     AssetDatabase.CreateAsset(value, "Assets/10.Data/UnitPrefabs/" + name + ".asset");
+    //     AssetDatabase.SaveAssets();
+    // }
 #endif
 }
