@@ -74,9 +74,9 @@ public class Player : MonoBehaviour
     private void CheckObject()
     {
         // 변수에 좌측으로 레이캐스트를 발사해 걸린 물체를 반환함
-        RaycastHit2D rayLeftHit = Physics2D.Raycast(transform.position, Vector2.left, 150f, layerMask);
+        RaycastHit2D rayLeftHit = Physics2D.Raycast(transform.position, Vector2.left, 3.75f, layerMask);
         // 변수에 우측으로 레이캐스트를 발사해 걸린 물체를 반환함
-        RaycastHit2D rayRightHit = Physics2D.Raycast(transform.position, Vector2.right, 150f, layerMask);
+        RaycastHit2D rayRightHit = Physics2D.Raycast(transform.position, Vector2.right, 3.75f, layerMask);
 
         // 변수에 있는 콜라이더 값이 비어 있지 않다면 아래 코드 실행 (물체가 레이캐스트에 걸렸다면)
         if (rayLeftHit.collider != null)

@@ -35,13 +35,13 @@ public class CameraMovehcy : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
         if (_dragMouse == true && stageManager.inStage == true)
         {
             // 변수 값이 참이라면 아래 코드 실행 (왼쪽 영역이라면)
-            if (isLeft == true)
+            if (isLeft == true && theCam.transform.position.x > -13.5f)
             {
                 // 카메라의 위치를 카메라 스피드 만큼 좌측으로 이동
                 theCam.transform.position -= new Vector3(cameraSpeed  * Time.deltaTime, 0, 0);
             }
             // 변수 값이 거짓이라면 아래 코드 실행 (오른쪽 영역이라면)
-            else
+            else if (isLeft == false && theCam.transform.position.x < 32.5f)
             {
                 // 카메라의 위치를 카메라 스피드 만큼 우측으로 이동
                 theCam.transform.position += new Vector3(cameraSpeed  * Time.deltaTime, 0, 0);

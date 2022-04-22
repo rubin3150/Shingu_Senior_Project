@@ -18,8 +18,8 @@ MonoBehaviour:
   moonEnergy: 50
   hpStat: 90
   attackStat: 50
-  speedStat: 190
-  coolTime: 5
+  speedStat: 9
+  spawnCoolTime: 5
   attackRangeStat: 0
   attackDelayStat: 3
-  pushRange: 150
+  pushRange: 10

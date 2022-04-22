@@ -184,7 +184,7 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
                 go.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
 
-                go.GetComponent<RectTransform>().localPosition = new Vector3(-800f, 75 * _ranValue, 0);
+                go.GetComponent<RectTransform>().localPosition = new Vector3(-46.25f, -0.15f * _ranValue, 0);
             }
         }
     }

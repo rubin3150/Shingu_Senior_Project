@@ -74,7 +74,7 @@ public class UnitMove : MonoBehaviour
     
     private void CheckObject()
     {
-        _ray = Physics2D.Raycast(transform.position, Vector2.right, 150f + attackRange, layerMask);
+        _ray = Physics2D.Raycast(transform.position, Vector2.right, 3.75f + attackRange, layerMask);
         
         if (_ray.collider != null)
         {
