@@ -366,7 +366,6 @@ GameObject:
   - component: {fileID: 1960060948}
   - component: {fileID: 1960060947}
   - component: {fileID: 1960060946}
-  - component: {fileID: 1960060951}
   - component: {fileID: 1960060950}
   m_Layer: 5
   m_Name: Canvas
@@ -483,18 +482,3 @@ MonoBehaviour:
   initialPage: {fileID: 7337318591688454270, guid: 4cfc6cbd4aa051b4bbff01bc2534e1f3, type: 3}
   currentPage: {fileID: 0}
   maxPageIndex: 9
---- !u!114 &1960060951
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1960060945}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 33fcc9a187810ec4cb547457acb5ad62, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LoadingBar_Center: {fileID: 0}
-  loadingBar: {fileID: 0}
-  toTitleText: {fileID: 0}
