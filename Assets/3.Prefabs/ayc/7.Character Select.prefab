@@ -1213,7 +1213,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1835685216266361893}
   m_Layer: 5
-  m_Name: Page5
+  m_Name: 7.Character Select
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
