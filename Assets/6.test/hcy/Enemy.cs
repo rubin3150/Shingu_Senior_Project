@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour
     
     public LayerMask layerMask;
 
-    
+    public GameObject hit_Effect;
 
     private RaycastHit2D _ray;
 
@@ -47,7 +47,7 @@ public class Enemy : MonoBehaviour
         {
             if (donMove == false)
             {
-                transform.position -= new Vector3(moveSpeed, 0, 0) * Time.deltaTime;
+                transform.position -= new Vector3(moveSpeed  * Time.deltaTime, 0, 0);
             }
             
             CheckObject();
@@ -82,14 +82,18 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator AttackCoroutine()
     {
+        GameObject go = Instantiate(hit_Effect, _ray.transform.position + new Vector3(3.5f, 0, 0), Quaternion.identity);
+        
         if (_ray.transform.tag == "Player")
         {
             _ray.transform.GetComponent<Player>().UpdateHpBar(attack);
         }
         else if (_ray.transform.tag == "Unit")
         {
-            //_ray.transform.GetComponent<UnitMove>().UpdateHpBar(attack);
+            _ray.transform.GetComponent<UnitMove>().UpdateHpBar(attack);
         }
+        
+        Destroy(go, 1.5f);
 
         yield return new WaitForSeconds(arrackDelay);
         _isAttack = false;
@@ -99,7 +103,7 @@ public class Enemy : MonoBehaviour
     public void UpdateHpBar(float damage)
     {
         nowHpStat -= damage;
-        transform.position += new Vector3(pushRange, 0, 0);
+        // transform.position += new Vector3(pushRange, 0, 0);
         
         // hpText.text = nowHpStat + " / " + unit.hpStat;
         // 체력 게이지 값 설정.

@@ -36,6 +36,8 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public CoolTimeManager coolTimeManager;
 
     private int _ranValue;
+
+    public string keyBord;
     
     /// <summary>
     /// 이미지의 알파 값을 조절하는 함수
@@ -184,7 +186,7 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
                 go.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
 
-                go.GetComponent<RectTransform>().localPosition = new Vector3(-46.25f, -0.15f * _ranValue, 0);
+                go.GetComponent<RectTransform>().localPosition = new Vector3(-46.25f, -1.5f * _ranValue, 0);
             }
         }
     }
@@ -193,7 +195,7 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         if (unit != null)
         {
-            unitToolTip.ShowToolTip(unit, isQuickSlot, transform.position);
+            unitToolTip.ShowToolTip(unit, isQuickSlot, transform.position, keyBord);
         }
     }
     

@@ -105,6 +105,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   pushRange: 0
+  hit_Effect: {fileID: 9094843157776191314, guid: 350d075d472148f4f86958fb666cb517, type: 3}
 --- !u!61 &-6733480327342261539
 BoxCollider2D:
   m_ObjectHideFlags: 0

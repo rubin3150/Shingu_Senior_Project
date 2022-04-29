@@ -10,25 +10,28 @@ public class Player : MonoBehaviour
 
     // StageManager 스크립트를 담을 변수
     [SerializeField] private StageManager stageManager;
+
+    [SerializeField] private PlayerSet playerSet;
     
     // 레이캐스트 발사시 충돌할 레이어를 설정하는 변수
     [SerializeField] private LayerMask layerMask;
     
     // 플레이어의 Hp 이미지를 담을 변수
     [SerializeField] private Image hpImage;
-
-    // 플레이어의 최대 Hp를 담을 변수
-    [SerializeField] private float maxHpStat;
+    
+    // 플레이어의 스피드를 담을 변수
+    public float speedStat;
 
     // 플레이어의 현재 Hp를 담을 변수
     public float hpStat;
-    // 플레이어의 스피드를 담을 변수
-    public float speedStat;
-    
+
     // 왼쪽으로 이동할 수 있는지 아닌지 체크할 변수
     private bool _donLeftMove;
     // 오른쪽으로 이동할 수 있는지 아닌지 체크할 변수
     private bool _donRightMove;
+
+    public Image stagePlayerImage;
+    public Image quickSlotSetPlayerImage;
 
     #endregion
     
@@ -38,7 +41,10 @@ public class Player : MonoBehaviour
     private void Start()
     {
         // 변수에 최대 Hp값을 넣어줌
-        hpStat = maxHpStat;
+        hpStat = playerSet.maxHpStat[playerSet.playerNum];
+        stagePlayerImage.sprite = playerSet.playerImages[playerSet.playerNum];
+        quickSlotSetPlayerImage.sprite = playerSet.playerImages[playerSet.playerNum];
+        speedStat = playerSet.speedStat[playerSet.playerNum];
     }
 
     /// <summary>
@@ -53,14 +59,14 @@ public class Player : MonoBehaviour
             if (Input.GetKey(KeyCode.LeftArrow) && _donLeftMove == false)
             {
                 // 이 오브젝트의 위치를 좌측으로 스피드 * 실제시간 만큼 이동
-                transform.position -= new Vector3(speedStat, 0, 0) * Time.deltaTime;
+                transform.position -= new Vector3(speedStat * Time.deltaTime , 0, 0);
             }
 
             // 오른쪽 화살표를 누르고 있으면서 변수 값이 거짓이라면 아래 코드 실행 (오른쪽으로 이동 할 수 있다면)
             if (Input.GetKey(KeyCode.RightArrow) && _donRightMove == false)
             {
                 // 이 오브젝트의 위치를 우측으로 스피드 * 실제시간 만큼 이동
-                transform.position += new Vector3(speedStat, 0, 0) * Time.deltaTime;
+                transform.position += new Vector3(speedStat * Time.deltaTime, 0, 0);
             }
             
             // 함수 호출
@@ -111,7 +117,7 @@ public class Player : MonoBehaviour
 
         // hpText.text = nowHpStat + " / " + unit.hpStat;
         // 체력 게이지 값 설정.
-        hpImage.fillAmount = hpStat / maxHpStat;
+        hpImage.fillAmount = hpStat / playerSet.maxHpStat[playerSet.playerNum];
 
         if (hpStat <= 0)
         {

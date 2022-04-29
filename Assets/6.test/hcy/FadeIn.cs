@@ -22,6 +22,8 @@ public class FadeIn : MonoBehaviour
     [SerializeField] private RectTransform quickBackImage;
     // 달빛 에너지 이미지의 위치를 담을 변수
     [SerializeField] private RectTransform moonEnergyImage;
+    // 스킬 이미지의 위치를 담을 변수 
+    [SerializeField] private RectTransform skillBackImage;
     
     // Fade 이미지를 담을 변수
     [SerializeField] private Image fadeImage;
@@ -104,6 +106,8 @@ public class FadeIn : MonoBehaviour
             quickBackImage.localPosition = new Vector3(-180f, -400f, 0);
             // 달빛 에너지 이미지 위치 변경
             moonEnergyImage.localPosition = new Vector3(-435f, -250f, 0);
+            // 스킬 이미지 위치 변경
+            skillBackImage.localPosition = new Vector3(665, -400, 0);
             
             // 함수 호출
             stageManager.SetActiveUnitText();

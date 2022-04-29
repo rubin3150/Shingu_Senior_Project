@@ -28,5 +28,7 @@ public class Unit : ScriptableObject
 
     public float attackDelayStat;
 
-    public float pushRange;      
+    public float pushRange;
+
+    public string type;
 }

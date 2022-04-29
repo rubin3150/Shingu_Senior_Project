@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,6 +31,8 @@ public class UnitMove : MonoBehaviour
     private RaycastHit2D _ray;
 
     private bool _isAttack;
+
+    public GameObject hit_Effect;
     
     private void Update()
     {
@@ -37,7 +40,7 @@ public class UnitMove : MonoBehaviour
         {
             if (donMove == false)
             {
-                transform.position += new Vector3(moveSpeed, 0, 0) * Time.deltaTime;
+                transform.position += new Vector3(moveSpeed * Time.deltaTime, 0, 0);
             }
             
             CheckObject();
@@ -98,7 +101,7 @@ public class UnitMove : MonoBehaviour
     {
         
         nowHpStat -= damage;
-        transform.position -= new Vector3(pushRange, 0, 0);
+        // transform.position -= new Vector3(pushRange, 0, 0);
         
         // hpText.text = nowHpStat + " / " + unit.hpStat;
         // 체력 게이지 값 설정.
@@ -123,6 +126,7 @@ public class UnitMove : MonoBehaviour
 
     private IEnumerator AttackCoroutine()
     {
+        GameObject go = Instantiate(hit_Effect, _ray.transform.position - new Vector3(3.5f, 0, 0), Quaternion.identity);
         if (_ray.transform.tag == "Tower")
         {
             _ray.transform.GetComponent<Tower>().UpdateHpBar(attack);
@@ -130,8 +134,10 @@ public class UnitMove : MonoBehaviour
         else if (_ray.transform.tag == "Enemy")
         {
             _ray.transform.GetComponent<Enemy>().UpdateHpBar(attack);
-            UpdateHpBar(_ray.transform.GetComponent<Enemy>().attack);
+            // UpdateHpBar(_ray.transform.GetComponent<Enemy>().attack);
         }
+        
+        Destroy(go, 1.5f);
 
         yield return new WaitForSeconds(arrackDelay);
         _isAttack = false;

@@ -13,7 +13,7 @@ public class UnitToolTip : MonoBehaviour
 
     public StageManager stageManager;
     
-    public void ShowToolTip(Unit unit, bool isQuickSlot, Vector3 pos)
+    public void ShowToolTip(Unit unit, bool isQuickSlot, Vector3 pos, string keyBord)
     {
         goBase.SetActive(true);
 
@@ -23,7 +23,7 @@ public class UnitToolTip : MonoBehaviour
         }
         else
         {
-            pos += new Vector3(goBase.GetComponent<RectTransform>().rect.width * 0.5f, -goBase.GetComponent<RectTransform>().rect.height * 0.4f, 0f);
+            pos += new Vector3(goBase.GetComponent<RectTransform>().rect.width * 0.5f, -goBase.GetComponent<RectTransform>().rect.height * 0.5f, 0f);
         }
         
         goBase.transform.position = pos;
@@ -37,13 +37,12 @@ public class UnitToolTip : MonoBehaviour
         }
         else if (isQuickSlot == true && stageManager.inStage == true)
         {
-            txtUnitHowToUsed.text = "좌클릭 - 소환";
+            txtUnitHowToUsed.text = "좌클릭 or (" + keyBord + ") - 소환";
         }
         else if (isQuickSlot == false)
         {
             txtUnitHowToUsed.text = "좌클릭 - 장착";
         }
-        
     }
 
     public void HideToolTip()
