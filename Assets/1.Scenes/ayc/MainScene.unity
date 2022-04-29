@@ -407,14 +407,12 @@ MonoBehaviour:
   canvas: {fileID: 1960060948}
   pagePrefab:
   - {fileID: 7337318591688454270, guid: 4cfc6cbd4aa051b4bbff01bc2534e1f3, type: 3}
+  - {fileID: 6417442936510583391, guid: 08015876dd345e04296b4de6fd000a6b, type: 3}
   - {fileID: 5086613084481305346, guid: 19dfdbc0564fdee4697ee46d57579f3b, type: 3}
-  - {fileID: 4230192207335168761, guid: 7925df38a88ac8142a847305ed4a1ae2, type: 3}
-  - {fileID: 905447868424108025, guid: 05c33fc0a77d8df4a87e1ff0d9463375, type: 3}
-  - {fileID: 1835685216266361890, guid: ee0459073527ecd4a9f65cc98f520601, type: 3}
   - {fileID: 6010881138201457066, guid: e246bba2d8f81044b8cdee19b9c27160, type: 3}
-  - {fileID: 6657710362341276764, guid: 2dd92e38445d76948828e45fd7c564a1, type: 3}
-  - {fileID: 7272265361554512569, guid: c9ab859270a7c1747944356432534df8, type: 3}
   - {fileID: 2648699037322115072, guid: d6f3068a4166b6b46ba3ee4ecd40af55, type: 3}
+  - {fileID: 1835685216266361890, guid: ee0459073527ecd4a9f65cc98f520601, type: 3}
+  - {fileID: 6657710362341276764, guid: 2dd92e38445d76948828e45fd7c564a1, type: 3}
   initialPage: {fileID: 7337318591688454270, guid: 4cfc6cbd4aa051b4bbff01bc2534e1f3, type: 3}
   currentPage: {fileID: 0}
   maxPageIndex: 9
