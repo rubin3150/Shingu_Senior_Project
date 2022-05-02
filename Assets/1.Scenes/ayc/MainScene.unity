@@ -408,11 +408,10 @@ MonoBehaviour:
   pagePrefab:
   - {fileID: 7337318591688454270, guid: 4cfc6cbd4aa051b4bbff01bc2534e1f3, type: 3}
   - {fileID: 6417442936510583391, guid: 08015876dd345e04296b4de6fd000a6b, type: 3}
-  - {fileID: 5086613084481305346, guid: 19dfdbc0564fdee4697ee46d57579f3b, type: 3}
-  - {fileID: 6010881138201457066, guid: e246bba2d8f81044b8cdee19b9c27160, type: 3}
-  - {fileID: 2648699037322115072, guid: d6f3068a4166b6b46ba3ee4ecd40af55, type: 3}
-  - {fileID: 1835685216266361890, guid: ee0459073527ecd4a9f65cc98f520601, type: 3}
-  - {fileID: 6657710362341276764, guid: 2dd92e38445d76948828e45fd7c564a1, type: 3}
+  - {fileID: 3235556281480939994, guid: e79a48829adf9494a860a133b1af0c09, type: 3}
+  - {fileID: 5322526900906182762, guid: f4ac7fa4f17866c42af02888ec39bd91, type: 3}
+  - {fileID: 4010839002535546779, guid: 478c86e4b69d01d4ab03e9932bccd21e, type: 3}
+  - {fileID: 2318070379698635778, guid: 3915cd16b0eb5b042ab0edd1960f72da, type: 3}
   initialPage: {fileID: 7337318591688454270, guid: 4cfc6cbd4aa051b4bbff01bc2534e1f3, type: 3}
   currentPage: {fileID: 0}
   maxPageIndex: 9
