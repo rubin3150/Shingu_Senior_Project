@@ -10,17 +10,19 @@ public class UIController : Singleton<UIController>
     public GameObject currentPage;
     int initialPageNumber = 0;
     int pageIndex = 0;
+    
     public int maxPageIndex;
 
-    // void OnEnable()
-    // {
-    //     Instantiate(pagePrefab[pageIndex]);
-    // }
+    void OnEnable()
+    {
+        Instantiate(pagePrefab[pageIndex]);
+    }
 
     private void Start()
     {
         currentPage = Instantiate(initialPage, canvas.transform);
     }
+
     public void BtnClick()
     {
 

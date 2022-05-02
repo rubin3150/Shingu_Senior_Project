@@ -215,6 +215,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   btn: {fileID: 5598530243309914317}
   pageNumber: 1
+  maxPageNumber: 8
 --- !u!1 &2493149069399036548
 GameObject:
   m_ObjectHideFlags: 0

@@ -2702,6 +2702,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   btn: {fileID: 0}
   pageNumber: 5
+  maxPageNumber: 8
 --- !u!1 &7768517169428629856
 GameObject:
   m_ObjectHideFlags: 0
