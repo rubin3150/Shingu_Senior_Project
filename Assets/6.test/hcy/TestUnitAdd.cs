@@ -8,7 +8,7 @@ public class TestUnitAdd : MonoBehaviour
 
     public SelectUnitBase theBase;
 
-    [SerializeField] private Skill[] skills;
+    [SerializeField] private SkillManager skillManager;
 
     private int _r;
 
@@ -44,10 +44,10 @@ public class TestUnitAdd : MonoBehaviour
             }
             else if (Input.GetKeyDown(KeyCode.B))
             {
-                if (skills.Length > k)
+                if (skillManager.skillImage.Length > k)
                 {
-                    skills[k].isActive = true;
-                    skills[k].SetColor();
+                    skillManager.isActive[k] = true;
+                    skillManager.SetColor();
                     k += 1;
                 }
                 

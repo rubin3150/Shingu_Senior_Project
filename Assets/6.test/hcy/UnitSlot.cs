@@ -173,20 +173,20 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         {
             if (stageManager.nowMoonEnergy >= unit.moonEnergy)
             {
-                coolTimeManager.CoolTime(num);
+                coolTimeManager.CoolTime(num, false);
                 
                 stageManager.nowMoonEnergy -= unit.moonEnergy;
 
-                _ranValue = Random.Range(0, 3);
+                _ranValue = Random.Range(1, 4);
 
-                // 몬스터 생성 부분 작성
+                // 유닛 생성
                 GameObject go = Instantiate(unit.unitPrefab, Vector3.zero, Quaternion.identity);
 
                 go.GetComponent<RectTransform>().SetParent(parentTrans.transform, false);
 
                 go.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
 
-                go.GetComponent<RectTransform>().localPosition = new Vector3(-46.25f, -1.5f * _ranValue, 0);
+                go.GetComponent<RectTransform>().localPosition = new Vector3(-46.25f, -4f * _ranValue, 0);
             }
         }
     }

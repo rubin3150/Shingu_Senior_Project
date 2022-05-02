@@ -28,7 +28,7 @@ public class UnitToolTip : MonoBehaviour
         
         goBase.transform.position = pos;
         
-        txtUnitName.text = unit.unitName;
+        txtUnitName.text = unit.unitName + " (" + unit.type + ")";
         txtUnitDesc.text = "소비하는 달빛 에너지 : " + unit.moonEnergy + "\n유닛 체력 : " + unit.hpStat + "\n유닛 공격력 : " + unit.attackStat + "\n유닛 공격 사거리 : " + 0 + "\n공격 딜레이 : " + unit.attackDelayStat + "초" + "\n유닛 스피드 : " + unit.speedStat + "\n유닛 소환 쿨타임 : " + unit.spawnCoolTime + "초";
 
         if (isQuickSlot == true && stageManager.inStage == false)

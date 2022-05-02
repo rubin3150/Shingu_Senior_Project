@@ -7,6 +7,9 @@ using UnityEngine.UI;
 public class UnitMaker : EditorWindow 
 {
     public Unit unit;
+    public GameObject prefab;
+    public GameObject tmpGo;
+    public Object prefabPreset;
 
     [MenuItem("Utility/UnitMaker")]
     private static void ShowWindow() 
@@ -15,6 +18,7 @@ public class UnitMaker : EditorWindow
         window.titleContent = new GUIContent("UnitMaker");
         window.Show();
     }
+
     public string unitName;
     public Sprite unitImage;
     public float moonEnergy;
@@ -25,6 +29,7 @@ public class UnitMaker : EditorWindow
     public float attackRangeStat;
     public float attackDelayStat;
     public float pushRange;
+
     private void OnGUI() 
     {
         EditorGUILayout.Space();
@@ -34,6 +39,9 @@ public class UnitMaker : EditorWindow
         EditorGUILayout.Space();
         EditorGUILayout.Space();
         EditorGUILayout.Space();
+
+        prefabPreset = EditorGUILayout.ObjectField("오브젝트 프리셋", prefabPreset, typeof(GameObject), true);
+        prefab = (GameObject) prefabPreset;
 
         GUILayout.Label("유닛 이름을 적어주세요", EditorStyles.miniLabel);
        
@@ -80,8 +88,14 @@ public class UnitMaker : EditorWindow
             unit.attackRangeStat = attackRangeStat;
             unit.attackDelayStat = attackDelayStat;
             unit.pushRange = pushRange;
+            prefab.GetComponent<Image>().sprite = unitImage;
 
-            if(!FileCheck(unitName)){ CreateScriptableObject<Unit>(unitName);}
+            if(!FileCheck(unitName))
+            {
+                CreateScriptableObject<Unit>(unitName);
+                CreatePrefabAsset(unitName, prefab);
+                unit.unitPrefab = tmpGo;
+            }
         }
     }
 
@@ -121,11 +135,17 @@ public class UnitMaker : EditorWindow
         Selection.activeObject = value;
     }
 
-    // private void CreatePrefabAsset(string name)
-    // {
-    //     var value = 
-    //     AssetDatabase.CreateAsset(value, "Assets/10.Data/UnitPrefabs/" + name + ".asset");
-    //     AssetDatabase.SaveAssets();
-    // }
+    private void CreatePrefabAsset(string name, GameObject go)
+    {
+        //var modelRootGO = (GameObject)AssetDatabase.LoadMainAssetAtPath("Assets/MyModel.fbx");
+ 
+        var instanceRoot = PrefabUtility.InstantiatePrefab(go);
+        var variantRoot = PrefabUtility.SaveAsPrefabAsset(go, "Assets/10.Data/UnitPrefabs/" + name + "Unit" + ".prefab");
+        tmpGo = variantRoot;
+        
+        //PrefabUtility.CreatePrefab("Assets/10.Data/UnitPrefabs/" + name + "Unit" + ".prefab", go);
+        //AssetDatabase.CreateAsset(value, "Assets/10.Data/UnitPrefabs/" + name + "Unit" + ".prefab");
+        //AssetDatabase.SaveAssets();
+    }
 #endif
 }

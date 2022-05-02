@@ -11,6 +11,9 @@ public class UnitMove : MonoBehaviour
     public float attack;
     public float attackRange;
     public float arrackDelay;
+    public int criRate;
+    public int criDamage;
+    public float maxHp;
 
     public GameObject selectUnitBase;
     public SelectUnitBase selectUnitBaseScripts;
@@ -33,7 +36,15 @@ public class UnitMove : MonoBehaviour
     private bool _isAttack;
 
     public GameObject hit_Effect;
+
+    // 버프 중인지 아닌지 체크할 변수
+    public bool isBuff;
+
+    // 딜러형 버프인지 아닌지 체크할 변수 
+    public bool isDealerBuff;
     
+    public string unitType;
+
     private void Update()
     {
         if (isMove == true)
@@ -61,10 +72,14 @@ public class UnitMove : MonoBehaviour
                     unit = selectUnitBaseScripts.quickSlot[i].unit;
                     moveSpeed = unit.speedStat;
                     nowHpStat = unit.hpStat;
+                    maxHp = unit.hpStat;
                     attack = unit.attackStat;
                     attackRange = unit.attackRangeStat;
                     arrackDelay = unit.attackDelayStat;
                     pushRange = unit.pushRange;
+                    unitType = unit.type;
+                    criRate = unit.criRate;
+                    criDamage = unit.criDamage;
                     isMove = true;
                 }
             }
@@ -77,11 +92,13 @@ public class UnitMove : MonoBehaviour
     
     private void CheckObject()
     {
-        _ray = Physics2D.Raycast(transform.position, Vector2.right, 3.75f + attackRange, layerMask);
+        _ray = Physics2D.Raycast(transform.position, Vector2.right, attackRange, layerMask);
+        Debug.DrawRay(transform.position + new Vector3(0, 5, 0), Vector2.right, Color.red, attackRange);
         
         if (_ray.collider != null)
         {
             donMove = true;
+            Debug.Log("적 발견");
 
             if (!_isAttack)
             {
@@ -105,7 +122,7 @@ public class UnitMove : MonoBehaviour
         
         // hpText.text = nowHpStat + " / " + unit.hpStat;
         // 체력 게이지 값 설정.
-        maxHpStatImage.fillAmount = nowHpStat / unit.hpStat;
+        maxHpStatImage.fillAmount = nowHpStat / maxHp;
 
         if (nowHpStat <= 0)
         {

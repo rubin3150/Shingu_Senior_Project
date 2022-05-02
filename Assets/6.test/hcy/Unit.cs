@@ -30,5 +30,9 @@ public class Unit : ScriptableObject
 
     public float pushRange;
 
+    public int criRate;
+
+    public int criDamage;
+
     public string type;
 }

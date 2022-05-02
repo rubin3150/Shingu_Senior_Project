@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6873748493890713580}
   - component: {fileID: -1627767258507143385}
   m_Layer: 0
-  m_Name: Ayato
+  m_Name: Tigerlily
   m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,4 +43,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e7464d5718eae04fad0e1bd3e3801dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unit: {fileID: 11400000, guid: 8e2aafbc8964694488906f4bacdd478c, type: 2}
+  unit: {fileID: 11400000, guid: 0e5a5a2e028102d4da1a859c2082dfe1, type: 2}

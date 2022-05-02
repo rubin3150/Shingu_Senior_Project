@@ -10,16 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c2c0b1638d628b48aa62ffee1ed9eb9, type: 3}
-  m_Name: Mona
+  m_Name: Tinkerbell
   m_EditorClassIdentifier: 
-  unitName: Mona
-  unitImage: {fileID: 21300000, guid: 4f3b452ace10b9a41ad4f4d0754ed55f, type: 3}
-  unitPrefab: {fileID: 1609125915385617593, guid: c0f793c8c4aec044f8bbfa807319334f, type: 3}
-  moonEnergy: 10
-  hpStat: 50
-  attackStat: 10
+  unitName: "\uD305\uCEE4\uBCA8"
+  unitImage: {fileID: 21300000, guid: 809c5a33933ed214b8404b6a70d0285d, type: 3}
+  unitPrefab: {fileID: 4189524642995771099, guid: 535450894c97d1d44ad776cfea4794f0, type: 3}
+  moonEnergy: 20
+  hpStat: 100
+  attackStat: 40
   speedStat: 5
-  spawnCoolTime: 1
-  attackRangeStat: 0
+  spawnCoolTime: 6
+  attackRangeStat: 10
   attackDelayStat: 3
   pushRange: 10
+  criRate: 0
+  criDamage: 0
+  type: Dealer

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6873748493890713580}
   - component: {fileID: -1627767258507143385}
   m_Layer: 0
-  m_Name: Mona
+  m_Name: Pirate
   m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

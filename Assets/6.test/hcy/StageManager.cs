@@ -10,10 +10,17 @@ public class StageManager : MonoBehaviour
     // 스테이지에 진입 했는지 아닌지 체크할 변수
     public bool inStage;
 
-    public GameObject[] spwanText;
+    public GameObject[] spawnUnitTxt;
     public GameObject[] moonEnergyText;
 
+    public GameObject[] skillTxt;
+    public GameObject[] skillMoonEnergyTxt;
+
     public SelectUnitBase selectUnitBase;
+
+    [SerializeField] private PlayerSet playerSet;
+
+    [SerializeField] private Skill skill;
 
     public float maxMoonEnergy;
     public float nowMoonEnergy;
@@ -24,11 +31,18 @@ public class StageManager : MonoBehaviour
 
     public void SetActiveUnitText()
     {
-        for (int i = 0; i < spwanText.Length; i++)
+        for (int i = 0; i < skillTxt.Length; i++)
+        {
+            skillTxt[i].SetActive(true);
+            skillMoonEnergyTxt[i].GetComponent<Text>().text = playerSet.skillMoonEnergy[skill.skillNum + i].ToString();
+            skillMoonEnergyTxt[i].SetActive(true);
+        }
+        
+        for (int i = 0; i < spawnUnitTxt.Length; i++)
         {
             if (selectUnitBase.quickSlot[i].unit != null)
             {
-                spwanText[i].SetActive(true);
+                spawnUnitTxt[i].SetActive(true);
                 moonEnergyText[i].GetComponent<Text>().text = selectUnitBase.quickSlot[i].unit.moonEnergy.ToString();
                 moonEnergyText[i].SetActive(true);
             }

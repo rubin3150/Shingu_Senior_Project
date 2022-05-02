@@ -10,16 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c2c0b1638d628b48aa62ffee1ed9eb9, type: 3}
-  m_Name: asdf
+  m_Name: Pirate
   m_EditorClassIdentifier: 
-  unitName: asdf
-  unitImage: {fileID: 21300000, guid: 5c414d3104cf15d4198cebe55756da36, type: 3}
-  unitPrefab: {fileID: 0}
-  moonEnergy: 5
-  hpStat: 5
-  attackStat: 55
+  unitName: "\uD574\uC801"
+  unitImage: {fileID: 21300000, guid: 4f3b452ace10b9a41ad4f4d0754ed55f, type: 3}
+  unitPrefab: {fileID: 1609125915385617593, guid: c0f793c8c4aec044f8bbfa807319334f, type: 3}
+  moonEnergy: 30
+  hpStat: 100
+  attackStat: 40
   speedStat: 5
-  spawnCoolTime: 5
-  attackRangeStat: 5
-  attackDelayStat: 5
-  pushRange: 5
+  spawnCoolTime: 6
+  attackRangeStat: 0
+  attackDelayStat: 3
+  pushRange: 10
+  criRate: 15
+  criDamage: 120
+  type: Tanker
