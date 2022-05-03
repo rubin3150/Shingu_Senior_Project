@@ -8,7 +8,6 @@ public class UnitMaker : EditorWindow
 {
     public Unit unit;
     public GameObject prefab;
-    public GameObject tmpGo;
     public Object prefabPreset;
 
     [MenuItem("Utility/UnitMaker")]
@@ -39,22 +38,24 @@ public class UnitMaker : EditorWindow
         EditorGUILayout.Space();
         EditorGUILayout.Space();
         EditorGUILayout.Space();
-
+        
+        //GameObject pre = Resources.Load<GameObject>("PresetObject");
+        //prefab = pre; //(GameObject) prefabPreset;
         prefabPreset = EditorGUILayout.ObjectField("오브젝트 프리셋", prefabPreset, typeof(GameObject), true);
         prefab = (GameObject) prefabPreset;
+        
+        GUILayout.Space (10);
 
         GUILayout.Label("유닛 이름을 적어주세요", EditorStyles.miniLabel);
        
         unitName = EditorGUILayout.TextField(unitName);
-        GUI.enabled = (unitName == string.Empty || unitName == null) ? false : true;
-
-        //GUILayout.TextArea("Text Area", EditorStyles.textArea);
 
         GUILayout.Space (20);
-
-        //unitName = EditorGUILayout.TextField("유닛 이름", unitName);
+        GUI.enabled = (unitName == string.Empty || unitName == null) ? false : true;
 
         unitImage = (Sprite) EditorGUILayout.ObjectField("유닛 이미지", unitImage, typeof(Sprite));
+
+        GUILayout.Space (10);
  
         moonEnergy = EditorGUILayout.FloatField("달빛 에너지", moonEnergy);
 
@@ -94,7 +95,7 @@ public class UnitMaker : EditorWindow
             {
                 CreateScriptableObject<Unit>(unitName);
                 CreatePrefabAsset(unitName, prefab);
-                unit.unitPrefab = tmpGo;
+                unit.unitPrefab = prefab;
             }
         }
     }
@@ -136,16 +137,10 @@ public class UnitMaker : EditorWindow
     }
 
     private void CreatePrefabAsset(string name, GameObject go)
-    {
-        //var modelRootGO = (GameObject)AssetDatabase.LoadMainAssetAtPath("Assets/MyModel.fbx");
- 
-        var instanceRoot = PrefabUtility.InstantiatePrefab(go);
-        var variantRoot = PrefabUtility.SaveAsPrefabAsset(go, "Assets/10.Data/UnitPrefabs/" + name + "Unit" + ".prefab");
-        tmpGo = variantRoot;
-        
-        //PrefabUtility.CreatePrefab("Assets/10.Data/UnitPrefabs/" + name + "Unit" + ".prefab", go);
-        //AssetDatabase.CreateAsset(value, "Assets/10.Data/UnitPrefabs/" + name + "Unit" + ".prefab");
-        //AssetDatabase.SaveAssets();
+    { 
+        Object _object = PrefabUtility.InstantiatePrefab(go);
+        GameObject _gameObject = PrefabUtility.SaveAsPrefabAsset(go, "Assets/10.Data/UnitPrefabs/" + name + "Unit" + ".prefab");
+        prefab = _gameObject;
     }
 #endif
 }
