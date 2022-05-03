@@ -414,9 +414,10 @@ MonoBehaviour:
   - {fileID: 2318070379698635778, guid: 3915cd16b0eb5b042ab0edd1960f72da, type: 3}
   - {fileID: 4676594811477202808, guid: c15eb9bd92a77bf4a934e7018dba0731, type: 3}
   - {fileID: 8549256902798095788, guid: a24ab86ab9bd0944199c885727741784, type: 3}
+  - {fileID: 4650431240591665665, guid: fb0aa9e280a09fe4096e790c76a40981, type: 3}
   initialPage: {fileID: 7337318591688454270, guid: 4cfc6cbd4aa051b4bbff01bc2534e1f3, type: 3}
   currentPage: {fileID: 0}
-  maxPageIndex: 7
+  maxPageIndex: 9
 --- !u!1001 &822892522295867651
 PrefabInstance:
   m_ObjectHideFlags: 0
