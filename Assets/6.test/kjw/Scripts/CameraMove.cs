@@ -8,12 +8,12 @@ public class CameraMove : Singleton<CameraMove>
     public float zoomSpeed = -5f;
     public bool isMove = true;
 
-    public bool IsMove { set { isMove = value; } }
+    public bool IsMove;
     private Vector2 m_Input;
 
     private void Update()
     {
-        if(isMove)
+        if (isMove)
             CamMove();
         Zoom();
     }
@@ -22,21 +22,13 @@ public class CameraMove : Singleton<CameraMove>
     {
         float scroll = -Input.GetAxis("Mouse ScrollWheel") * zoomSpeed;
 
-        //√÷¥Î ¡‹ ¿Œ
-        if (cam.orthographicSize <= 4f && scroll > 0)
-        {
+        if (cam.orthographicSize <= 4f && scroll > 0) // Maximum Zoom in
             cam.orthographicSize = 4f;
-        }
-        // √÷¥Î ¡‹ æ∆øÙ
-        else if (cam.orthographicSize >= 15.0f && scroll < 0)
-        {
+        else if (cam.orthographicSize >= 15.0f && scroll < 0) // Maximum Zoom out
             cam.orthographicSize = 15f;
-        }
-        // ¡‹¿Œ æ∆øÙ «œ±‚.
-        else
-        {
+        else // Zoom in
             cam.orthographicSize -= scroll;
-        }
+
     }
 
     public void CamMove()
@@ -52,7 +44,7 @@ public class CameraMove : Singleton<CameraMove>
             m_Input.x += -Input.GetAxis("Mouse X");
             m_Input.y += -Input.GetAxis("Mouse Y");
 
-            cam.transform.position = new Vector3(m_Input.x, cam.transform.position.y, m_Input.y);
+            cam.transform.position = new Vector3(Mathf.Clamp(m_Input.x, 0, 25), cam.transform.position.y, Mathf.Clamp(m_Input.y, -25, -10));
         }
     }
 }

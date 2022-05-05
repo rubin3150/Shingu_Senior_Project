@@ -35,14 +35,11 @@ public class CameraRay : MonoBehaviour
 
     private void Update()
     {
-
         if (Input.GetMouseButtonDown(0))
             OnClick();
 
         if (Input.GetMouseButton(0))
-        {
             OnDrag();
-        }
 
         if (Input.GetMouseButtonUp(0))
         {
