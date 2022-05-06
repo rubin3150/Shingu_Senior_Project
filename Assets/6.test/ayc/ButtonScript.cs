@@ -27,7 +27,6 @@ public class ButtonScript : MonoBehaviour
     
     public void NextPage()
     {
-        int a = pageNumber;
         Destroy(transform.parent.gameObject);
         UIController.Instance.currentPage = Instantiate(UIController.Instance.pagePrefab[pageNumber].gameObject, UIController.Instance.canvas.transform);
     }

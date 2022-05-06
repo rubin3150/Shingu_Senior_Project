@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelChanger : MonoBehaviour
 {
@@ -22,6 +23,6 @@ public class LevelChanger : MonoBehaviour
 
     public void OnFadeComplete()
     {
-        //SceneManager.LoadScene(levelToLoad);
+
     }
 }
