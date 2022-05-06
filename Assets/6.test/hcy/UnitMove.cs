@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
+using Effekseer;
 
 public class UnitMove : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class UnitMove : MonoBehaviour
     public float attack;
     public float attackRange;
     public float arrackDelay;
-    public int criRate;
+    public float criRate;
     public int criDamage;
     public float maxHp;
 
@@ -20,9 +21,8 @@ public class UnitMove : MonoBehaviour
     
     public float nowHpStat;
     public Image maxHpStatImage;
-    // public Text hpText;
 
-    public bool isMove;
+    private bool isMove;
     public bool donMove;
 
     public Unit unit;
@@ -40,10 +40,21 @@ public class UnitMove : MonoBehaviour
     // 버프 중인지 아닌지 체크할 변수
     public bool isBuff;
 
-    // 딜러형 버프인지 아닌지 체크할 변수 
-    public bool isDealerBuff;
-    
     public string unitType;
+
+    public Animator animator;
+    
+    private float _currentDelay;
+
+    [SerializeField] private BoxCollider2D boxCol;
+
+    private float _unitAlpha;
+    
+    private float _unitAlphaTime = 1f;
+
+    public Image unitImage;
+
+    public SpriteRenderer[] unitImages;
 
     private void Update()
     {
@@ -51,10 +62,28 @@ public class UnitMove : MonoBehaviour
         {
             if (donMove == false)
             {
+                if (animator != null)
+                {
+                    animator.SetBool("Move", true);
+                    // animator.SetBool("Attack", false);
+                }
+                
                 transform.position += new Vector3(moveSpeed * Time.deltaTime, 0, 0);
             }
             
             CheckObject();
+            
+            if (_isAttack == true)
+            {
+                // animator.SetBool("Attack", false);
+                _currentDelay += Time.deltaTime;
+
+                if (_currentDelay >= arrackDelay)
+                {
+                    _isAttack = false;
+                    _currentDelay = 0;
+                }
+            }
         }
     }
 
@@ -92,31 +121,34 @@ public class UnitMove : MonoBehaviour
     
     private void CheckObject()
     {
-        _ray = Physics2D.Raycast(transform.position, Vector2.right, attackRange, layerMask);
-        Debug.DrawRay(transform.position + new Vector3(0, 5, 0), Vector2.right, Color.red, attackRange);
+        _ray = Physics2D.BoxCast(transform.position, new Vector2(7.5f,18), 0, Vector2.right, attackRange, layerMask);
+        // Vector2.right, attackRange, layerMask
+        // Debug.DrawRay(transform.position + new Vector3(0, 5, 0), Vector2.right, Color.red, attackRange);
         
         if (_ray.collider != null)
         {
             donMove = true;
-            Debug.Log("적 발견");
-
+            // Debug.Log("적 발견");
+            
             if (!_isAttack)
             {
                 Attack();
             }
-                
-            
         }
         else
         {
-            _isAttack = false;
+            // _isAttack = false;
             donMove = false;
         }
     }
     
     public void UpdateHpBar(float damage)
     {
-        
+     
+        if (animator != null)
+        {
+            // animator.SetBool("Hit", true);
+        }
         nowHpStat -= damage;
         // transform.position -= new Vector3(pushRange, 0, 0);
         
@@ -126,7 +158,21 @@ public class UnitMove : MonoBehaviour
 
         if (nowHpStat <= 0)
         {
-            Destroy(gameObject);
+
+            boxCol.enabled = false;
+            if (animator != null)
+            {
+                animator.SetTrigger("Dead");
+            }
+
+            if (unit.unitName == "팅커벨")
+            {
+                StartCoroutine(FadeUnits());
+            }
+            else
+            {
+                StartCoroutine(FadeUnit());
+            }
         }
         // hpText.text = nowHpStat + " / " + unit.hpStat;
         // 체력 게이지 값 설정.
@@ -134,16 +180,119 @@ public class UnitMove : MonoBehaviour
         
         // 텍스트는 now값의 버림 소수점 제거한 값만 받음
     }
-
-    private void Attack()
+    
+    private IEnumerator FadeUnits()
     {
-        _isAttack = true;
-        StartCoroutine(AttackCoroutine());
+        // 변수 초기화
+        _unitAlpha = 0f;
+
+        // 변수에 몬스터 이미지 컬러 값을 넣음
+        Color alpha =  unitImages[0].color;
+
+        // 알파 값이 255보다 작을 동안에 아래 코드 실행
+        while (alpha.a < 1f)
+        {
+            // 실제 시간 / 설정한 딜레이 시간을 계산한 값을 변수에 넣음
+            _unitAlpha += Time.deltaTime / _unitAlphaTime;
+
+            // 알파 값 조절
+            alpha.a = Mathf.Lerp(0, 1, _unitAlpha);
+
+            for (int i = 0; i < unitImages.Length; i++)
+            {
+                unitImages[i].color = alpha;
+            }
+
+            yield return null;
+        }
+        
+        // 변수 초기화
+        _unitAlpha = 0f;
+
+        // 딜레이 타임 0.1f
+        yield return new WaitForSeconds(0.1f);
+
+        // 알파 값이 0보다 큰 동안에 아래 코드 실행
+        while (alpha.a > 0f)
+        {
+            // 실제 시간 / 설정한 딜레이 시간을 계산한 값을 변수에 넣음
+            _unitAlpha += Time.deltaTime / _unitAlphaTime;
+
+            // 알파 값 조절
+            alpha.a = Mathf.Lerp(1, 0, _unitAlpha);
+
+            // 조절한 알파 값을 이미지의 컬러 값에 넣음
+            for (int i = 0; i < unitImages.Length; i++)
+            {
+                unitImages[i].color = alpha;
+            }
+            
+            yield return null;
+        }
+
+        yield return null;
+        Destroy(gameObject);
+    }
+    
+    private IEnumerator FadeUnit()
+    {
+        // 변수 초기화
+        _unitAlpha = 0f;
+
+        // 변수에 몬스터 이미지 컬러 값을 넣음
+        Color alpha =  unitImage.color;
+
+        // 알파 값이 255보다 작을 동안에 아래 코드 실행
+        while (alpha.a < 1f)
+        {
+            // 실제 시간 / 설정한 딜레이 시간을 계산한 값을 변수에 넣음
+            _unitAlpha += Time.deltaTime / _unitAlphaTime;
+
+            // 알파 값 조절
+            alpha.a = Mathf.Lerp(0, 1, _unitAlpha);
+
+            unitImage.color = alpha;
+
+            yield return null;
+        }
+        
+        // 변수 초기화
+        _unitAlpha = 0f;
+
+        // 딜레이 타임 0.1f
+        yield return new WaitForSeconds(0.1f);
+
+        // 알파 값이 0보다 큰 동안에 아래 코드 실행
+        while (alpha.a > 0f)
+        {
+            // 실제 시간 / 설정한 딜레이 시간을 계산한 값을 변수에 넣음
+            _unitAlpha += Time.deltaTime / _unitAlphaTime;
+
+            // 알파 값 조절
+            alpha.a = Mathf.Lerp(1, 0, _unitAlpha);
+
+            // 조절한 알파 값을 이미지의 컬러 값에 넣음
+            unitImage.color = alpha;
+            
+            yield return null;
+        }
+
+        yield return null;
+        Destroy(gameObject);
     }
 
-    private IEnumerator AttackCoroutine()
+    private void Attack()
+    { 
+        if (animator != null)
+        {
+            // animator.SetBool("Attack", true);
+        }
+        _isAttack = true;
+        AttackDelay();
+    }
+
+    private void AttackDelay()
     {
-        GameObject go = Instantiate(hit_Effect, _ray.transform.position - new Vector3(3.5f, 0, 0), Quaternion.identity);
         if (_ray.transform.tag == "Tower")
         {
             _ray.transform.GetComponent<Tower>().UpdateHpBar(attack);
@@ -154,10 +303,9 @@ public class UnitMove : MonoBehaviour
             // UpdateHpBar(_ray.transform.GetComponent<Enemy>().attack);
         }
         
-        Destroy(go, 1.5f);
+        GameObject go = Instantiate(hit_Effect, _ray.transform.position - new Vector3(3.5f, 0, 0), Quaternion.identity);
+        go.GetComponent<EffekseerEmitter>().Play();
 
-        yield return new WaitForSeconds(arrackDelay);
-        _isAttack = false;
-        
+        Destroy(go, 1.5f);
     }
 }

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
+using Effekseer;
 
 public class Enemy : MonoBehaviour
 {
-    public bool isMove;
+    private bool isMove;
     public bool donMove;
 
     public float nowHpStat;
@@ -27,6 +28,11 @@ public class Enemy : MonoBehaviour
     private bool _isAttack;
 
     public Unit unit;
+
+    private float _currentDelay;
+    
+    
+    private Vector3 _hitPos;
     
     // Start is called before the first frame update
     void Start()
@@ -51,13 +57,28 @@ public class Enemy : MonoBehaviour
             }
             
             CheckObject();
+
+            if (_isAttack == true)
+            {
+                _currentDelay += Time.deltaTime;
+
+                if (_currentDelay >= arrackDelay)
+                {
+                    _isAttack = false;
+                    _currentDelay = 0;
+                }
+            }
         }
     }
+
+    private RaycastHit2D[] _rays;
     
     private void CheckObject()
     {
-        _ray = Physics2D.Raycast(transform.position, Vector2.left, 3.75f + attackRange, layerMask);
-
+        // _rays = Physics2D.BoxCastAll(transform.position, new Vector2(7.5f,18), 0, Vector2.left, attackRange, layerMask);
+        _ray = Physics2D.BoxCast(transform.position, new Vector2(7.5f,18), 0, Vector2.left, attackRange, layerMask);
+    
+        // ray를 rays로 변경
         if (_ray.collider != null)
         {
             donMove = true;
@@ -66,10 +87,11 @@ public class Enemy : MonoBehaviour
             {
                 Attack();
             }
+            
         }
         else
         {
-            _isAttack = false;
+            // _isAttack = false;
             donMove = false;
         }
     }
@@ -77,26 +99,39 @@ public class Enemy : MonoBehaviour
     private void Attack()
     {
         _isAttack = true;
-        StartCoroutine(AttackCoroutine());
+        AttackDealy();
     }
 
-    private IEnumerator AttackCoroutine()
+    private void AttackDealy()
     {
-        GameObject go = Instantiate(hit_Effect, _ray.transform.position + new Vector3(3.5f, 0, 0), Quaternion.identity);
-        
         if (_ray.transform.tag == "Player")
         {
             _ray.transform.GetComponent<Player>().UpdateHpBar(attack);
+            _hitPos = new Vector3(3f, 1, 0);
         }
         else if (_ray.transform.tag == "Unit")
         {
             _ray.transform.GetComponent<UnitMove>().UpdateHpBar(attack);
+
+            if (_ray.transform.GetComponent<UnitMove>().unit.unitName == "팅커벨")
+            {
+                // Debug.Log("팅커벨 발견");
+                _hitPos = new Vector3(3f, 4, 0);
+            }
+            else
+            {
+                _hitPos = new Vector3(1f, -1, 0);
+            }
         }
         
+        // Debug.Log(_ray.transform.position);
+        
+        GameObject go = Instantiate(hit_Effect, _ray.transform.position + _hitPos, Quaternion.identity);
+        go.GetComponent<EffekseerEmitter>().Play();
+        
         Destroy(go, 1.5f);
-
-        yield return new WaitForSeconds(arrackDelay);
-        _isAttack = false;
+        
+        // _isAttack = false;
         
     }
 

@@ -32,7 +32,6 @@ public class TestUnitAdd : MonoBehaviour
                 }
                 else if (Units[_r] == null)
                 {
-                
                     _r = Random.Range(0, Units.Length);
                     if (Units[_r] != null)
                     {

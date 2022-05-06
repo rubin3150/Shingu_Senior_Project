@@ -38,6 +38,8 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     private int _ranValue;
 
     public string keyBord;
+
+    public Button btn;
     
     /// <summary>
     /// 이미지의 알파 값을 조절하는 함수
@@ -69,6 +71,8 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         
         // 함수 호출
         SetColor(1);
+
+        btn.enabled = true;
     }
 
     /// <summary>
@@ -134,6 +138,8 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
         // 유닛의 이미지를 비어있음으로 설정
         unitImage.sprite = null;
+
+        btn.enabled = false;
     }
 
     /// <summary>
@@ -177,7 +183,7 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                 
                 stageManager.nowMoonEnergy -= unit.moonEnergy;
 
-                _ranValue = Random.Range(1, 4);
+                _ranValue = Random.Range(0, 3);
 
                 // 유닛 생성
                 GameObject go = Instantiate(unit.unitPrefab, Vector3.zero, Quaternion.identity);
@@ -186,7 +192,14 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
                 go.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
 
-                go.GetComponent<RectTransform>().localPosition = new Vector3(-46.25f, -4f * _ranValue, 0);
+                if (unit.unitName == "팅커벨")
+                {
+                    go.GetComponent<RectTransform>().localPosition = new Vector3(-46.25f, -4 + -2.5f * _ranValue, 0);
+                }
+                else
+                {
+                    go.GetComponent<RectTransform>().localPosition = new Vector3(-46.25f, 0.5f + -2.5f * _ranValue, 0);
+                }
             }
         }
     }

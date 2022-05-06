@@ -34,7 +34,4 @@ public class PlayerSet : MonoBehaviour
 
     // 플레이어의 스킬에 따라 증가하는 첫번째 스텟을 담을 변수 
     public float[] addStat;
-    
-    // 플레이어의 스킬에 따라 증가하는 두번째 스텟을 담을 변수
-    public float[] addStat1;
 }

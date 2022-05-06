@@ -83,8 +83,8 @@ public class Tower : MonoBehaviour
         go.GetComponent<RectTransform>().SetParent(parentTrans.transform, false);
 
         go.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
-
-        go.GetComponent<RectTransform>().localPosition = new Vector3(38.75f, -4f * _ranValue, 0);
+        
+        go.GetComponent<RectTransform>().localPosition = new Vector3(38.75f, -0.5f + -2.5f * _ranValue, 0);
     }
  
     public void UpdateHpBar(float damage)

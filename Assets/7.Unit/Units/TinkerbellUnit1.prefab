@@ -1160,20 +1160,42 @@ MonoBehaviour:
   attack: 0
   attackRange: 0
   arrackDelay: 0
+  criRate: 0
+  criDamage: 0
+  maxHp: 0
   selectUnitBase: {fileID: 0}
   selectUnitBaseScripts: {fileID: 0}
   nowHpStat: 0
   maxHpStatImage: {fileID: 6493786775673332004}
-  isMove: 0
   donMove: 0
   unit: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 256
   pushRange: 0
-  hit_Effect: {fileID: 9094843157776191314, guid: 350d075d472148f4f86958fb666cb517, type: 3}
+  hit_Effect: {fileID: 8381563187224439496, guid: e34338426ad5fb040bfaa72f08d9d127, type: 3}
   isBuff: 0
   unitType: 
+  animator: {fileID: 1853265632075198938}
+  boxCol: {fileID: 6036608618309545303}
+  unitImage: {fileID: 0}
+  unitImages:
+  - {fileID: 9136058192001942389}
+  - {fileID: 1283693251259664079}
+  - {fileID: 3011915770616032093}
+  - {fileID: 4445289406811033504}
+  - {fileID: 8916216163973100720}
+  - {fileID: 5269757639000495693}
+  - {fileID: 5655286029306254832}
+  - {fileID: 7704506936331066298}
+  - {fileID: 6283099685605465624}
+  - {fileID: 4233136543802342125}
+  - {fileID: 8566451858874723875}
+  - {fileID: 7849031722815045447}
+  - {fileID: 3414832306377023602}
+  - {fileID: 5862396690529479863}
+  - {fileID: 5580100414499862119}
+  - {fileID: 6299949494984426469}
 --- !u!61 &6036608618309545303
 BoxCollider2D:
   m_ObjectHideFlags: 0

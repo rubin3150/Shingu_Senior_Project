@@ -5341,14 +5341,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillNum: 2
-  skillImage: {fileID: 1798450990}
-  isActive: 0
+  skillManager: {fileID: 0}
   playerSet: {fileID: 1478871237}
-  stageManager: {fileID: 1478871233}
-  goBase: {fileID: 1890383478}
-  txtSkillName: {fileID: 1006038828}
-  txtSkillDesc: {fileID: 1660199562}
-  txtSkillHowToUsed: {fileID: 1124377796}
 --- !u!114 &1176673825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6774,19 +6768,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inStage: 0
-  spwanText:
-  - {fileID: 90894569}
-  - {fileID: 1824606637}
-  - {fileID: 1440713267}
-  - {fileID: 1001197561}
-  - {fileID: 657591253}
+  spawnUnitTxt: []
   moonEnergyText:
   - {fileID: 244930584}
   - {fileID: 1707057907}
   - {fileID: 295335490}
   - {fileID: 1829786579}
   - {fileID: 1119555583}
+  skillTxt: []
+  skillMoonEnergyTxt: []
   selectUnitBase: {fileID: 1280065351}
+  playerSet: {fileID: 0}
+  skill: {fileID: 0}
   maxMoonEnergy: 100
   nowMoonEnergy: 0
   maxMoonEnergyImage: {fileID: 747664536}
@@ -6819,12 +6812,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectUnitBase: {fileID: 1280065351}
+  playerSet: {fileID: 0}
   coolTimeImage:
   - {fileID: 1456861709}
   - {fileID: 1517990451}
   - {fileID: 1058081779}
   - {fileID: 1097055434}
   - {fileID: 1632804684}
+  skiils: []
   currentCoolTIme:
   - 0
   - 0
@@ -6899,10 +6894,6 @@ MonoBehaviour:
   - 10
   - 15
   - 20
-  addStat1:
-  - 15
-  - 20
-  - 25
 --- !u!1 &1479878156
 GameObject:
   m_ObjectHideFlags: 0
@@ -6972,10 +6963,7 @@ MonoBehaviour:
   - {fileID: 1609125915385617593, guid: a9872bb4c8fe62c4286790619674aeec, type: 3}
   - {fileID: 1609125915385617593, guid: 17bd691811897fc479e0ed283657ada4, type: 3}
   theBase: {fileID: 1280065351}
-  skills:
-  - {fileID: 1696361211}
-  - {fileID: 2056904826}
-  - {fileID: 1176673824}
+  skillManager: {fileID: 0}
   stageManager: {fileID: 1478871233}
 --- !u!1001 &1505678238
 PrefabInstance:
@@ -8003,14 +7991,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillNum: 0
-  skillImage: {fileID: 542952152}
-  isActive: 1
+  skillManager: {fileID: 0}
   playerSet: {fileID: 1478871237}
-  stageManager: {fileID: 1478871233}
-  goBase: {fileID: 1890383478}
-  txtSkillName: {fileID: 1006038828}
-  txtSkillDesc: {fileID: 1660199562}
-  txtSkillHowToUsed: {fileID: 1124377796}
 --- !u!114 &1696361213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9663,14 +9645,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillNum: 1
-  skillImage: {fileID: 765482735}
-  isActive: 0
+  skillManager: {fileID: 0}
   playerSet: {fileID: 1478871237}
-  stageManager: {fileID: 1478871233}
-  goBase: {fileID: 1890383478}
-  txtSkillName: {fileID: 1006038828}
-  txtSkillDesc: {fileID: 1660199562}
-  txtSkillHowToUsed: {fileID: 1124377796}
 --- !u!114 &2056904827
 MonoBehaviour:
   m_ObjectHideFlags: 0

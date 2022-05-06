@@ -19,7 +19,7 @@ public class UnitToolTip : MonoBehaviour
 
         if (stageManager.inStage == true)
         {
-            pos += new Vector3(goBase.GetComponent<RectTransform>().rect.width * 0.5f, 0f, 0f);
+            pos += new Vector3(goBase.GetComponent<RectTransform>().rect.width * 0.5f, goBase.GetComponent<RectTransform>().rect.height * 0.5f, 0f);
         }
         else
         {

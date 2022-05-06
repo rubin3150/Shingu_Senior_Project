@@ -18,12 +18,16 @@ public class FadeIn : MonoBehaviour
     // 달빛 에너지 오브젝트를 담을 변수
     [SerializeField] private GameObject moonEnergyBackImage;
     
-    // 퀵슬롯 이미지의 위치를 담을 변수
+    // 퀵슬롯 배경 이미지의 위치를 담을 변수
     [SerializeField] private RectTransform quickBackImage;
+    // 퀵슬롯 이미지들의 위치
+    [SerializeField] private RectTransform quickSlotUnits;
     // 달빛 에너지 이미지의 위치를 담을 변수
     [SerializeField] private RectTransform moonEnergyImage;
     // 스킬 이미지의 위치를 담을 변수 
     [SerializeField] private RectTransform skillBackImage;
+
+    [SerializeField] private Sprite quickBackChangeImage;
     
     // Fade 이미지를 담을 변수
     [SerializeField] private Image fadeImage;
@@ -101,14 +105,19 @@ public class FadeIn : MonoBehaviour
             
             // 0 / 달빛 에너지 최대치로 설정 후 변수에 넣음
             stageManager.moonText.text = 0 + " / " + stageManager.maxMoonEnergy;
-            
-            // 퀵슬롯 이미지의 위치 변경
-            quickBackImage.localPosition = new Vector3(-180f, -400f, 0);
+
+            quickBackImage.transform.GetComponent<Image>().sprite = quickBackChangeImage;
+            // 크기 변경
+            quickBackImage.sizeDelta = new Vector2(1920, 200);
+            // 퀵슬롯의 배경 이미지의 위치 변경
+            quickBackImage.localPosition = new Vector3(0f, -440f, 0);
+
+            quickSlotUnits.localPosition = new Vector3(-420f, 0f, 0);
             // 달빛 에너지 이미지 위치 변경
-            moonEnergyImage.localPosition = new Vector3(-435f, -250f, 0);
+            moonEnergyImage.localPosition = new Vector3(-435f, -290f, 0);
             // 스킬 이미지 위치 변경
-            skillBackImage.localPosition = new Vector3(665, -400, 0);
-            
+            skillBackImage.localPosition = new Vector3(630, -440, 0);
+
             // 함수 호출
             stageManager.SetActiveUnitText();
 

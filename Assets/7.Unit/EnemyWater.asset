@@ -16,10 +16,13 @@ MonoBehaviour:
   unitImage: {fileID: 0}
   unitPrefab: {fileID: 1609125915385617593, guid: 3ab9a0d4af6e7af4083b7242fa70d55a, type: 3}
   moonEnergy: 0
-  hpStat: 55
-  attackStat: 15
+  hpStat: 100
+  attackStat: 40
   speedStat: 5.5
   spawnCoolTime: 3
   attackRangeStat: 0
   attackDelayStat: 3
   pushRange: 10
+  criRate: 0
+  criDamage: 0
+  type: 

@@ -71,6 +71,7 @@ public class SelectUnitBase : MonoBehaviour
             {
                 // i번쨰 유닛술롯의 스크립트에서 함수 호출
                 _unitSlots[i].AddUnit(unit);
+                _unitSlots[i].btn.enabled = true;
                 
                 // 해당 함수를 끝낸다
                 return;
@@ -95,6 +96,8 @@ public class SelectUnitBase : MonoBehaviour
                 {
                     // i번째 유닛스롯의 스크립트에서 함수 호출
                     _unitSlots[i].SetColor(1);
+
+                    // _unitSlots[i].btn.enabled = true;
                 
                     // 해당 함수를 끝낸다
                     return;
@@ -191,9 +194,10 @@ public class SelectUnitBase : MonoBehaviour
                     // 현재 퀵슬롯의 유닛에 오른쪽 퀵슬롯에 있던 유닛의 정보를 넣어줌
                     quickSlot[a - 1].unit = quickSlot[a].unit;
 
+                    quickSlot[a - 1].btn.enabled = true;
                     // 오른쪽 퀵술롯의 스크립트에서 함수 호출
                     quickSlot[a].Clear();
-                    
+
                     // 현재 퀵슬롯의 스크립트에서 함수 호출
                     quickSlot[a - 1].AddUnit(quickSlot[a - 1].unit);
 
@@ -261,6 +265,7 @@ public class SelectUnitBase : MonoBehaviour
         for (int i = 0; i < _unitSlots.Length; i++)
         {
             _unitSlots[i].Clear();
+            _unitSlots[i].btn.enabled = false;
         }
 
         _num = 0;
@@ -317,10 +322,10 @@ public class SelectUnitBase : MonoBehaviour
 
     public void RightPageSetting()
     {
-        if (_page < maxUnit.Length / 12)
+        if (_page < maxUnit.Length / (maxUnit.Length / 2))
         {
             _page++;
-            pageText.text = "< " + _page + "/" + maxUnit.Length / 12 + " >";
+            pageText.text = "< " + _page + "/" + maxUnit.Length / (maxUnit.Length / 2) + " >";
             leftArrow.color = new Color(255f / 255f, 255f / 255f, 255f / 255f, 255f / 255f);
             PageSetting();
         }
@@ -332,7 +337,7 @@ public class SelectUnitBase : MonoBehaviour
         if (_page > 1)
         {
             _page--;
-            pageText.text = "< " + _page + "/" + maxUnit.Length / 12 + " >";
+            pageText.text = "< " + _page + "/" + maxUnit.Length / (maxUnit.Length / 2) + " >";
             leftArrow.color = new Color(100f / 255f, 100f / 255f, 100f / 255f, 155f / 255f);
             PageSetting();
             

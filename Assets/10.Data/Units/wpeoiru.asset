@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c2c0b1638d628b48aa62ffee1ed9eb9, type: 3}
-  m_Name: Tinkerbell
+  m_Name: wpeoiru
   m_EditorClassIdentifier: 
-  unitName: "\uD305\uCEE4\uBCA8"
-  unitImage: {fileID: 21300000, guid: 809c5a33933ed214b8404b6a70d0285d, type: 3}
-  unitPrefab: {fileID: 4189524642995771099, guid: 535450894c97d1d44ad776cfea4794f0, type: 3}
-  moonEnergy: 20
-  hpStat: 100
-  attackStat: 40
-  speedStat: 5
-  spawnCoolTime: 6
-  attackRangeStat: 0
-  attackDelayStat: 3
-  pushRange: 10
+  unitName: wpeoiru
+  unitImage: {fileID: 21300000, guid: 5c414d3104cf15d4198cebe55756da36, type: 3}
+  unitPrefab: {fileID: 0}
+  moonEnergy: 8
+  hpStat: 897
+  attackStat: 978
+  speedStat: 97
+  spawnCoolTime: 97
+  attackRangeStat: 97
+  attackDelayStat: 97
+  pushRange: 94
   criRate: 0
   criDamage: 0
-  type: Melee
+  type: 
