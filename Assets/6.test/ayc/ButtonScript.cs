@@ -5,18 +5,19 @@ using UnityEngine.UI;
 
 public class ButtonScript : MonoBehaviour
 {
-    //public UIController uiController;
     public Button btn;
+
     public int pageNumber;
     public int maxPageNumber;
+    
     void Start()
     {
         btn = this.transform.GetComponent<Button>();
+        
         if(btn != null)
         {
             if(pageNumber < maxPageNumber) {
-            //btn.onClick.AddListener(UIController.Instance.BtnClick);
-            btn.onClick.AddListener(NextPage);
+                btn.onClick.AddListener(NextPage);
             }
             else {
                 return;
