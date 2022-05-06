@@ -299,12 +299,12 @@ public class SkillManager : MonoBehaviour
                             {
                                 _unitMove.maxHp += playerSet.addStat[0];
                                 _unitMove.nowHpStat += playerSet.addStat[0];
-                                _unitMove.UpdateHpBar(0);
+                                _unitMove.UpdateHpBar(0, false);
                             }
                             else
                             {
                                 _unitMove.nowHpStat += playerSet.addStat[0];
-                                _unitMove.UpdateHpBar(0);
+                                _unitMove.UpdateHpBar(0, false);
                             }
 
                             _unitMove = null;
@@ -334,12 +334,12 @@ public class SkillManager : MonoBehaviour
                                     {
                                         unitMove.maxHp -= playerSet.addStat[0];
                                         unitMove.nowHpStat -= playerSet.addStat[0];
-                                        unitMove.UpdateHpBar(0);
+                                        unitMove.UpdateHpBar(0, false);
                                     }
                                     else
                                     {
                                         unitMove.nowHpStat -= playerSet.addStat[0];
-                                        unitMove.UpdateHpBar(0);
+                                        unitMove.UpdateHpBar(0, false);
                                     }
                                     setUnits[i] = null;
                                 }
@@ -489,12 +489,12 @@ public class SkillManager : MonoBehaviour
                             {
                                 unitMove.maxHp -= playerSet.addStat[0];
                                 unitMove.nowHpStat -= playerSet.addStat[0];
-                                unitMove.UpdateHpBar(0);
+                                unitMove.UpdateHpBar(0, false);
                             }
                             else
                             {
                                 unitMove.nowHpStat -= playerSet.addStat[0];
-                                unitMove.UpdateHpBar(0);
+                                unitMove.UpdateHpBar(0, false);
                             }
                             setUnits[i] = null;
                         }

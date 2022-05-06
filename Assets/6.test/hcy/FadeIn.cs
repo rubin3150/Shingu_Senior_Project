@@ -17,6 +17,8 @@ public class FadeIn : MonoBehaviour
     [SerializeField] private GameObject confirmationWindow;
     // 달빛 에너지 오브젝트를 담을 변수
     [SerializeField] private GameObject moonEnergyBackImage;
+
+    [SerializeField] private GameObject stagePlayerInfo;
     
     // 퀵슬롯 배경 이미지의 위치를 담을 변수
     [SerializeField] private RectTransform quickBackImage;
@@ -102,6 +104,8 @@ public class FadeIn : MonoBehaviour
             confirmationWindow.SetActive(false);
             // 달빛 에너지 이미지 오브젝트를 활성화 시킴
             moonEnergyBackImage.SetActive(true);
+            
+            stagePlayerInfo.SetActive(true);
             
             // 0 / 달빛 에너지 최대치로 설정 후 변수에 넣음
             stageManager.moonText.text = 0 + " / " + stageManager.maxMoonEnergy;

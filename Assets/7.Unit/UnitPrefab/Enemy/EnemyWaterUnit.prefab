@@ -191,7 +191,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4b1732c101d35a4aaac0b89143eed2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isMove: 0
   donMove: 0
   nowHpStat: 0
   maxHpStat: 0
@@ -206,3 +205,5 @@ MonoBehaviour:
     m_Bits: 128
   hit_Effect: {fileID: 8381563187224439496, guid: e34338426ad5fb040bfaa72f08d9d127, type: 3}
   unit: {fileID: 0}
+  unitImage: {fileID: 9117947452556880076}
+  boxCol: {fileID: -8293731515006112393}

@@ -56,32 +56,37 @@ public class UnitMove : MonoBehaviour
 
     public SpriteRenderer[] unitImages;
 
+    private bool isDead;
+
     private void Update()
     {
-        if (isMove == true)
+        if (isDead == false)
         {
-            if (donMove == false)
+            if (isMove == true)
             {
-                if (animator != null)
+                if (donMove == false)
                 {
-                    animator.SetBool("Move", true);
-                    // animator.SetBool("Attack", false);
-                }
+                    if (animator != null)
+                    {
+                        animator.SetBool("Move", true);
+                        // animator.SetBool("Attack", false);
+                    }
                 
-                transform.position += new Vector3(moveSpeed * Time.deltaTime, 0, 0);
-            }
+                    transform.position += new Vector3(moveSpeed * Time.deltaTime, 0, 0);
+                }
             
-            CheckObject();
+                CheckObject();
             
-            if (_isAttack == true)
-            {
-                // animator.SetBool("Attack", false);
-                _currentDelay += Time.deltaTime;
-
-                if (_currentDelay >= arrackDelay)
+                if (_isAttack == true)
                 {
-                    _isAttack = false;
-                    _currentDelay = 0;
+                    // animator.SetBool("Attack", false);
+                    _currentDelay += Time.deltaTime;
+
+                    if (_currentDelay >= arrackDelay)
+                    {
+                        _isAttack = false;
+                        _currentDelay = 0;
+                    }
                 }
             }
         }
@@ -128,6 +133,12 @@ public class UnitMove : MonoBehaviour
         if (_ray.collider != null)
         {
             donMove = true;
+
+            if (animator != null)
+            {
+                animator.SetBool("Move", false);
+            }
+            
             // Debug.Log("적 발견");
             
             if (!_isAttack)
@@ -139,26 +150,47 @@ public class UnitMove : MonoBehaviour
         {
             // _isAttack = false;
             donMove = false;
+            
+            if (animator != null)
+            {
+                animator.SetBool("Move", true);
+            }
+            
         }
     }
     
-    public void UpdateHpBar(float damage)
+    public void UpdateHpBar(float damage, bool isDamage)
     {
-     
-        if (animator != null)
+        if (isDamage == true)
         {
-            // animator.SetBool("Hit", true);
+            if (unit.unitName == "팅커벨")
+            {
+                // 알파 값 이미지 조절 하기 
+                for (int i = 0; i < unitImages.Length; i++)
+                {
+                    unitImages[i].color = new Color(153f / 255f, 153f / 255f, 153f / 255f, 255f / 255f);
+                }
+                Invoke("ResetAlphaImage", 0.5f);
+            }
+            else
+            {
+                unitImage.color = new Color(153f / 255f, 153f / 255f, 153f / 255f, 255f / 255f);
+                Invoke("ResetAlphaImage", 0.5f);
+            }
         }
+
         nowHpStat -= damage;
         // transform.position -= new Vector3(pushRange, 0, 0);
         
         // hpText.text = nowHpStat + " / " + unit.hpStat;
         // 체력 게이지 값 설정.
         maxHpStatImage.fillAmount = nowHpStat / maxHp;
+        
+        
 
         if (nowHpStat <= 0)
         {
-
+            isDead = true;
             boxCol.enabled = false;
             if (animator != null)
             {
@@ -176,9 +208,28 @@ public class UnitMove : MonoBehaviour
         }
         // hpText.text = nowHpStat + " / " + unit.hpStat;
         // 체력 게이지 값 설정.
-        
-        
         // 텍스트는 now값의 버림 소수점 제거한 값만 받음
+    }
+
+    private void ResetAlphaImage()
+    {
+        if (unit.unitName == "팅커벨")
+        {
+            // 알파 값 이미지 조절 하기 
+            for (int i = 0; i < unitImages.Length; i++)
+            {
+                unitImages[i].color = new Color(255f / 255f, 255f / 255f, 255f / 255f, 255f / 255f);
+            }
+        }
+        else
+        {
+            unitImage.color = new Color(255f / 255f, 255f / 255f, 255f / 255f, 255f / 255f);
+        }
+    }
+
+    private void ResetAttackAnim()
+    {
+        animator.SetBool("Attack", false);
     }
     
     private IEnumerator FadeUnits()
@@ -285,7 +336,8 @@ public class UnitMove : MonoBehaviour
     { 
         if (animator != null)
         {
-            // animator.SetBool("Attack", true);
+            animator.SetBool("Attack", true);
+            Invoke("ResetAttackAnim", 0.5f);
         }
         _isAttack = true;
         AttackDelay();
