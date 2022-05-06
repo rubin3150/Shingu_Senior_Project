@@ -5180,6 +5180,7 @@ MonoBehaviour:
   stagePlayerImage: {fileID: 990301886}
   quickSlotSetPlayerImage: {fileID: 914766516}
   isDead: 0
+  boxCol: {fileID: 990301884}
 --- !u!114 &990301886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8755,6 +8756,7 @@ MonoBehaviour:
   maxSpwanEnemy: 5
   spawnDelay: 15
   towerImage: {fileID: 1522432087}
+  boxCol: {fileID: 1522432089}
 --- !u!1001 &1529596654
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -38,6 +38,8 @@ public class Player : MonoBehaviour
     private float _unitAlpha;
     
     private float _unitAlphaTime = 1f;
+    
+    [SerializeField] private BoxCollider2D boxCol;
 
     #endregion
     
@@ -130,6 +132,7 @@ public class Player : MonoBehaviour
         if (hpStat <= 0)
         {
             isDead = true;
+            boxCol.enabled = false;
             StartCoroutine(FadeUnit());
         }
     }

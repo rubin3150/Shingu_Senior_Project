@@ -149,22 +149,26 @@ public class Enemy : MonoBehaviour
 
     public void UpdateHpBar(float damage)
     {
-        nowHpStat -= damage;
-        
-        unitImage.color = new Color(153f / 255f, 153f / 255f, 153f / 255f, 255f / 255f);
-        Invoke("ResetImageAlpha", 0.5f);
-        // transform.position += new Vector3(pushRange, 0, 0);
-        
-        // hpText.text = nowHpStat + " / " + unit.hpStat;
-        // 체력 게이지 값 설정.
-        maxHpStatImage.fillAmount = nowHpStat / unit.hpStat;
-
-        if (nowHpStat <= 0)
+        if (isMove == true)
         {
-            isDead = true;
-            boxCol.enabled = false;
-            StartCoroutine(FadeUnit());
+            nowHpStat -= damage;
+        
+            unitImage.color = new Color(153f / 255f, 153f / 255f, 153f / 255f, 255f / 255f);
+            Invoke("ResetImageAlpha", 0.5f);
+            // transform.position += new Vector3(pushRange, 0, 0);
+        
+            // hpText.text = nowHpStat + " / " + unit.hpStat;
+            // 체력 게이지 값 설정.
+            maxHpStatImage.fillAmount = nowHpStat / unit.hpStat;
+
+            if (nowHpStat <= 0)
+            {
+                isDead = true;
+                boxCol.enabled = false;
+                StartCoroutine(FadeUnit());
+            }
         }
+        
     }
     
     private IEnumerator FadeUnit()

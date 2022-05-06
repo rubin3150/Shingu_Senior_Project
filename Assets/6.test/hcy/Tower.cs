@@ -35,6 +35,8 @@ public class Tower : MonoBehaviour
     private float _unitAlpha;
     
     private float _unitAlphaTime = 1f;
+    
+    [SerializeField] private BoxCollider2D boxCol;
 
     private void Start()
     {
@@ -105,6 +107,7 @@ public class Tower : MonoBehaviour
         if (towerHp <= 0)
         {
             isDead = true;
+            boxCol.enabled = false;
             StartCoroutine(FadeUnit());
         }
         // 텍스트는 now값의 버림 소수점 제거한 값만 받음

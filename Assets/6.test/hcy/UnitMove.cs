@@ -58,6 +58,8 @@ public class UnitMove : MonoBehaviour
 
     private bool isDead;
 
+   
+
     private void Update()
     {
         if (isDead == false)
@@ -161,7 +163,7 @@ public class UnitMove : MonoBehaviour
     
     public void UpdateHpBar(float damage, bool isDamage)
     {
-        if (isDamage == true)
+        if (isDamage == true && isMove == true)
         {
             if (unit.unitName == "팅커벨")
             {
