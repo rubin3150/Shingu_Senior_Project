@@ -8,7 +8,7 @@ public class UIController : Singleton<UIController>
 
     [HideInInspector] public int pageNumber = 0;
 
-    public void OnClickBtn()
+    public void NextPage()
     {
         if(pageNumber < maxPageNumber) {
             pagePrefab[pageNumber].gameObject.SetActive(false);

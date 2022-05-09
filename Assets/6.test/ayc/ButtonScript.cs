@@ -7,6 +7,6 @@ public class ButtonScript : MonoBehaviour
 
     void Start()
     {
-        btn.onClick.AddListener(UIController.Instance.OnClickBtn);
+        btn.onClick.AddListener(UIController.Instance.NextPage);
     }
 }
