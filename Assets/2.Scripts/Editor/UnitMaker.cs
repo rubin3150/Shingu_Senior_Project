@@ -4,11 +4,11 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.UI;
 
-public class UnitMaker : EditorWindow 
+public class UnitMaker : EditorWindow
 {
     public Unit unit;
-    public GameObject prefab;
-    public Object prefabPreset;
+    public Object presetObject;
+    public GameObject presetGameObject;
 
     [MenuItem("Utility/UnitMaker")]
     private static void ShowWindow() 
@@ -20,6 +20,7 @@ public class UnitMaker : EditorWindow
 
     public string unitName;
     public Sprite unitImage;
+    public Sprite unitFieldImage;
     public float moonEnergy;
     public float hpStat;
     public float attackStat;
@@ -28,32 +29,29 @@ public class UnitMaker : EditorWindow
     public float attackRangeStat;
     public float attackDelayStat;
     public float pushRange;
+    public int criRate;
+    public int criDamage;
 
     private void OnGUI() 
     {
-        EditorGUILayout.Space();
-        EditorGUILayout.Space();
-        EditorGUILayout.Space();
+        EditorGUILayout.Space(15);
         EditorGUILayout.LabelField("******유닛 생성 툴******");
-        EditorGUILayout.Space();
-        EditorGUILayout.Space();
-        EditorGUILayout.Space();
+        EditorGUILayout.Space(15);
         
-        //GameObject pre = Resources.Load<GameObject>("PresetObject");
-        //prefab = pre; //(GameObject) prefabPreset;
-        prefabPreset = EditorGUILayout.ObjectField("오브젝트 프리셋", prefabPreset, typeof(GameObject), true);
-        prefab = (GameObject) prefabPreset;
-        
-        GUILayout.Space (10);
-
-        GUILayout.Label("유닛 이름을 적어주세요", EditorStyles.miniLabel);
-       
+        GUILayout.Label("유닛 이름을 적고 엔터키(ReturnKey)를 두번 빠르게 눌러주세요", EditorStyles.label);
         unitName = EditorGUILayout.TextField(unitName);
+        GUI.enabled = (unitName == string.Empty || unitName == null) ? false : true;
+        
+        GUILayout.Space (15);
+
+        presetObject = EditorGUILayout.ObjectField("오브젝트 프리셋", presetObject, typeof(GameObject), true);
+        presetObject = PresetObjFind("PresetObject");
+        presetGameObject = (GameObject) presetObject;
 
         GUILayout.Space (20);
-        GUI.enabled = (unitName == string.Empty || unitName == null) ? false : true;
 
         unitImage = (Sprite) EditorGUILayout.ObjectField("유닛 이미지", unitImage, typeof(Sprite));
+        unitFieldImage = (Sprite) EditorGUILayout.ObjectField("유닛 필드 이미지", unitFieldImage, typeof(Sprite));
 
         GUILayout.Space (10);
  
@@ -73,11 +71,36 @@ public class UnitMaker : EditorWindow
 
         pushRange = EditorGUILayout.FloatField("넉백 거리", pushRange);
 
+        criRate = EditorGUILayout.IntField("치명타 확률", criRate);
+
+        criDamage = EditorGUILayout.IntField("치명타 데미지", criDamage);
+
         //tag = EditorGUILayout.TextField("설명", tag);
 
 #if UNITY_EDITOR
+        Event e = Event.current;
+        if (e.isKey)
+        {
+            //Debug.Log("Detected key code: " + e.keyCode);
+            if(e.keyCode == KeyCode.Return)
+            {
+                //Debug.Log("Return");
+                unitImage = SpriteFinder(unitName);
+            }
+        }
+
         if(GUILayout.Button("유닛 생성!"))
         {
+            if(unitImage == null || unitFieldImage == null)
+            {
+                Debug.Log("유닛 이미지를 먼저 채워주세요. 유닛이미지가 비어있으면 생성되지 않습니다.");
+                return;
+            }
+            //if (prefabPreset == null)
+            //{
+            //    Debug.Log("프리셋 오브젝트를 먼저 채워주세요. 프리셋 오브젝트가 비어있으면 생성되지 않습니다.");
+            //    return;
+            //}
             unit = new Unit();
             unit.unitName = unitName;
             unit.unitImage = unitImage;
@@ -89,18 +112,46 @@ public class UnitMaker : EditorWindow
             unit.attackRangeStat = attackRangeStat;
             unit.attackDelayStat = attackDelayStat;
             unit.pushRange = pushRange;
-            prefab.GetComponent<Image>().sprite = unitImage;
+            unit.criRate = criRate;
+            unit.criDamage = criDamage;
+
+            presetGameObject.GetComponent<Image>().sprite = unitFieldImage;
 
             if(!FileCheck(unitName))
             {
                 CreateScriptableObject<Unit>(unitName);
-                CreatePrefabAsset(unitName, prefab);
-                unit.unitPrefab = prefab;
+                CreatePrefabAsset(unitName, presetGameObject);
+                unit.unitPrefab = presetGameObject;
             }
         }
     }
 
-    bool FileCheck(string FileName) 
+    private GameObject PresetObjFind(string objName)
+    {
+        GameObject obj = GameObject.Find(objName);
+        //if(obj == null)
+        //{
+        //    Debug.Log("해당 Scene이 아닌 Defence Scene에서 작업해주세요");
+        //    return null;
+        //}
+        return obj;
+    }
+    private Sprite SpriteFinder(string FileName)
+    {
+        string[] a = AssetDatabase.FindAssets(FileName, new[] { "Assets/Resources" });
+        if (a.Length == 0)
+        {
+            Debug.Log($"{FileName}과 같은 이름의 유닛이 존재하지 않습니다. 제대로 된 유닛 이름을 입력해주세요");
+            unitFieldImage = null;
+            return null;
+        }
+        Sprite _sprite = Resources.Load<Sprite>(FileName);
+        Sprite __sprite = Resources.Load<Sprite>(FileName + "_Unit");
+        unitFieldImage = __sprite;
+        return _sprite;
+    }
+
+    private bool FileCheck(string FileName) 
     {
         string[] a = AssetDatabase.FindAssets(FileName , new[] {"Assets/10.Data/Units/"});
 
@@ -111,20 +162,8 @@ public class UnitMaker : EditorWindow
         } 
         return false;
     }
-    
-    // GameObject FindObject(string ObjectName)
-    // {
-    //     string[] a = AssetDatabase.FindAssets(ObjectName , new[] {"Assets/10.Data/"});
-    //     GameObject obj = ObjectName.
 
-    //     if (a.Length == 0)
-    //     {
-    //         Debug.Log($"{ObjectName}를 찾을 수 없습니다.");
-    //         return null;
-    //     } 
-    //     return ;
-    // }
-    
+
     private void CreateScriptableObject<T>(string name) where T : ScriptableObject 
     {
         var value = unit;//ScriptableObject.CreateInstance<T>();
@@ -140,7 +179,7 @@ public class UnitMaker : EditorWindow
     { 
         Object _object = PrefabUtility.InstantiatePrefab(go);
         GameObject _gameObject = PrefabUtility.SaveAsPrefabAsset(go, "Assets/10.Data/UnitPrefabs/" + name + "Unit" + ".prefab");
-        prefab = _gameObject;
+        presetGameObject = _gameObject;
     }
 #endif
 }
