@@ -1411,6 +1411,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: 4.Main Camp
       objectReference: {fileID: 0}
+    - target: {fileID: 905447868424108025, guid: a7fd1fbc5f65b8846918f332dfb5ebdd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 905447868995663765, guid: a7fd1fbc5f65b8846918f332dfb5ebdd, type: 3}
       propertyPath: m_Color.b
       value: 1

@@ -780,7 +780,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7489714894024298332}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 85972f446c0b619489c0dd35ca3fe4c7, type: 3}
   m_Name: 
@@ -1098,6 +1098,10 @@ PrefabInstance:
     - target: {fileID: 905447868424108025, guid: a7fd1fbc5f65b8846918f332dfb5ebdd, type: 3}
       propertyPath: m_Name
       value: 7.Manu
+      objectReference: {fileID: 0}
+    - target: {fileID: 905447868424108025, guid: a7fd1fbc5f65b8846918f332dfb5ebdd, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 905447868995663765, guid: a7fd1fbc5f65b8846918f332dfb5ebdd, type: 3}
       propertyPath: m_Color.b

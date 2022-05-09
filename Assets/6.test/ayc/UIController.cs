@@ -1,17 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UIController : Singleton<UIController>
 {
-    public Canvas canvas;
-
     public GameObject[] pagePrefab;
-    public GameObject initialPage;
-    public GameObject currentPage;
-    
-    private void Start()
+
+    public int maxPageNumber;
+
+    [HideInInspector] public int pageNumber = 0;
+
+    public void OnClickBtn()
     {
-        currentPage = Instantiate(initialPage, canvas.transform);
+        if(pageNumber < maxPageNumber) {
+            pagePrefab[pageNumber].gameObject.SetActive(false);
+            pageNumber += 1;
+            pagePrefab[pageNumber].gameObject.SetActive(true);
+        }
+        else {
+            return;
+        }
     }
 }
