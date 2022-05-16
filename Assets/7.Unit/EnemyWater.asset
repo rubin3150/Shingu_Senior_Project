@@ -22,7 +22,7 @@ MonoBehaviour:
   spawnCoolTime: 3
   attackRangeStat: 0
   attackDelayStat: 3
-  pushRange: 10
-  criRate: 0
-  criDamage: 0
+  pushRange: 5
+  criRate: 15
+  criDamage: 120
   type: 

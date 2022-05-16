@@ -18,6 +18,8 @@ public class Enemy : MonoBehaviour
     public float attack;
     public float attackRange;
     public float arrackDelay;
+    public float criRate;
+    public int criDamage;
     
     public LayerMask layerMask;
 
@@ -52,6 +54,8 @@ public class Enemy : MonoBehaviour
         attackRange = unit.attackRangeStat;
         arrackDelay = unit.attackDelayStat;
         pushRange = unit.pushRange;
+        criRate = unit.criRate;
+        criDamage = unit.criDamage;
         isMove = true;
     }
 
@@ -111,30 +115,61 @@ public class Enemy : MonoBehaviour
     private void Attack()
     {
         _isAttack = true;
-        AttackDealy();
+        AttackDelay();
     }
 
-    private void AttackDealy()
+    private void AttackDelay()
     {
-        if (_ray.transform.tag == "Player")
+        int r = Random.Range(1, 101);
+     
+        if (r <= criRate)
         {
-            _ray.transform.GetComponent<Player>().UpdateHpBar(attack);
-            _hitPos = new Vector3(3f, 1, 0);
-        }
-        else if (_ray.transform.tag == "Unit")
-        {
-            _ray.transform.GetComponent<UnitMove>().UpdateHpBar(attack, true);
+            float criticalDamage = attack * (criDamage * 0.1f);
+            
+            if (_ray.transform.tag == "Player")
+            {
+                _ray.transform.GetComponent<Player>().UpdateHpBar(criticalDamage);
+                _hitPos = new Vector3(3f, 1, 0);
+            }
+            else if (_ray.transform.tag == "Unit")
+            {
+                _ray.transform.GetComponent<UnitMove>().UpdateHpBar(criticalDamage, true);
 
-            if (_ray.transform.GetComponent<UnitMove>().unit.unitName == "팅커벨")
-            {
-                // Debug.Log("팅커벨 발견");
-                _hitPos = new Vector3(3f, 4, 0);
-            }
-            else
-            {
-                _hitPos = new Vector3(1f, -1, 0);
+                if (_ray.transform.GetComponent<UnitMove>().unit.unitName == "팅커벨")
+                {
+                    // Debug.Log("팅커벨 발견");
+                    _hitPos = new Vector3(3f, 4, 0);
+                }
+                else
+                {
+                    _hitPos = new Vector3(1f, -1, 0);
+                }
+                _ray.transform.position -= new Vector3(_ray.transform.GetComponent<UnitMove>().pushRange, 0f, 0f);
             }
         }
+        else
+        {
+            if (_ray.transform.tag == "Player")
+            {
+                _ray.transform.GetComponent<Player>().UpdateHpBar(attack);
+                _hitPos = new Vector3(3f, 1, 0);
+            }
+            else if (_ray.transform.tag == "Unit")
+            {
+                _ray.transform.GetComponent<UnitMove>().UpdateHpBar(attack, true);
+
+                if (_ray.transform.GetComponent<UnitMove>().unit.unitName == "팅커벨")
+                {
+                    // Debug.Log("팅커벨 발견");
+                    _hitPos = new Vector3(3f, 4, 0);
+                }
+                else
+                {
+                    _hitPos = new Vector3(1f, -1, 0);
+                }
+            }
+        }
+        
         
         // Debug.Log(_ray.transform.position);
         

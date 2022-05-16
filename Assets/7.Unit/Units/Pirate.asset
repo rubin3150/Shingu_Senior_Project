@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Pirate
   m_EditorClassIdentifier: 
   unitName: "\uD574\uC801"
-  unitImage: {fileID: 21300000, guid: 4f3b452ace10b9a41ad4f4d0754ed55f, type: 3}
+  unitImage: {fileID: 21300000, guid: c460555869a6f03469e729bde56d0dae, type: 3}
   unitPrefab: {fileID: 1609125915385617593, guid: c0f793c8c4aec044f8bbfa807319334f, type: 3}
   moonEnergy: 30
   hpStat: 100

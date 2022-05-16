@@ -22,6 +22,9 @@ public class FadeIn : MonoBehaviour
     
     // 퀵슬롯 배경 이미지의 위치를 담을 변수
     [SerializeField] private RectTransform quickBackImage;
+    
+    // 퀵슬롯의 이미지를 담을 변수 
+    [SerializeField] private RectTransform[] quickSlotImage;
     // 퀵슬롯 이미지들의 위치
     [SerializeField] private RectTransform quickSlotUnits;
     // 달빛 에너지 이미지의 위치를 담을 변수
@@ -33,6 +36,10 @@ public class FadeIn : MonoBehaviour
     
     // Fade 이미지를 담을 변수
     [SerializeField] private Image fadeImage;
+    
+    
+    [SerializeField] private RectTransform[] skillBorderImage;
+    [SerializeField] private RectTransform[] skillImage;
 
     // 실제 시간을 담을 변수
     private float _time;
@@ -118,9 +125,23 @@ public class FadeIn : MonoBehaviour
 
             quickSlotUnits.localPosition = new Vector3(-420f, 0f, 0);
             // 달빛 에너지 이미지 위치 변경
-            moonEnergyImage.localPosition = new Vector3(-435f, -290f, 0);
-            // 스킬 이미지 위치 변경
-            skillBackImage.localPosition = new Vector3(630, -440, 0);
+            moonEnergyImage.localPosition = new Vector3(-450f, -315f, 0);
+            
+            skillBackImage.GetComponent<Image>().enabled = false;
+
+            for (int i = 0; i < quickSlotImage.Length; i++)
+            {
+                quickSlotImage[i].localPosition = new Vector3(-395 + 185 * i, -17.5f, 0);
+            }
+
+            for (int i = 0; i < skillBorderImage.Length; i++)
+            {
+                skillBorderImage[i].sizeDelta = new Vector2(243, 256);
+                skillBorderImage[i].localPosition = new Vector3(-430 + 265 * i, -210, 0);
+                skillImage[i].sizeDelta = new Vector2(140, 140);
+            }
+
+            //  -265 -210
 
             // 함수 호출
             stageManager.SetActiveUnitText();

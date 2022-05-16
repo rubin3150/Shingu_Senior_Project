@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
 using Effekseer;
+using Random = UnityEngine.Random;
 
 public class UnitMove : MonoBehaviour
 {
@@ -205,6 +206,7 @@ public class UnitMove : MonoBehaviour
             }
             else
             {
+                Debug.Log(1);
                 StartCoroutine(FadeUnit());
             }
         }
@@ -347,16 +349,35 @@ public class UnitMove : MonoBehaviour
 
     private void AttackDelay()
     {
-        if (_ray.transform.tag == "Tower")
+        int r = Random.Range(1, 101);
+
+        if (r < criRate)
         {
-            _ray.transform.GetComponent<Tower>().UpdateHpBar(attack);
+            float criticalDamage = attack * (criDamage * 0.1f);
+            
+            if (_ray.transform.tag == "Tower")
+            {
+                _ray.transform.GetComponent<Tower>().UpdateHpBar(criticalDamage);
+            }
+            else if (_ray.transform.tag == "Enemy")
+            {
+                _ray.transform.GetComponent<Enemy>().UpdateHpBar(criticalDamage);
+                _ray.transform.position += new Vector3(_ray.transform.GetComponent<Enemy>().pushRange, 0f, 0f);
+            }
         }
-        else if (_ray.transform.tag == "Enemy")
+        else
         {
-            _ray.transform.GetComponent<Enemy>().UpdateHpBar(attack);
-            // UpdateHpBar(_ray.transform.GetComponent<Enemy>().attack);
+            if (_ray.transform.tag == "Tower")
+            {
+                _ray.transform.GetComponent<Tower>().UpdateHpBar(attack);
+            }
+            else if (_ray.transform.tag == "Enemy")
+            {
+                _ray.transform.GetComponent<Enemy>().UpdateHpBar(attack);
+                // UpdateHpBar(_ray.transform.GetComponent<Enemy>().attack);
+            }
         }
-        
+
         GameObject go = Instantiate(hit_Effect, _ray.transform.position - new Vector3(3.5f, 0, 0), Quaternion.identity);
         go.GetComponent<EffekseerEmitter>().Play();
 
