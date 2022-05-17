@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: "\uD305\uCEE4\uBCA8"
   unitImage: {fileID: 21300000, guid: 46d84216598193e40bcdd160eeb1a8bb, type: 3}
-  unitPrefab: {fileID: 4189524642995771099, guid: 535450894c97d1d44ad776cfea4794f0, type: 3}
+  unitPrefab: {fileID: 456347407088691645, guid: 8b97cd36f00160143a60a8a7748aa401, type: 3}
   moonEnergy: 20
   hpStat: 100
   attackStat: 40

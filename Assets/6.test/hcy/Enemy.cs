@@ -26,6 +26,8 @@ public class Enemy : MonoBehaviour
     public GameObject hit_Effect;
 
     private RaycastHit2D _ray;
+    
+    private RaycastHit2D _currentRay;
 
     private bool _isAttack;
 
@@ -93,14 +95,16 @@ public class Enemy : MonoBehaviour
     {
         // _rays = Physics2D.BoxCastAll(transform.position, new Vector2(7.5f,18), 0, Vector2.left, attackRange, layerMask);
         _ray = Physics2D.BoxCast(transform.position, new Vector2(7.5f,18), 0, Vector2.left, attackRange, layerMask);
-    
+        
         // ray를 rays로 변경
         if (_ray.collider != null)
         {
+            // Debug.Log("아군 발견");
             donMove = true;
 
             if (!_isAttack)
             {
+                _currentRay = _ray;
                 Attack();
             }
             
@@ -121,9 +125,11 @@ public class Enemy : MonoBehaviour
     private void AttackDelay()
     {
         int r = Random.Range(1, 101);
-     
+        
         if (r <= criRate)
         {
+            // Debug.Log("적이 치명타 공격함");
+            
             float criticalDamage = attack * (criDamage * 0.1f);
             
             if (_ray.transform.tag == "Player")
@@ -151,6 +157,7 @@ public class Enemy : MonoBehaviour
         {
             if (_ray.transform.tag == "Player")
             {
+                Debug.Log(1);
                 _ray.transform.GetComponent<Player>().UpdateHpBar(attack);
                 _hitPos = new Vector3(3f, 1, 0);
             }
@@ -173,10 +180,10 @@ public class Enemy : MonoBehaviour
         
         // Debug.Log(_ray.transform.position);
         
-        GameObject go = Instantiate(hit_Effect, _ray.transform.position + _hitPos, Quaternion.identity);
-        go.GetComponent<EffekseerEmitter>().Play();
-        
-        Destroy(go, 1.5f);
+        // GameObject go = Instantiate(hit_Effect, _ray.transform.position + _hitPos, Quaternion.identity);
+        // go.GetComponent<EffekseerEmitter>().Play();
+        //
+        // Destroy(go, 1.5f);
         
         // _isAttack = false;
         

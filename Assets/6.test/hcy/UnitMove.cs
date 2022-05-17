@@ -33,6 +33,8 @@ public class UnitMove : MonoBehaviour
     public float pushRange;
 
     private RaycastHit2D _ray;
+    
+    private RaycastHit2D _currentRay;
 
     private bool _isAttack;
 
@@ -146,6 +148,7 @@ public class UnitMove : MonoBehaviour
             
             if (!_isAttack)
             {
+                _currentRay = _ray;
                 Attack();
             }
         }
@@ -338,13 +341,17 @@ public class UnitMove : MonoBehaviour
 
     private void Attack()
     { 
+        _isAttack = true;
         if (animator != null)
         {
             animator.SetBool("Attack", true);
             Invoke("ResetAttackAnim", 0.5f);
+            Invoke("AttackDelay", 0.25f);
         }
-        _isAttack = true;
-        AttackDelay();
+        else
+        {
+            AttackDelay();
+        }
     }
 
     private void AttackDelay()
@@ -353,6 +360,7 @@ public class UnitMove : MonoBehaviour
 
         if (r < criRate)
         {
+            // Debug.Log("유닛이 치명타 ");
             float criticalDamage = attack * (criDamage * 0.1f);
             
             if (_ray.transform.tag == "Tower")
@@ -377,10 +385,15 @@ public class UnitMove : MonoBehaviour
                 // UpdateHpBar(_ray.transform.GetComponent<Enemy>().attack);
             }
         }
-
+        
         GameObject go = Instantiate(hit_Effect, _ray.transform.position - new Vector3(3.5f, 0, 0), Quaternion.identity);
         go.GetComponent<EffekseerEmitter>().Play();
 
         Destroy(go, 1.5f);
+    }
+
+    private void ShowEffect()
+    {
+        
     }
 }
