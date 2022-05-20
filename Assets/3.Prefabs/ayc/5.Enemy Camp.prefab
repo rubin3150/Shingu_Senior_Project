@@ -93,7 +93,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 905447868424108025, guid: a7fd1fbc5f65b8846918f332dfb5ebdd, type: 3}
       propertyPath: m_Name
-      value: 6.Enemy Camp
+      value: 5.Enemy Camp
       objectReference: {fileID: 0}
     - target: {fileID: 905447868424108025, guid: a7fd1fbc5f65b8846918f332dfb5ebdd, type: 3}
       propertyPath: m_IsActive
@@ -110,6 +110,10 @@ PrefabInstance:
     - target: {fileID: 905447868995663765, guid: a7fd1fbc5f65b8846918f332dfb5ebdd, type: 3}
       propertyPath: m_Color.r
       value: 0.92941177
+      objectReference: {fileID: 0}
+    - target: {fileID: 905447869020808043, guid: a7fd1fbc5f65b8846918f332dfb5ebdd, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 905447869020808044, guid: a7fd1fbc5f65b8846918f332dfb5ebdd, type: 3}
       propertyPath: m_SizeDelta.x
@@ -133,6 +137,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 905447869900531545, guid: a7fd1fbc5f65b8846918f332dfb5ebdd, type: 3}
       propertyPath: m_Text
+      value: "\uC804\uD22C \uC2DC\uC791"
+      objectReference: {fileID: 0}
+    - target: {fileID: 1441383064134839039, guid: a7fd1fbc5f65b8846918f332dfb5ebdd, type: 3}
+      propertyPath: m_text
       value: "\uC804\uD22C \uC2DC\uC791"
       objectReference: {fileID: 0}
     - target: {fileID: 3690448329021737414, guid: a7fd1fbc5f65b8846918f332dfb5ebdd, type: 3}
