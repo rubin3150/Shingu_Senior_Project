@@ -7,8 +7,6 @@ public class CameraMove : Singleton<CameraMove>
     public Camera cam;
     public float zoomSpeed = -5f;
     public bool isMove = true;
-
-    public bool IsMove;
     private Vector2 m_Input;
 
     private void Update()
