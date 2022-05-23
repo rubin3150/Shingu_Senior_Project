@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,9 +7,9 @@ public class UnitToolTip : MonoBehaviour
 {
     [SerializeField] private GameObject goBase;
         
-    [SerializeField] private TextMeshProUGUI txtUnitName;
-    [SerializeField] private TextMeshProUGUI txtUnitDesc;
-    [SerializeField] private TextMeshProUGUI txtUnitHowToUsed;
+    [SerializeField] private Text txtUnitName;
+    [SerializeField] private Text txtUnitDesc;
+    [SerializeField] private Text txtUnitHowToUsed;
 
     public StageManager stageManager;
     

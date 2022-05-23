@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c2c0b1638d628b48aa62ffee1ed9eb9, type: 3}
+  m_Name: Jean
+  m_EditorClassIdentifier: 
+  unitName: Jean
+  unitImage: {fileID: 21300000, guid: d4b2286d43a66bd4b9065bdf417303b9, type: 3}
+  unitPrefab: {fileID: 1609125915385617593, guid: 516847ee8188d554eaf693f7be352f70, type: 3}
+  moonEnergy: 50
+  hpStat: 90
+  attackStat: 50
+  speedStat: 9
+  spawnCoolTime: 5
+  attackRangeStat: 0
+  attackDelayStat: 3
+  pushRange: 10

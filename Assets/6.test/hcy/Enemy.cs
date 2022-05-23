@@ -130,11 +130,10 @@ public class Enemy : MonoBehaviour
         {
             // Debug.Log("적이 치명타 공격함");
             
-            float criticalDamage = attack * (criDamage * 0.01f);
+            float criticalDamage = attack * (criDamage * 0.1f);
             
             if (_ray.transform.tag == "Player")
             {
-                Debug.Log(criticalDamage);
                 _ray.transform.GetComponent<Player>().UpdateHpBar(criticalDamage);
                 _hitPos = new Vector3(3f, 1, 0);
             }
@@ -158,7 +157,7 @@ public class Enemy : MonoBehaviour
         {
             if (_ray.transform.tag == "Player")
             {
-                // Debug.Log(1);
+                Debug.Log(1);
                 _ray.transform.GetComponent<Player>().UpdateHpBar(attack);
                 _hitPos = new Vector3(3f, 1, 0);
             }
@@ -181,10 +180,10 @@ public class Enemy : MonoBehaviour
         
         // Debug.Log(_ray.transform.position);
         
-        GameObject go = Instantiate(hit_Effect, _ray.transform.position + _hitPos, Quaternion.identity);
-        go.GetComponent<EffekseerEmitter>().Play();
-        
-        Destroy(go, 1.5f);
+        // GameObject go = Instantiate(hit_Effect, _ray.transform.position + _hitPos, Quaternion.identity);
+        // go.GetComponent<EffekseerEmitter>().Play();
+        //
+        // Destroy(go, 1.5f);
         
         // _isAttack = false;
         

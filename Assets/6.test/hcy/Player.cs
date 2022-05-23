@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -42,10 +41,6 @@ public class Player : MonoBehaviour
     
     [SerializeField] private BoxCollider2D boxCol;
 
-    [SerializeField] private TextMeshProUGUI hpTxt;
-
-    [SerializeField] private Image hpTxtImage;
-
     #endregion
     
     /// <summary>
@@ -58,7 +53,6 @@ public class Player : MonoBehaviour
         stagePlayerImage.sprite = playerSet.playerImages[playerSet.playerNum];
         quickSlotSetPlayerImage.sprite = playerSet.playerImages[playerSet.playerNum];
         speedStat = playerSet.speedStat[playerSet.playerNum];
-        hpTxt.text = hpStat + "/" + playerSet.maxHpStat[playerSet.playerNum];
     }
 
     /// <summary>
@@ -131,10 +125,7 @@ public class Player : MonoBehaviour
         Invoke("ResetImageAlpha", 0.5f);
         hpStat -= damage;
 
-        hpTxt.text = hpStat + "/" + playerSet.maxHpStat[playerSet.playerNum];
-
-        hpTxtImage.fillAmount = hpStat / playerSet.maxHpStat[playerSet.playerNum];
-
+        // hpText.text = nowHpStat + " / " + unit.hpStat;
         // 체력 게이지 값 설정.
         hpImage.fillAmount = hpStat / playerSet.maxHpStat[playerSet.playerNum];
 
