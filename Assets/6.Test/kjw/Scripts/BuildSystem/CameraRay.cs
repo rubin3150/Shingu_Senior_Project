@@ -5,8 +5,8 @@ using UnityEngine;
 public class CameraRay : MonoBehaviour
 {
     private GameObject prefab;
-    public const int w = 21;
-    public const int h = 21;
+    public const int w = 13;
+    public const int h = 13;
     public bool[,] isTrue = new bool[w, h];
 
     public int pickScaleX;
@@ -25,6 +25,9 @@ public class CameraRay : MonoBehaviour
 
     private Ray ray;
     private RaycastHit hit;
+
+    [SerializeField] private int lockNumW;
+    [SerializeField] private int lockNumH;
 
     private void Start()
     {
@@ -50,6 +53,28 @@ public class CameraRay : MonoBehaviour
                 pickObject = null;
             }
         }
+
+        if(Input.GetKeyDown(KeyCode.A))
+        {
+            if(lockNumH <= w)
+            {
+                for (int i = lockNumH; i < w; i++)
+                {
+                    LockBlocks(i, i, true);
+                }
+            }
+        }
+
+        if(Input.GetKeyDown(KeyCode.S))
+        {
+            if(lockNumH <= w)
+            {
+                for (int i = lockNumH; i < w; i++)
+                {
+                    LockBlocks(i, i, false);
+                }
+            }
+        }
     }
 
     private void OnClick()
@@ -58,7 +83,7 @@ public class CameraRay : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, 50f, IgnoreLayerMask))
         {
-            index = int.Parse(hit.transform.parent.name);
+            //index = int.Parse(hit.transform.parent.name);
             //Debug.Log(index / h + i - 1+ "," + index % h + j - 1);
             return;
         }
@@ -144,5 +169,13 @@ public class CameraRay : MonoBehaviour
                 isTrue[index / h + i - 1, index % h + j - 1] = isBool;
             }
         }
+    }
+
+    public void LockBlocks(int w, int h, bool _bool)
+    {
+        for (int i = 0; i < w; i++)
+            for (int j = 0; j < h; j++)
+                if (i == w - 1 || j == h - 1)
+                    isTrue[i, j] = _bool;
     }
 }
