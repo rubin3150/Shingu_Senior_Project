@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -22,11 +23,11 @@ public class SelectUnitBase : MonoBehaviour
     [SerializeField] private Player player;
     
     // 유닛 선택시 확인 메시지를 담을 텍스트 변수
-    [SerializeField] private Text confirmationTxt;
+    [SerializeField] private TextMeshProUGUI confirmationTxt;
     // 페이지 텍스트를 담을 변수
-    [SerializeField] private Text pageText;
+    [SerializeField] private TextMeshProUGUI pageText;
     // 플레이어 정보 텍스트를 담을 변수
-    [SerializeField] private Text playerInfoText;
+    [SerializeField] private TextMeshProUGUI playerInfoText;
     
     // 퀵슬롯의 스크립트를 관리할 변수 
     public UnitSlot[] quickSlot;
@@ -217,7 +218,7 @@ public class SelectUnitBase : MonoBehaviour
                 startFlag = false;
                 
                 // i번째 퀵슬롯의 스크립트에서 함수 호출
-                quickSlot[i].StartBtnColorSet(155f, 0.5f);
+                quickSlot[i].StartBtnColorSet(155f, 0.5f, 60);
             }
             // i번째 퀵슬롯의 유닛이 있다면 아래 코드 실행 (퀵슬롯에 유닛이 하나라도 있다면)
             else
@@ -325,7 +326,7 @@ public class SelectUnitBase : MonoBehaviour
         if (_page < maxUnit.Length / (maxUnit.Length / 2))
         {
             _page++;
-            pageText.text = "< " + _page + "/" + maxUnit.Length / (maxUnit.Length / 2) + " >";
+            pageText.text = _page + "/" + maxUnit.Length / (maxUnit.Length / 2);
             leftArrow.color = new Color(255f / 255f, 255f / 255f, 255f / 255f, 255f / 255f);
             PageSetting();
         }
@@ -337,7 +338,7 @@ public class SelectUnitBase : MonoBehaviour
         if (_page > 1)
         {
             _page--;
-            pageText.text = "< " + _page + "/" + maxUnit.Length / (maxUnit.Length / 2) + " >";
+            pageText.text = _page + "/" + maxUnit.Length / (maxUnit.Length / 2);
             leftArrow.color = new Color(100f / 255f, 100f / 255f, 100f / 255f, 155f / 255f);
             PageSetting();
             

@@ -1,9 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Effekseer;
 
 public class StageManager : MonoBehaviour
 {
@@ -22,12 +24,36 @@ public class StageManager : MonoBehaviour
 
     [SerializeField] private Skill skill;
 
+    [SerializeField] private GameObject stopUI;
+
+    public bool isStop;
+
     public float maxMoonEnergy;
     public float nowMoonEnergy;
+    public float maxMana;
+    public float nowMana;
+    
     public Image maxMoonEnergyImage;
-    public Text moonText;
+    public Image manaImage;
+        
+    public TextMeshProUGUI moonText;
+    public TextMeshProUGUI manaText;
 
     public float moonEnergySpeed;
+    
+    public float manaSpeed;
+
+    [SerializeField] private Transform point;
+    
+    [SerializeField] private Collider2D[] player;
+    
+    [SerializeField] private float range;
+
+    [SerializeField] private LayerMask unitLayer;
+
+    private bool isPlayer;
+
+    [SerializeField] private Transform playerTf;
 
     public void SetActiveUnitText()
     {
@@ -55,9 +81,15 @@ public class StageManager : MonoBehaviour
 
     private void Update()
     {
-        if (inStage == true)
+        if (inStage == true && isStop == false)
         {
+            CheckPlayer();
             UpdateMoonBar();
+
+            if (isPlayer == true)
+            {
+                UpdateManaBar();
+            }
             
             if (Input.GetKeyDown(KeyCode.A))
             {
@@ -93,7 +125,7 @@ public class StageManager : MonoBehaviour
         }
     }
     
-    public void UpdateMoonBar()
+    private void UpdateMoonBar()
     {
         if (nowMoonEnergy >= 100)
         {
@@ -108,5 +140,62 @@ public class StageManager : MonoBehaviour
         maxMoonEnergyImage.fillAmount = nowMoonEnergy / maxMoonEnergy;
         
         // 텍스트는 now값의 버림 소수점 제거한 값만 받음
+    }
+
+    private void CheckPlayer()
+    {
+        player = Physics2D.OverlapCircleAll(point.transform.position, range, unitLayer);
+            
+        for (int i = 0; i < player.Length; i++)
+        {
+            Transform _targetTf = player[i].transform;
+
+            if (_targetTf.transform.tag == "Player")
+            {
+                isPlayer = true;
+            }
+        }
+        
+        //24.5
+        if (isPlayer == true)
+        {
+            float dis = Vector2.Distance(point.transform.position, playerTf.position);
+
+            if (dis >= 24.5f)
+            {
+                isPlayer = false;
+            }
+        }
+    }
+    
+    public void UpdateManaBar()
+    {
+        if (nowMana >= 100)
+        {
+            nowMana = 100;
+        }
+        else
+        {
+            nowMana += manaSpeed * Time.deltaTime;
+        }
+        manaText.text = Mathf.Floor(nowMana) + " / " + maxMana;
+        // 체력 게이지 값 설정.
+        manaImage.fillAmount = nowMana / maxMana;
+        
+        // 텍스트는 now값의 버림 소수점 제거한 값만 받음
+    }
+
+    public void StopUIBtn()
+    {
+        stopUI.SetActive(true);
+        Time.timeScale = 0;
+        isStop = true;
+    }
+
+    public void RestartUIBtn()
+    {
+        stopUI.SetActive(false);
+        Time.timeScale = 1;
+        isStop = false;
     }
 }

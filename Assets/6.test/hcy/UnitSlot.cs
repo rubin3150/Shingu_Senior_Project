@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
@@ -27,7 +28,7 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [SerializeField] private GameObject parentTrans;
     
     // 전투 시작 텍스트 오브젝트를 담을 변수
-    [SerializeField] private Text startText;
+    [SerializeField] private TextMeshProUGUI startText;
 
     public UnitToolTip unitToolTip;
 
@@ -87,7 +88,7 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         SetColor(0.5f);
         
         // 함수 호출
-        StartBtnColorSet(255f, 1);
+        StartBtnColorSet(255f, 1, 255f);
 
         // 함수 호출
         selectUnitBase.AddQuickSlot(unit);
@@ -96,13 +97,13 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     /// <summary>
     /// 전투 시작 버튼과 전투 시작 텍스트의 알파값을 조절할 함수
     /// </summary>
-    public void StartBtnColorSet(float btnAlpha, float textAlpha)
+    public void StartBtnColorSet(float btnAlpha, float textAlpha, float textMeshAlpha)
     {
         // 전투 시작 버튼 알파 값 조절
         startBtn.GetComponent<Image>().color = new Color(100f / 255f, 100f / 255f, 100f / 255f, btnAlpha / 255f);
         
         // 전투 시작 글자 알파 값 조절
-        startText.color = new Color(1, 1, 1, textAlpha);
+        startText.color = new Color(1, 1, 1, textMeshAlpha / 255f);
     }
 
     /// <summary>
@@ -175,7 +176,7 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void SpawnUnit(int num)
     {
-        if (!coolTimeManager.isCoolTime[num - 1])
+        if (!coolTimeManager.isCoolTime[num - 1] && stageManager.isStop == false)
         {
             if (stageManager.nowMoonEnergy >= unit.moonEnergy)
             {
