@@ -21,6 +21,7 @@ public class CameraRay : MonoBehaviour
     private GameObject dummyGameObject;
     private int wallLayerMask = 1 << 6;
     private int unitLayerMask = 1 << 7;
+    private int IgnoreLayerMask = 1 << 11;
 
     private Ray ray;
     private RaycastHit hit;
@@ -54,6 +55,13 @@ public class CameraRay : MonoBehaviour
     private void OnClick()
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit, 50f, IgnoreLayerMask))
+        {
+            index = int.Parse(hit.transform.parent.name);
+            //Debug.Log(index / h + i - 1+ "," + index % h + j - 1);
+            return;
+        }
 
         //fix require
         if (Physics.Raycast(ray, out hit, 50f, unitLayerMask))
@@ -96,6 +104,11 @@ public class CameraRay : MonoBehaviour
         if (pickObject == null) return;
 
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit, 50f, IgnoreLayerMask))
+        {
+            return;
+        }
 
         if (Physics.Raycast(ray, out hit, float.MaxValue, wallLayerMask))
         {
