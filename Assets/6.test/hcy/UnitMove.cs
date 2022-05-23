@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
 using Effekseer;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class UnitMove : MonoBehaviour
@@ -12,7 +13,8 @@ public class UnitMove : MonoBehaviour
     public float moveSpeed;
     public float attack;
     public float attackRange;
-    public float arrackDelay;
+    public float pushResist;
+    public float attackDelay;
     public float criRate;
     public int criDamage;
     public float maxHp;
@@ -87,7 +89,7 @@ public class UnitMove : MonoBehaviour
                     // animator.SetBool("Attack", false);
                     _currentDelay += Time.deltaTime;
 
-                    if (_currentDelay >= arrackDelay)
+                    if (_currentDelay >= attackDelay)
                     {
                         _isAttack = false;
                         _currentDelay = 0;
@@ -114,8 +116,9 @@ public class UnitMove : MonoBehaviour
                     maxHp = unit.hpStat;
                     attack = unit.attackStat;
                     attackRange = unit.attackRangeStat;
-                    arrackDelay = unit.attackDelayStat;
+                    attackDelay = unit.attackDelayStat;
                     pushRange = unit.pushRange;
+                    pushResist = unit.pushResist;
                     unitType = unit.type;
                     criRate = unit.criRate;
                     criDamage = unit.criDamage;
@@ -209,7 +212,6 @@ public class UnitMove : MonoBehaviour
             }
             else
             {
-                Debug.Log(1);
                 StartCoroutine(FadeUnit());
             }
         }
@@ -361,7 +363,7 @@ public class UnitMove : MonoBehaviour
         if (r < criRate)
         {
             // Debug.Log("유닛이 치명타 ");
-            float criticalDamage = attack * (criDamage * 0.1f);
+            float criticalDamage = attack * (criDamage * 0.01f);
             
             if (_ray.transform.tag == "Tower")
             {

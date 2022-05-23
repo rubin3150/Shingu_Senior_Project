@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c2c0b1638d628b48aa62ffee1ed9eb9, type: 3}
-  m_Name: Tigerlily
+  m_Name: Alice
   m_EditorClassIdentifier: 
-  unitName: "\uD0C0\uC774\uAC70 \uB9B4\uB9AC"
-  unitImage: {fileID: 21300000, guid: 6aa8db697306169498ebf8dcdd5e0a57, type: 3}
-  unitPrefab: {fileID: 1609125915385617593, guid: cadfc4567f7bae04c8af4aeb8a511cd9, type: 3}
-  moonEnergy: 10
+  unitName: "\uC568\uB9AC\uC2A4"
+  unitImage: {fileID: 21300000, guid: aa28bcad7cecc784292ec10db9f59218, type: 3}
+  unitPrefab: {fileID: 1609125915385617593, guid: 6e73df8a38c71154e851d7a0b6e4cca3, type: 3}
+  moonEnergy: 90
   hpStat: 100
   attackStat: 40
   speedStat: 5

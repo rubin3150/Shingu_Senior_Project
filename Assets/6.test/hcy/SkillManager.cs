@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using Effekseer;
+using TMPro;
 using UnityEngine.SocialPlatforms;
 
 public class SkillManager : MonoBehaviour
@@ -22,9 +23,9 @@ public class SkillManager : MonoBehaviour
     
     [SerializeField] private GameObject goBase;
         
-    [SerializeField] private Text txtSkillName;
-    [SerializeField] private Text txtSkillDesc;
-    [SerializeField] private Text txtSkillHowToUsed;
+    [SerializeField] private TextMeshProUGUI txtSkillName;
+    [SerializeField] private TextMeshProUGUI txtSkillDesc;
+    [SerializeField] private TextMeshProUGUI txtSkillHowToUsed;
     
     // 스킬 마다 다른 이펙트 설정
     public EffekseerEmitter[] skillEffect;
@@ -94,7 +95,7 @@ public class SkillManager : MonoBehaviour
         
         if (currentSkillNum == 0)
         {
-            txtSkillDesc.text += "\n스킬 가이드 : 사거리 내에 있는 모든 탱커 유\n닛의 체력을 " + playerSet.addStat[currentSkillNum] + "만큼 상승시킨다";
+            txtSkillDesc.text += "\n스킬 가이드 : 사거리 내에 있는 모든 힐러 유닛 회복력을 " + playerSet.addStat[0] + "," + "모든 근거리 딜러 유닛 공격력을 " + playerSet.addStat[1] + "," + "모든 원거리 딜러 유닛 치명타 확률을 " + playerSet.addStat[2] + "," + "모든 탱커 유닛의 넉백 저항 수치를 " + playerSet.addStat[3] + ", " + "모든 유닛들의 이동속도를 " + playerSet.addStat[4] + "만큼 증가 시킨다";
         }
         else if (currentSkillNum == 1)
         {
@@ -134,36 +135,27 @@ public class SkillManager : MonoBehaviour
     
     public void UseSkill(int skillNum)
     {
-        if (stageManager.inStage == true)
+        if (stageManager.inStage == true && stageManager.isStop == false)
         {
             if (skillNum == 0 && isActive[0] == true)
             {
-                if (stageManager.nowMoonEnergy >= playerSet.skillMoonEnergy[skillNum])
+                if (stageManager.nowMana >= playerSet.skillMoonEnergy[skillNum])
                 {
-                    ResetMaintain(1);
-                    ResetMaintain(2);
-
                     // 첫번째 스킬 호출
                     SkillEffect(6);
                 }
             }
             else if (skillNum == 1 && isActive[1] == true)
             {
-                if (stageManager.nowMoonEnergy >= playerSet.skillMoonEnergy[skillNum])
+                if (stageManager.nowMana >= playerSet.skillMoonEnergy[skillNum])
                 {
-                    ResetMaintain(0);
-                    ResetMaintain(2);
-
                     SkillEffect(7);
                 }
             }
             else if (skillNum == 2 && isActive[2] == true)
             {
-                if (stageManager.nowMoonEnergy >= playerSet.skillMoonEnergy[skillNum])
+                if (stageManager.nowMana >= playerSet.skillMoonEnergy[skillNum])
                 {
-                    ResetMaintain(0);
-                    ResetMaintain(1);
-
                     SkillEffect(8);
                 }
             }
@@ -184,19 +176,35 @@ public class SkillManager : MonoBehaviour
     {
         if (!coolTimeManager.isCoolTime[num - 1] && isMaintain[num - 6] == false)
         {
-            stageManager.nowMoonEnergy -= playerSet.skillMoonEnergy[num - 6];
+            stageManager.nowMana -= playerSet.skillMoonEnergy[num - 6];
+            stageManager.UpdateManaBar();
+            
+            skillEffect[num - 6].Play();
 
-                for (int i = 0; i < skillImage.Length; i++)
-                {
-                    skillEffect[i].Stop();
-                }
-                
-                skillEffect[num - 6].Play();
-                
+            if (num == 6)
+            {
                 Maintain(num - 6);
+            }
+            else if (num == 7)
+            {
+                Skill2();
+            }
         }
     }
     
+    private void Skill2()
+    {
+        coolTimeManager.CoolTime(7, true);
+        
+        Invoke("HideEffect", 2f);
+    }
+
+    private void HideEffect()
+    {
+        skillEffect[1].Stop();
+     
+        
+    }
     
     public void Maintain(int num)
     {
@@ -221,20 +229,6 @@ public class SkillManager : MonoBehaviour
             }
         }
 
-        if (isMaintain[1] == true)
-        {
-            currentMaintain[1] -= Time.deltaTime;
-
-            if (currentMaintain[1] <= 0)
-            {
-                
-                skillEffect[1].Stop();
-                isMaintain[1] = false;
-                coolTimeManager.CoolTime(7, true);
-                ResetSetSkill();
-            }
-        }
-        
         if (isMaintain[2] == true)
         {
             currentMaintain[2] -= Time.deltaTime;
@@ -251,7 +245,7 @@ public class SkillManager : MonoBehaviour
     
     private void Update()
     {
-        if (stageManager.inStage == true)
+        if (stageManager.inStage == true && stageManager.isStop == false)
         {
             if (Input.GetKeyDown(KeyCode.Z))
             {
@@ -286,84 +280,13 @@ public class SkillManager : MonoBehaviour
                 if (_targetTf.transform.tag == "Unit")
                 {
                     _unitMove = _targetTf.transform.GetComponent<UnitMove>();
-                    
-                    // 탱커 버프 스킬 발동 
-                    if (_unitMove.unitType == "Tanker")
-                    {
-                        if (_unitMove.isBuff == false)
-                        {
-                            setUnits[k] = _unitMove;
-                            k++;
-                            _unitMove.isBuff = true;
-                            if (_unitMove.nowHpStat == _unitMove.maxHp)
-                            {
-                                _unitMove.maxHp += playerSet.addStat[0];
-                                _unitMove.nowHpStat += playerSet.addStat[0];
-                                _unitMove.UpdateHpBar(0, false);
-                            }
-                            else
-                            {
-                                _unitMove.nowHpStat += playerSet.addStat[0];
-                                _unitMove.UpdateHpBar(0, false);
-                            }
 
-                            _unitMove = null;
-                        }
-                    }
-                }
-            }
-            
-            // 버프 사거리 밖으로 나갈 시 아래 코드 실행 
-            for (int i = 0; i < setUnits.Length; i++)
-            {
-                if (setUnits[i] != null)
-                {
-                    if (setUnits[i].transform.tag == "Unit")
+                    if (_unitMove.unitType == "Healer")
                     {
-                        UnitMove unitMove = setUnits[i].transform.GetComponent<UnitMove>();
-                        // 탱커 버프 스킬 발동 
-                        if (unitMove.unitType == "Tanker")
-                        {
-                            if (unitMove.isBuff == true)
-                            {
-                                float dis = Vector2.Distance(transform.position, unitMove.transform.position);
-                                if (dis >= 19f)
-                                {
-                                    unitMove.isBuff = false;
-                                    if (unitMove.maxHp > unitMove.unit.hpStat)
-                                    {
-                                        unitMove.maxHp -= playerSet.addStat[0];
-                                        unitMove.nowHpStat -= playerSet.addStat[0];
-                                        unitMove.UpdateHpBar(0, false);
-                                    }
-                                    else
-                                    {
-                                        unitMove.nowHpStat -= playerSet.addStat[0];
-                                        unitMove.UpdateHpBar(0, false);
-                                    }
-                                    setUnits[i] = null;
-                                }
-                            }
-                        }
+                        
                     }
-                }
-            }
-        }
-        // 두번째 스킬이 사용중이라면 아래 코드 실행
-        else if (isMaintain[1] == true)
-        {
-            units = Physics2D.OverlapCircleAll(transform.position, range, unitLayer);
-            
-            for (int i = 0; i < units.Length; i++)
-            {
-                Transform _targetTf = units[i].transform;
-
-                if (_targetTf.transform.tag == "Unit")
-                {
-                    _unitMove = _targetTf.transform.GetComponent<UnitMove>();
-                    
-                    // 탱커 버프 스킬 발동 
-                    if (_unitMove.unitType == "Bruiser")
+                    // 근거리 딜러 유닛 능력치 증가
+                    else if (_unitMove.unitType == "Bruiser")
                     {
                         if (_unitMove.isBuff == false)
                         {
@@ -371,52 +294,12 @@ public class SkillManager : MonoBehaviour
                             k++;
                             _unitMove.isBuff = true;
                             _unitMove.attack += playerSet.addStat[1];
+                            _unitMove.moveSpeed += playerSet.addStat[4];
                             _unitMove = null;
                         }
                     }
-                }
-            }
-            
-            // 버프 사거리 밖으로 나갈 시 아래 코드 실행 
-            for (int i = 0; i < setUnits.Length; i++)
-            {
-                if (setUnits[i] != null)
-                {
-                    if (setUnits[i].transform.tag == "Unit")
-                    {
-                        UnitMove unitMove = setUnits[i].transform.GetComponent<UnitMove>();
-                        // 탱커 버프 스킬 발동 
-                        if (unitMove.unitType == "Bruiser")
-                        {
-                            if (unitMove.isBuff == true)
-                            {
-                                float dis = Vector2.Distance(transform.position, unitMove.transform.position);
-                                if (dis >= 19f)
-                                {
-                                    unitMove.isBuff = false;
-                                    unitMove.attack -= playerSet.addStat[1];
-                                    setUnits[i] = null;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        else if (isMaintain[2] == true)
-        {
-            units = Physics2D.OverlapCircleAll(transform.position, range, unitLayer);
-            
-            for (int i = 0; i < units.Length; i++)
-            {
-                Transform _targetTf = units[i].transform;
-
-                if (_targetTf.transform.tag == "Unit")
-                {
-                    _unitMove = _targetTf.transform.GetComponent<UnitMove>();
-                    
-                    // 탱커 버프 스킬 발동 
-                    if (_unitMove.unitType == "Melee")
+                    // 원거리 딜러 유닛 능력치 증가
+                    else if (_unitMove.unitType == "Melee")
                     {
                         if (_unitMove.isBuff == false)
                         {
@@ -430,6 +313,20 @@ public class SkillManager : MonoBehaviour
                             {
                                 _unitMove.criRate = 100;
                             }
+                            _unitMove.moveSpeed += playerSet.addStat[4];
+                            _unitMove = null;
+                        }
+                    }
+                    // 탱커 버프 스킬 발동 
+                    else if (_unitMove.unitType == "Tanker")
+                    {
+                        if (_unitMove.isBuff == false)
+                        {
+                            setUnits[k] = _unitMove;
+                            k++;
+                            _unitMove.isBuff = true;
+                            _unitMove.pushResist += playerSet.addStat[3];
+                            _unitMove.moveSpeed += playerSet.addStat[4];
                             _unitMove = null;
                         }
                     }
@@ -444,24 +341,66 @@ public class SkillManager : MonoBehaviour
                     if (setUnits[i].transform.tag == "Unit")
                     {
                         UnitMove unitMove = setUnits[i].transform.GetComponent<UnitMove>();
-                        // 탱커 버프 스킬 발동 
-                        if (unitMove.unitType == "Melee")
+                        
+                        if (setUnits[i].transform.tag == "Unit")
                         {
-                            if (unitMove.isBuff == true)
+                            if (unitMove.unitType == "Healer")
                             {
-                                float dis = Vector2.Distance(transform.position, unitMove.transform.position);
-                                if (dis >= 19f)
+                                
+                            }
+                            // 탱커 버프 스킬 발동 
+                            else if (unitMove.unitType == "Bruiser")
+                            {
+                                if (unitMove.isBuff == true)
                                 {
-                                    unitMove.isBuff = false;
-                                    if (unitMove.criRate > unitMove.unit.criRate)
+                                    float dis = Vector2.Distance(transform.position, unitMove.transform.position);
+                                    
+                                    if (dis >= 19f)
                                     {
-                                        unitMove.criRate -= playerSet.addStat[2];
+                                        unitMove.isBuff = false;
+                                        unitMove.attack -= playerSet.addStat[1];
+                                        unitMove.moveSpeed -= playerSet.addStat[4];
+                                        setUnits[i] = null;
                                     }
-                                    setUnits[i] = null;
+                                }
+                            }
+                            // 원거리 딜러 유닛 능력치 감소
+                            else if (unitMove.unitType == "Melee")
+                            {
+                                if (unitMove.isBuff == true)
+                                {
+                                    float dis = Vector2.Distance(transform.position, unitMove.transform.position);
+                                    if (dis >= 19f)
+                                    {
+                                        unitMove.isBuff = false;
+                                        if (unitMove.criRate > unitMove.unit.criRate)
+                                        {
+                                            unitMove.criRate -= playerSet.addStat[2];
+                                        }
+                                        unitMove.moveSpeed -= playerSet.addStat[4];
+                                        setUnits[i] = null;
+                                    }
+                                }
+                            }
+                            // 탱커 버프 스킬 발동 
+                            else if (unitMove.unitType == "Tanker")
+                            {
+                                if (unitMove.isBuff == true)
+                                {
+                                    float dis = Vector2.Distance(transform.position, unitMove.transform.position);
+                                    
+                                    if (dis >= 19f)
+                                    {
+                                        unitMove.isBuff = false;
+                                        unitMove.pushResist -= playerSet.addStat[3];
+                                        unitMove.moveSpeed -= playerSet.addStat[4];
+                                        setUnits[i] = null;
+                                    }
                                 }
                             }
                         }
                     }
+                    
                 }
             }
         }
@@ -479,25 +418,10 @@ public class SkillManager : MonoBehaviour
                 if (setUnits[i].transform.tag == "Unit")
                 {
                     UnitMove unitMove = setUnits[i].transform.GetComponent<UnitMove>();
-                    // 탱커 유닛 스킬 발동 
-                    if (unitMove.unitType == "Tanker")
+
+                    if (unitMove.unitType == "Healer")
                     {
-                        if (unitMove.isBuff == true)
-                        {
-                            unitMove.isBuff = false;
-                            if (unitMove.maxHp > unitMove.unit.hpStat)
-                            {
-                                unitMove.maxHp -= playerSet.addStat[0];
-                                unitMove.nowHpStat -= playerSet.addStat[0];
-                                unitMove.UpdateHpBar(0, false);
-                            }
-                            else
-                            {
-                                unitMove.nowHpStat -= playerSet.addStat[0];
-                                unitMove.UpdateHpBar(0, false);
-                            }
-                            setUnits[i] = null;
-                        }
+                        
                     }
                     else if (unitMove.unitType == "Bruiser")
                     {
@@ -505,6 +429,7 @@ public class SkillManager : MonoBehaviour
                         {
                             unitMove.isBuff = false;
                             unitMove.attack -= playerSet.addStat[1];
+                            unitMove.moveSpeed -= playerSet.addStat[4];
                             setUnits[i] = null;
                         }
                     }
@@ -517,6 +442,17 @@ public class SkillManager : MonoBehaviour
                             {
                                 unitMove.criRate -= playerSet.addStat[2];
                             }
+                            unitMove.moveSpeed -= playerSet.addStat[4];
+                            setUnits[i] = null;
+                        }
+                    }
+                    else if (unitMove.unitType == "Tanker")
+                    {
+                        if (unitMove.isBuff == true)
+                        {
+                            unitMove.isBuff = false;
+                            unitMove.pushResist -= playerSet.addStat[3];
+                            unitMove.moveSpeed -= playerSet.addStat[4];
                             setUnits[i] = null;
                         }
                     }

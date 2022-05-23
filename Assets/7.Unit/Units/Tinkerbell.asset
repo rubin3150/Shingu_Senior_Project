@@ -20,9 +20,10 @@ MonoBehaviour:
   attackStat: 40
   speedStat: 5
   spawnCoolTime: 6
-  attackRangeStat: 0
+  attackRangeStat: 5
   attackDelayStat: 3
-  pushRange: 10
+  pushRange: 5
+  pushResist: 2.5
   criRate: 0
   criDamage: 0
   type: Melee

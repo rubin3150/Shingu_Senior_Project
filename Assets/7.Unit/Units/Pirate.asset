@@ -22,7 +22,8 @@ MonoBehaviour:
   spawnCoolTime: 6
   attackRangeStat: 0
   attackDelayStat: 3
-  pushRange: 10
+  pushRange: 5
+  pushResist: 2.5
   criRate: 15
   criDamage: 120
   type: Tanker

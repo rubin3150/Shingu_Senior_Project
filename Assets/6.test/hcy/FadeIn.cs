@@ -41,6 +41,10 @@ public class FadeIn : MonoBehaviour
     [SerializeField] private RectTransform[] skillBorderImage;
     [SerializeField] private RectTransform[] skillImage;
 
+    [SerializeField] private SkillManager skillManager;
+
+    [SerializeField] Button[] btn;
+
     // 실제 시간을 담을 변수
     private float _time;
     // 몇초 동안 페이드인 또는 페이드 아웃을 시킬지 정하는 변수 (1초로 설정)
@@ -139,10 +143,12 @@ public class FadeIn : MonoBehaviour
                 skillBorderImage[i].sizeDelta = new Vector2(243, 256);
                 skillBorderImage[i].localPosition = new Vector3(-430 + 265 * i, -210, 0);
                 skillImage[i].sizeDelta = new Vector2(140, 140);
+
+                if (skillManager.isActive[i] == true)
+                {
+                    btn[i].enabled = true;
+                }
             }
-
-            //  -265 -210
-
             // 함수 호출
             stageManager.SetActiveUnitText();
 
@@ -154,7 +160,7 @@ public class FadeIn : MonoBehaviour
         
         // 변수에 참이라는 값을 넣음 (전투 스테이지 진입)
         stageManager.inStage = true;
-        
+
         // 다음 1프레임까지 대기
         yield return null;
     }
