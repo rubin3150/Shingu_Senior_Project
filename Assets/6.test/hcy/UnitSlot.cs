@@ -36,6 +36,8 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public CoolTimeManager coolTimeManager;
 
+    [SerializeField] private SkillManager _skillManager;
+
     private int _ranValue;
 
     public string keyBord;
@@ -188,6 +190,8 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
                 // 유닛 생성
                 GameObject go = Instantiate(unit.unitPrefab, Vector3.zero, Quaternion.identity);
+                
+                _skillManager.AddUnit(go);
 
                 go.GetComponent<RectTransform>().SetParent(parentTrans.transform, false);
 

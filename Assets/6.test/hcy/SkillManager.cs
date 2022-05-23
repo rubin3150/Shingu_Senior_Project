@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Effekseer;
 using TMPro;
+using UnityEngine.Serialization;
 using UnityEngine.SocialPlatforms;
 
 public class SkillManager : MonoBehaviour
@@ -38,11 +39,14 @@ public class SkillManager : MonoBehaviour
 
     [SerializeField] private LayerMask unitLayer;
 
-    [SerializeField] private Collider2D[] units;
+    [SerializeField] private Collider2D[] collider2Ds;
+    [SerializeField] private UnitMove[] unitHPs;
     [SerializeField] private UnitMove[] setUnits;
     
     private UnitMove _unitMove;
-    
+
+    [SerializeField] private GameObject[] units;
+     
     private int k = 0;
     
     private void Start()
@@ -99,8 +103,8 @@ public class SkillManager : MonoBehaviour
         }
         else if (currentSkillNum == 1)
         {
-            txtSkillDesc.text += "\n스킬 가이드 : 사거리 내에 있는 모든 근거리\n딜러 유닛의 공격력을 " + playerSet.addStat[currentSkillNum] +
-                                 "만큼 상승시킨다";
+            txtSkillDesc.text += "\n스킬 가이드 : 소환된 모든 아군 유닛들의 체력을 최대 체력으로 회복시키고 유닛의 스킬 쿨타임을 " + playerSet.addStat[5] +
+                                 "만큼 감소시킨다";
         }
         else
         {
@@ -195,15 +199,36 @@ public class SkillManager : MonoBehaviour
     private void Skill2()
     {
         coolTimeManager.CoolTime(7, true);
-        
+
+        for (int i = 0; i < units.Length; i++)
+        {
+            if (units[i] != null)
+            {
+                UnitMove _unitMove = units[i].GetComponent<UnitMove>();
+                _unitMove.nowHpStat = _unitMove.maxHp;
+                _unitMove.UpdateHpBar(0, false);
+            }
+        }
+
         Invoke("HideEffect", 2f);
+    }
+
+    public void AddUnit(GameObject unit)
+    {
+        for (int i = 0; i < units.Length; i++)
+        {
+            if (units[i] == null)
+            {
+                units[i] = unit;
+                break;
+            }
+        }
+       
     }
 
     private void HideEffect()
     {
         skillEffect[1].Stop();
-     
-        
     }
     
     public void Maintain(int num)
@@ -271,11 +296,11 @@ public class SkillManager : MonoBehaviour
         // 첫번째 스킬이 사용중이라면 아래 코드 실행 
         if (isMaintain[0] == true)
         {
-            units = Physics2D.OverlapCircleAll(transform.position, range, unitLayer);
+            collider2Ds = Physics2D.OverlapCircleAll(transform.position, range, unitLayer);
             
-            for (int i = 0; i < units.Length; i++)
+            for (int i = 0; i < collider2Ds.Length; i++)
             {
-                Transform _targetTf = units[i].transform;
+                Transform _targetTf = collider2Ds[i].transform;
 
                 if (_targetTf.transform.tag == "Unit")
                 {

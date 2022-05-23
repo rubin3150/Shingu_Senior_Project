@@ -492,6 +492,7 @@ MonoBehaviour:
   unitToolTip: {fileID: 554763633}
   isQuickSlot: 1
   coolTimeManager: {fileID: 1478871235}
+  _skillManager: {fileID: 990301888}
   keyBord: A
   btn: {fileID: 83621363}
 --- !u!114 &83621363
@@ -1528,6 +1529,7 @@ MonoBehaviour:
   unitToolTip: {fileID: 554763633}
   isQuickSlot: 1
   coolTimeManager: {fileID: 1478871235}
+  _skillManager: {fileID: 990301888}
   keyBord: D
   btn: {fileID: 239076267}
 --- !u!114 &239076267
@@ -4978,6 +4980,7 @@ MonoBehaviour:
   unitToolTip: {fileID: 554763633}
   isQuickSlot: 1
   coolTimeManager: {fileID: 1478871235}
+  _skillManager: {fileID: 990301888}
   keyBord: S
   btn: {fileID: 917737819}
 --- !u!114 &917737819
@@ -5775,8 +5778,110 @@ MonoBehaviour:
   unitLayer:
     serializedVersion: 2
     m_Bits: 128
-  units: []
+  collider2Ds: []
+  unitHPs: []
   setUnits:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  units:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -6671,6 +6776,7 @@ MonoBehaviour:
   unitToolTip: {fileID: 554763633}
   isQuickSlot: 1
   coolTimeManager: {fileID: 1478871235}
+  _skillManager: {fileID: 990301888}
   keyBord: G
   btn: {fileID: 1093643021}
 --- !u!114 &1093643021
@@ -8035,6 +8141,7 @@ MonoBehaviour:
   unitToolTip: {fileID: 554763633}
   isQuickSlot: 1
   coolTimeManager: {fileID: 1478871235}
+  _skillManager: {fileID: 990301888}
   keyBord: F
   btn: {fileID: 1246741677}
 --- !u!114 &1246741677
@@ -9488,6 +9595,7 @@ MonoBehaviour:
   - 15
   - 10
   - 5
+  - 3
 --- !u!1 &1479878156
 GameObject:
   m_ObjectHideFlags: 0
