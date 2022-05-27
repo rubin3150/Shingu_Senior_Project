@@ -6,37 +6,43 @@ public class LevelSystem : MonoBehaviour
 {
     private int level;
     public List<GameObject> levelObject = new List<GameObject>();
+    private int lockNum = 9;
+    private int unlockNum = 10;
+
+    private void Start() 
+    {
+        CameraRay.Instance.LockBlock(lockNum);
+    }
 
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.U))
         {
-            LevelChange(1);
+            LevelChange(0);
         }
 
         if(Input.GetKeyDown(KeyCode.I))
         {
-            LevelChange(2);
+            LevelChange(1);
         }
 
         if(Input.GetKeyDown(KeyCode.O))
         {
-            LevelChange(3);
+            LevelChange(2);
         }
 
         if(Input.GetKeyDown(KeyCode.P))
         {
-            LevelChange(4);
+            LevelChange(3);
         }
     }
 
     public void LevelChange(int _level)
     {
         level = _level;
-        for (int i = 0; i < levelObject.Count; i++)
-        {
-            levelObject[i].SetActive(false);
-        }
         levelObject[_level].SetActive(false);
+        CameraRay.Instance.UnLockBlock(unlockNum);
+        unlockNum++;
+        CameraRay.Instance.ResetBuildingsPosition();
     }
 }

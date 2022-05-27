@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraRay : MonoBehaviour
+public class CameraRay : Singleton<CameraRay>
 {
     private GameObject prefab;
     public const int w = 13;
@@ -26,8 +26,7 @@ public class CameraRay : MonoBehaviour
     private Ray ray;
     private RaycastHit hit;
 
-    [SerializeField] private int lockNumW;
-    [SerializeField] private int lockNumH;
+    public List<GameObject> buildings = new List<GameObject>();
 
     private void Start()
     {
@@ -50,28 +49,16 @@ public class CameraRay : MonoBehaviour
             if (pickObject != null)
             {
                 IsBool(int.Parse(pickObject.transform.parent.name), true, pickScaleX, pickScaleZ);
-                pickObject = null;
-            }
-        }
-
-        if(Input.GetKeyDown(KeyCode.A))
-        {
-            if(lockNumH <= w)
-            {
-                for (int i = lockNumH; i < w; i++)
+                ResetBuildingsPosition();
+                if(buildings.Contains(pickObject.gameObject))
                 {
-                    LockBlocks(i, i, true);
+                    pickObject = null;
+                    return;
                 }
-            }
-        }
-
-        if(Input.GetKeyDown(KeyCode.S))
-        {
-            if(lockNumH <= w)
-            {
-                for (int i = lockNumH; i < w; i++)
+                else
                 {
-                    LockBlocks(i, i, false);
+                    buildings.Add(pickObject.gameObject);
+                    pickObject = null;
                 }
             }
         }
@@ -116,6 +103,7 @@ public class CameraRay : MonoBehaviour
 
             dummyGameObject = Instantiate(prefab, hit.transform);
             dummyGameObject.transform.localPosition = new Vector3(-(pickScaleX - 1) * 0.5f, 1, (pickScaleZ - 1) * 0.5f);
+            buildings.Add(dummyGameObject);
 
             IsBool(index, true, pickScaleX, pickScaleZ);
 
@@ -171,11 +159,45 @@ public class CameraRay : MonoBehaviour
         }
     }
 
-    public void LockBlocks(int w, int h, bool _bool)
+    public void LockUnLock(int w, int h, bool _bool)
     {
         for (int i = 0; i < w; i++)
+        {
             for (int j = 0; j < h; j++)
+            {
                 if (i == w - 1 || j == h - 1)
                     isTrue[i, j] = _bool;
+            }
+        }
+    }
+
+    public void LockBlock(int _level)
+    {
+        if(_level <= w)
+        {
+            for (int i = _level; i < w; i++)
+            {
+                LockUnLock(i, i, true);
+            }
+        }
+    }
+
+    public void UnLockBlock(int _level)
+    {
+        if(_level <= w)
+        {
+            for (int i = 8; i < _level; i++)
+            {
+                LockUnLock(i, i, false);
+            }
+        }
+    }
+
+    public void ResetBuildingsPosition()
+    {
+        for (int i = 0; i < buildings.Count; i++)
+        {
+            IsBool(int.Parse(buildings[i].transform.parent.name), true, pickScaleX, pickScaleZ);
+        }
     }
 }
