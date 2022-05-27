@@ -16,14 +16,16 @@ MonoBehaviour:
   unitImage: {fileID: 21300000, guid: 641d6665d60a9ed4eb5adb4c8a7d3b60, type: 3}
   unitPrefab: {fileID: 1609125915385617593, guid: b4978d8bb13e67146a8a723d173eb926, type: 3}
   moonEnergy: 40
-  hpStat: 100
-  attackStat: 40
-  speedStat: 5
   spawnCoolTime: 6
-  attackRangeStat: 0
-  attackDelayStat: 3
-  pushRange: 5
-  pushResist: 2.5
+  attackStat: 40
+  healStat: 0
+  attackRangeStat: 6
   criRate: 15
   criDamage: 120
-  type: Tanker
+  pushRange: 5
+  pushResist: 3
+  attackDelayStat: 3
+  speedStat: 5
+  hpStat: 100
+  type: Bruiser
+  mpGet: 0

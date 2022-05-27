@@ -105,7 +105,7 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         startBtn.GetComponent<Image>().color = new Color(100f / 255f, 100f / 255f, 100f / 255f, btnAlpha / 255f);
         
         // 전투 시작 글자 알파 값 조절
-        startText.color = new Color(1, 1, 1, textMeshAlpha / 255f);
+        startText.color = new Color(0, 0, 0, textMeshAlpha / 255f);
     }
 
     /// <summary>
@@ -189,7 +189,7 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                 _ranValue = Random.Range(0, 3);
 
                 // 유닛 생성
-                GameObject go = Instantiate(unit.unitPrefab, Vector3.zero, Quaternion.identity);
+                GameObject go = Instantiate(unit.unitPrefab, new Vector3(-46.25f, 0, 0), Quaternion.identity);
                 
                 _skillManager.AddUnit(go);
 

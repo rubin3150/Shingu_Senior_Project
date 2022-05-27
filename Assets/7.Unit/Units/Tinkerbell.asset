@@ -16,14 +16,17 @@ MonoBehaviour:
   unitImage: {fileID: 21300000, guid: 46d84216598193e40bcdd160eeb1a8bb, type: 3}
   unitPrefab: {fileID: 456347407088691645, guid: 8b97cd36f00160143a60a8a7748aa401, type: 3}
   moonEnergy: 20
-  hpStat: 100
-  attackStat: 40
-  speedStat: 5
   spawnCoolTime: 6
-  attackRangeStat: 5
-  attackDelayStat: 3
-  pushRange: 5
-  pushResist: 2.5
+  attackStat: 40
+  healStat: 0
+  attackRangeStat: 2
+  attackAddRangeStat: 0
   criRate: 0
   criDamage: 0
-  type: Melee
+  pushRange: 5
+  pushResist: 3
+  attackDelayStat: 3
+  speedStat: 5
+  hpStat: 100
+  type: Healer
+  mpGet: 0

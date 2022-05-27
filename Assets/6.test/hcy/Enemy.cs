@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
     public float moveSpeed;
     public float attack;
     public float attackRange;
+    public float attackAddRange;
     public float arrackDelay;
     public float criRate;
     public int criDamage;
@@ -46,6 +47,8 @@ public class Enemy : MonoBehaviour
     private float _unitAlpha;
     
     private float _unitAlphaTime = 1f;
+
+    [SerializeField] private GameObject damageText;
     
     // Start is called before the first frame update
     void Start()
@@ -54,6 +57,7 @@ public class Enemy : MonoBehaviour
         nowHpStat = unit.hpStat;
         attack = unit.attackStat;
         attackRange = unit.attackRangeStat;
+        attackAddRange = unit.attackAddRangeStat;
         arrackDelay = unit.attackDelayStat;
         pushRange = unit.pushRange;
         criRate = unit.criRate;
@@ -94,17 +98,17 @@ public class Enemy : MonoBehaviour
     private void CheckObject()
     {
         // _rays = Physics2D.BoxCastAll(transform.position, new Vector2(7.5f,18), 0, Vector2.left, attackRange, layerMask);
-        _ray = Physics2D.BoxCast(transform.position, new Vector2(7.5f,18), 0, Vector2.left, attackRange, layerMask);
-        
+        _ray = Physics2D.BoxCast(transform.position, new Vector2(1f,18), 0, Vector2.left, attackRange + attackAddRange, layerMask);
+        // Debug.DrawRay();
         // ray를 rays로 변경
         if (_ray.collider != null)
         {
-            // Debug.Log("아군 발견");
+            Debug.Log("아군 발견");
             donMove = true;
 
             if (!_isAttack)
             {
-                _currentRay = _ray;
+                // _currentRay = _ray;
                 Attack();
             }
             
@@ -134,8 +138,8 @@ public class Enemy : MonoBehaviour
             
             if (_ray.transform.tag == "Player")
             {
-                Debug.Log(criticalDamage);
                 _ray.transform.GetComponent<Player>().UpdateHpBar(criticalDamage);
+                ShowDamageTxt(criticalDamage, true, new Vector3(0, 6.5f, 0));
                 _hitPos = new Vector3(3f, 1, 0);
             }
             else if (_ray.transform.tag == "Unit")
@@ -146,9 +150,11 @@ public class Enemy : MonoBehaviour
                 {
                     // Debug.Log("팅커벨 발견");
                     _hitPos = new Vector3(3f, 4, 0);
+                    ShowDamageTxt(criticalDamage, true, new Vector3(0, 9.5f, 0));
                 }
                 else
                 {
+                    ShowDamageTxt(criticalDamage, true, new Vector3(0, 5.5f, 0));
                     _hitPos = new Vector3(1f, -1, 0);
                 }
                 _ray.transform.position -= new Vector3(_ray.transform.GetComponent<UnitMove>().pushRange, 0f, 0f);
@@ -160,6 +166,9 @@ public class Enemy : MonoBehaviour
             {
                 // Debug.Log(1);
                 _ray.transform.GetComponent<Player>().UpdateHpBar(attack);
+
+                ShowDamageTxt(attack, false, new Vector3(0, 6.5f, 0));
+                
                 _hitPos = new Vector3(3f, 1, 0);
             }
             else if (_ray.transform.tag == "Unit")
@@ -169,25 +178,41 @@ public class Enemy : MonoBehaviour
                 if (_ray.transform.GetComponent<UnitMove>().unit.unitName == "팅커벨")
                 {
                     // Debug.Log("팅커벨 발견");
+                    ShowDamageTxt(attack, false, new Vector3(0, 9.5f, 0));
                     _hitPos = new Vector3(3f, 4, 0);
                 }
                 else
                 {
+                    ShowDamageTxt(attack, false, new Vector3(0, 5.5f, 0));
                     _hitPos = new Vector3(1f, -1, 0);
                 }
             }
         }
-        
-        
-        // Debug.Log(_ray.transform.position);
-        
+
         GameObject go = Instantiate(hit_Effect, _ray.transform.position + _hitPos, Quaternion.identity);
         go.GetComponent<EffekseerEmitter>().Play();
         
         Destroy(go, 1.5f);
         
         // _isAttack = false;
-        
+    }
+
+    private void ShowDamageTxt(float damage, bool cirDamage, Vector3 yPos)
+    {
+        GameObject damageGo = Instantiate(damageText);
+        damageGo.transform.parent = _ray.transform;
+        damageGo.transform.position = _ray.transform.position + yPos; // 일반 유닛 5.5 // 팅커벨 유닛 7.5
+        damageGo.GetComponent<DamageText>().text.color = Color.red;
+        damageGo.GetComponent<DamageText>().damage = damage;
+        if (cirDamage == true)
+        {
+            // 알파 값 조절
+            damageGo.GetComponent<DamageText>().isCri = true;
+        }
+        else
+        {
+            damageGo.GetComponent<DamageText>().isCri = false;
+        }
     }
 
     public void UpdateHpBar(float damage)
@@ -211,7 +236,6 @@ public class Enemy : MonoBehaviour
                 StartCoroutine(FadeUnit());
             }
         }
-        
     }
     
     private IEnumerator FadeUnit()

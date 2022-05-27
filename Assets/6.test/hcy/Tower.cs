@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class Tower : MonoBehaviour
@@ -16,18 +17,14 @@ public class Tower : MonoBehaviour
     // 유닛을 소환할 때 부모로 사용할 오브젝트 (캔버스)
     [SerializeField] private GameObject parentTrans;
 
-    private int _r;
-    
     public Unit[] Units;
 
-    public int maxSpwanEnemy;
+    [SerializeField] private int[] maxSpawnEnemy;
 
-    private bool _isSpawn;
+    [SerializeField] private bool[] _isSpawn;
 
-    private int nowEnemy;
-
-    [SerializeField] private float spawnDelay;
-
+    [SerializeField] private int[] nowEnemy;
+    
     private bool isDead;
 
     public Image towerImage;
@@ -38,6 +35,8 @@ public class Tower : MonoBehaviour
     
     [SerializeField] private BoxCollider2D boxCol;
 
+    private bool isCheck;
+
     private void Start()
     {
         towerHp = maxTowerHp;
@@ -47,46 +46,48 @@ public class Tower : MonoBehaviour
     {
         if (_stageManager.inStage == true && isDead == false)
         {
-            if (_isSpawn == false)
+            if (_isSpawn[0] == false)
             {
-                SpawnEnemy();
+                Debug.Log(1);
+                SpawnSnail(0);
             }
         }
     }
 
-    private void SpawnEnemy()
+    private void SpawnSnail(int num)
     {
-        _isSpawn = true;
-        StartCoroutine(SpawnCoroutine());
-        
+        _isSpawn[num] = true;
+        StartCoroutine(SpawnSnailCoroutine(num));
     }
 
-    private IEnumerator SpawnCoroutine()
+    private IEnumerator SpawnSnailCoroutine(int num)
     {
-        if (nowEnemy < maxSpwanEnemy)
+        if (nowEnemy[num] < maxSpawnEnemy[num])
         {
-            _r = UnityEngine.Random.Range(0, Units.Length);
+            if (isCheck == true)
+            {
+                SpawnEnemySet(num);
+                nowEnemy[num] += 1;
+                
+            }
             
-            // 몬스터 스폰 구현
-
-            SpawnEnemySet();
-            //theBase.AddMaxUnit(Units[_r].GetComponent<UnitPickUp>().unit);
-
-            yield return new WaitForSeconds(spawnDelay);
-            nowEnemy += 1;
-            _isSpawn = false;
+            yield return new WaitForSeconds(Units[num].spawnCoolTime);
+            _isSpawn[num] = false;
+            if (isCheck == false)
+            {
+                isCheck = true;
+            }
         }
     }
     
-    public void SpawnEnemySet()
+    private void SpawnEnemySet(int num)
     {
-    
         int _ranValue = UnityEngine.Random.Range(0, 3);
 
         // 몬스터 생성 부분 작성
-        GameObject go = Instantiate(Units[_r].unitPrefab, Vector3.zero, Quaternion.identity);
+        GameObject go = Instantiate(Units[num].unitPrefab, Vector3.zero, Quaternion.identity);
         
-        go.GetComponent<Enemy>().unit = Units[_r];
+        go.GetComponent<Enemy>().unit = Units[num];
 
         go.GetComponent<RectTransform>().SetParent(parentTrans.transform, false);
 

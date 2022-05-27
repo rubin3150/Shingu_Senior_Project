@@ -46,6 +46,8 @@ public class SkillManager : MonoBehaviour
     private UnitMove _unitMove;
 
     [SerializeField] private GameObject[] units;
+    
+    [SerializeField] private GameObject damageText;
      
     private int k = 0;
     
@@ -108,7 +110,7 @@ public class SkillManager : MonoBehaviour
         }
         else
         {
-            txtSkillDesc.text += "\n스킬 가이드 : 사거리 내에 있는 모든 원거리\n딜러 유닛의 치명타 확률을 " + playerSet.addStat[currentSkillNum] + "만큼 상승시킨\n다";
+            txtSkillDesc.text += "\n스킬 가이드 : 범위 안에 있는 모든 적군 유닛을 " + playerSet.addStat[6] + "~" + playerSet.addStat[7] + "랜덤 넉백 수치 만큼 넉백하고 고정 데미지 " + playerSet.addStat[8] + "를 입힌다";
         }
         
         if (stageManager.inStage == false)
@@ -193,6 +195,10 @@ public class SkillManager : MonoBehaviour
             {
                 Skill2();
             }
+            else if (num == 8)
+            {
+                Skill3();
+            }
         }
     }
     
@@ -204,13 +210,35 @@ public class SkillManager : MonoBehaviour
         {
             if (units[i] != null)
             {
+                // 유닛 쿨타임 감소 구현해야함
                 UnitMove _unitMove = units[i].GetComponent<UnitMove>();
+
+                if (_unitMove.unit.unitName == "팅커벨")
+                {
+                    ShowDamageTxt(_unitMove, _unitMove.maxHp - _unitMove.nowHpStat, new Vector3(0, 9.5f, 0));
+                }
+                else
+                {
+                    ShowDamageTxt(_unitMove, _unitMove.maxHp - _unitMove.nowHpStat, new Vector3(0, 5.5f, 0));
+                }
+                
                 _unitMove.nowHpStat = _unitMove.maxHp;
                 _unitMove.UpdateHpBar(0, false);
             }
         }
 
-        Invoke("HideEffect", 2f);
+        Invoke("HideEffectSkill2", 2f);
+    }
+    
+    private void ShowDamageTxt(UnitMove unitMove, float damage, Vector3 yPos)
+    {
+        GameObject damageGo = Instantiate(damageText);
+        damageGo.transform.parent = unitMove.transform;
+        damageGo.transform.position = unitMove.transform.position + yPos; // 일반 유닛 5.5 // 팅커벨 유닛 7.5
+        damageGo.GetComponent<DamageText>().text.color = Color.green;
+        damageGo.GetComponent<DamageText>().damage = damage;
+        
+        damageGo.GetComponent<DamageText>().isCri = false;
     }
 
     public void AddUnit(GameObject unit)
@@ -223,12 +251,22 @@ public class SkillManager : MonoBehaviour
                 break;
             }
         }
-       
     }
 
-    private void HideEffect()
+    private void Skill3()
+    {
+        // 스킬 구현 전에 적 먼저 만들기
+        Invoke("HideEffectSkill2", 2f);
+    }
+
+    private void HideEffectSkill2()
     {
         skillEffect[1].Stop();
+    }
+
+    private void HideEffectSkill3()
+    {
+        skillEffect[2].Stop();
     }
     
     public void Maintain(int num)
@@ -250,19 +288,6 @@ public class SkillManager : MonoBehaviour
                 skillEffect[0].Stop();
                 isMaintain[0] = false;
                 coolTimeManager.CoolTime(6, true);
-                ResetSetSkill();
-            }
-        }
-
-        if (isMaintain[2] == true)
-        {
-            currentMaintain[2] -= Time.deltaTime;
-
-            if (currentMaintain[2] <= 0)
-            {
-                skillEffect[2].Stop();
-                isMaintain[2] = false;
-                coolTimeManager.CoolTime(8, true);
                 ResetSetSkill();
             }
         }
@@ -305,10 +330,19 @@ public class SkillManager : MonoBehaviour
                 if (_targetTf.transform.tag == "Unit")
                 {
                     _unitMove = _targetTf.transform.GetComponent<UnitMove>();
-
+                    
+                    //  힐러 유닛 능력치 증가
                     if (_unitMove.unitType == "Healer")
                     {
-                        
+                        if (_unitMove.isBuff == false)
+                        {
+                            setUnits[k] = _unitMove;
+                            k++;
+                            _unitMove.isBuff = true;
+                            _unitMove.heal += playerSet.addStat[0];
+                            _unitMove.moveSpeed += playerSet.addStat[4];
+                            _unitMove = null;
+                        }
                     }
                     // 근거리 딜러 유닛 능력치 증가
                     else if (_unitMove.unitType == "Bruiser")
@@ -369,11 +403,23 @@ public class SkillManager : MonoBehaviour
                         
                         if (setUnits[i].transform.tag == "Unit")
                         {
+                            // 힐러 유닛 능력치 감소
                             if (unitMove.unitType == "Healer")
                             {
-                                
+                                if (unitMove.isBuff == true)
+                                {
+                                    float dis = Vector2.Distance(transform.position, unitMove.transform.position);
+                                    
+                                    if (dis >= 19f)
+                                    {
+                                        unitMove.isBuff = false;
+                                        unitMove.heal -= playerSet.addStat[0];
+                                        unitMove.moveSpeed -= playerSet.addStat[4];
+                                        setUnits[i] = null;
+                                    }
+                                }
                             }
-                            // 탱커 버프 스킬 발동 
+                            // 근거리 유닛 능력치 감소
                             else if (unitMove.unitType == "Bruiser")
                             {
                                 if (unitMove.isBuff == true)
@@ -389,7 +435,7 @@ public class SkillManager : MonoBehaviour
                                     }
                                 }
                             }
-                            // 원거리 딜러 유닛 능력치 감소
+                            // 원거리 유닛 능력치 감소
                             else if (unitMove.unitType == "Melee")
                             {
                                 if (unitMove.isBuff == true)
@@ -407,7 +453,7 @@ public class SkillManager : MonoBehaviour
                                     }
                                 }
                             }
-                            // 탱커 버프 스킬 발동 
+                            // 탱커 유닛 능력치 감소
                             else if (unitMove.unitType == "Tanker")
                             {
                                 if (unitMove.isBuff == true)
@@ -446,7 +492,13 @@ public class SkillManager : MonoBehaviour
 
                     if (unitMove.unitType == "Healer")
                     {
-                        
+                        if (unitMove.isBuff == true)
+                        {
+                            unitMove.isBuff = false;
+                            unitMove.heal -= playerSet.addStat[0];
+                            unitMove.moveSpeed -= playerSet.addStat[4];
+                            setUnits[i] = null;
+                        }
                     }
                     else if (unitMove.unitType == "Bruiser")
                     {

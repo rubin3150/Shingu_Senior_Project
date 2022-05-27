@@ -13,6 +13,8 @@ public class UnitMove : MonoBehaviour
     public float moveSpeed;
     public float attack;
     public float attackRange;
+    public float attackAddRangeStat;
+    public float heal;
     public float pushResist;
     public float attackDelay;
     public float criRate;
@@ -62,6 +64,8 @@ public class UnitMove : MonoBehaviour
     public SpriteRenderer[] unitImages;
 
     private bool isDead;
+    
+    [SerializeField] private GameObject damageText;
 
    
 
@@ -115,7 +119,9 @@ public class UnitMove : MonoBehaviour
                     nowHpStat = unit.hpStat;
                     maxHp = unit.hpStat;
                     attack = unit.attackStat;
+                    heal = unit.healStat;
                     attackRange = unit.attackRangeStat;
+                    attackAddRangeStat = unit.attackAddRangeStat;
                     attackDelay = unit.attackDelayStat;
                     pushRange = unit.pushRange;
                     pushResist = unit.pushResist;
@@ -131,15 +137,16 @@ public class UnitMove : MonoBehaviour
             }
         }
     }
-    
+
     private void CheckObject()
     {
-        _ray = Physics2D.BoxCast(transform.position, new Vector2(7.5f,18), 0, Vector2.right, attackRange, layerMask);
+        _ray = Physics2D.BoxCast(transform.position, new Vector2(1f,18), 0, Vector2.right, attackRange + attackAddRangeStat, layerMask);
         // Vector2.right, attackRange, layerMask
         // Debug.DrawRay(transform.position + new Vector3(0, 5, 0), Vector2.right, Color.red, attackRange);
         
         if (_ray.collider != null)
         {
+            Debug.Log("적 발견");
             donMove = true;
 
             if (animator != null)
@@ -367,10 +374,12 @@ public class UnitMove : MonoBehaviour
             
             if (_ray.transform.tag == "Tower")
             {
+                ShowDamageTxt(criticalDamage, true, new Vector3(0, 7.5f, 0));
                 _ray.transform.GetComponent<Tower>().UpdateHpBar(criticalDamage);
             }
             else if (_ray.transform.tag == "Enemy")
             {
+                ShowDamageTxt(criticalDamage, true, new Vector3(0, 4.5f, 0));
                 _ray.transform.GetComponent<Enemy>().UpdateHpBar(criticalDamage);
                 _ray.transform.position += new Vector3(_ray.transform.GetComponent<Enemy>().pushRange, 0f, 0f);
             }
@@ -379,12 +388,14 @@ public class UnitMove : MonoBehaviour
         {
             if (_ray.transform.tag == "Tower")
             {
+                ShowDamageTxt(attack, false, new Vector3(0, 7.5f, 0));
                 _ray.transform.GetComponent<Tower>().UpdateHpBar(attack);
             }
             else if (_ray.transform.tag == "Enemy")
             {
+                ShowDamageTxt(attack, false, new Vector3(0, 4.5f, 0));
                 _ray.transform.GetComponent<Enemy>().UpdateHpBar(attack);
-                // UpdateHpBar(_ray.transform.GetComponent<Enemy>().attack);
+                
             }
         }
         
@@ -394,8 +405,21 @@ public class UnitMove : MonoBehaviour
         Destroy(go, 1.5f);
     }
 
-    private void ShowEffect()
+    private void ShowDamageTxt(float damage, bool cirDamage, Vector3 yPos)
     {
-        
+        GameObject damageGo = Instantiate(damageText);
+        damageGo.transform.parent = _ray.transform;
+        damageGo.transform.position = _ray.transform.position + yPos; // 일반 유닛 5.5 // 팅커벨 유닛 7.5
+        damageGo.GetComponent<DamageText>().text.color = Color.red;
+        damageGo.GetComponent<DamageText>().damage = damage;
+        if (cirDamage == true)
+        {
+            // 알파 값 조절
+            damageGo.GetComponent<DamageText>().isCri = true;
+        }
+        else
+        {
+            damageGo.GetComponent<DamageText>().isCri = false;
+        }
     }
 }

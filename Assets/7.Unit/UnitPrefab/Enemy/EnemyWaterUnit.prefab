@@ -200,6 +200,8 @@ MonoBehaviour:
   attack: 0
   attackRange: 0
   arrackDelay: 0
+  criRate: 0
+  criDamage: 0
   layerMask:
     serializedVersion: 2
     m_Bits: 128
@@ -207,3 +209,4 @@ MonoBehaviour:
   unit: {fileID: 0}
   unitImage: {fileID: 9117947452556880076}
   boxCol: {fileID: -8293731515006112393}
+  damageText: {fileID: 7390701560612170935, guid: e4b85c74729dfd94387c74f5aa46146a, type: 3}

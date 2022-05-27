@@ -93,7 +93,10 @@ MonoBehaviour:
   moveSpeed: 0
   attack: 0
   attackRange: 0
-  arrackDelay: 0
+  attackAddRangeStat: 0
+  heal: 0
+  pushResist: 0
+  attackDelay: 0
   criRate: 0
   criDamage: 0
   maxHp: 0
@@ -114,6 +117,7 @@ MonoBehaviour:
   boxCol: {fileID: -7741774502400767409}
   unitImage: {fileID: 1142497683737696098}
   unitImages: []
+  damageText: {fileID: 7390701560612170935, guid: e4b85c74729dfd94387c74f5aa46146a, type: 3}
 --- !u!61 &-7741774502400767409
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -138,7 +142,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 6, y: 8}
+  m_Size: {x: 4, y: 8}
   m_EdgeRadius: 0
 --- !u!1 &5934132555947808088
 GameObject:

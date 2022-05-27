@@ -82,6 +82,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5117046368792583317, guid: c8c1ded9600ecdd4f99f40c0fd8f6296, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5117046368792583317, guid: c8c1ded9600ecdd4f99f40c0fd8f6296, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5117046368792583317, guid: c8c1ded9600ecdd4f99f40c0fd8f6296, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6443439394252291430, guid: c8c1ded9600ecdd4f99f40c0fd8f6296, type: 3}
       propertyPath: m_Bounds.m_Center.x
       value: 0
@@ -486,7 +498,10 @@ MonoBehaviour:
   moveSpeed: 0
   attack: 0
   attackRange: 0
-  arrackDelay: 0
+  attackAddRangeStat: 0
+  heal: 0
+  pushResist: 0
+  attackDelay: 0
   criRate: 0
   criDamage: 0
   maxHp: 0
@@ -528,3 +543,4 @@ MonoBehaviour:
   - {fileID: 456347407698183782}
   - {fileID: 456347407934216484}
   - {fileID: 456347408022100757}
+  damageText: {fileID: 7390701560612170935, guid: e4b85c74729dfd94387c74f5aa46146a, type: 3}
