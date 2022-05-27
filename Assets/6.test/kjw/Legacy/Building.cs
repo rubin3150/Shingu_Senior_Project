@@ -3,36 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum Buildings
+{
+    music_box,
+    windmil,
+    candlestick,
+    Fountain,
+    gazebo,
+    Tower,
+    wood_house,
+    blacksmith_shop,
+    bee,
+    mushroom_house,
+
+    None = 99
+}
+
 public class Building : MonoBehaviour
 {
-    public bool isSeleted;
-    public Canvas canvas;
-    public List<GameObject> UiItems = new List<GameObject>();
+    public Buildings thisBuilding = Buildings.None;
 
-
-    public void OnEnable()
+    private void Update()
     {
-        for (int i = 0; i < canvas.transform.childCount; i++)
+        switch (thisBuilding)
         {
-            UiItems.Add(canvas.transform.GetChild(i).gameObject);
+            case Buildings.bee: 
+                Debug.Log("이 빌딩은 " + Buildings.bee + "입니다.");
+            break;
+            case Buildings.windmil:
+                Debug.Log("이 빌딩은 " + Buildings.windmil + "입니다.");
+            break;
         }
-    }
-
-    public void EditMode(bool _bool)
-    {
-        UiItems[0].transform.position = Input.mousePosition; // 수정 필요: 움직임이 이상함
-        UiItems[0].SetActive(_bool);
-        isSeleted = _bool;
-    }
-
-    public void Destroy()
-    {
-        SnapTool.Instance.editMode = false;
-        Destroy(gameObject);
-    }
-
-    public void Rotate()
-    {
-        this.transform.eulerAngles += new Vector3(0, 45f, 0);
+        // if(thisBuilding == Buildings.bee)
+        // {
+        //     Debug.Log("이 빌딩은 " + Buildings.bee + "입니다.");
+        // }
+        // if(thisBuilding == Buildings.windmil)
+        // {
+        //     Debug.Log("이 빌딩은 " + Buildings.windmil + "입니다.");
+        // }
     }
 }
