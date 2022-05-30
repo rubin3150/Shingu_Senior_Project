@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CameraRay : Singleton<CameraRay>
 {
@@ -28,6 +29,9 @@ public class CameraRay : Singleton<CameraRay>
 
     public List<GameObject> buildings = new List<GameObject>();
 
+    public bool isEditing;
+    public Text statusText;
+
     private void Start()
     {
         for (int i = 0; i < w; i++)
@@ -38,29 +42,19 @@ public class CameraRay : Singleton<CameraRay>
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-            OnClick();
-
-        if (Input.GetMouseButton(0))
-            OnDrag();
-
-        if (Input.GetMouseButtonUp(0))
+        if(isEditing)
         {
-            if (pickObject != null)
-            {
-                IsBool(int.Parse(pickObject.transform.parent.name), true, pickScaleX, pickScaleZ);
-                ResetBuildingsPosition();
-                if(buildings.Contains(pickObject.gameObject))
-                {
-                    pickObject = null;
-                    return;
-                }
-                else
-                {
-                    buildings.Add(pickObject.gameObject);
-                    pickObject = null;
-                }
-            }
+            if(Input.GetMouseButtonDown(0))
+                OnClick();
+            
+            OnDrag();
+            statusText.text = "수정중입니다.";
+            CameraMove.Instance.isMove = false;
+        }
+        else
+        {
+            statusText.text = "수정중이 아닙니다.";
+            CameraMove.Instance.isMove = true;
         }
     }
 
@@ -69,13 +63,8 @@ public class CameraRay : Singleton<CameraRay>
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         if (Physics.Raycast(ray, out hit, 50f, IgnoreLayerMask))
-        {
-            //index = int.Parse(hit.transform.parent.name);
-            //Debug.Log(index / h + i - 1+ "," + index % h + j - 1);
             return;
-        }
 
-        //fix require
         if (Physics.Raycast(ray, out hit, 50f, unitLayerMask))
         {
             index = int.Parse(hit.transform.parent.name);
@@ -85,31 +74,17 @@ public class CameraRay : Singleton<CameraRay>
 
             IsBool(index, false, pickScaleX, pickScaleZ);
             pickObject = hit.transform;
-
-            CameraMove.Instance.isMove = false;
         }
-        else if (Physics.Raycast(ray, out hit, float.MaxValue, wallLayerMask))
-        {
-            CameraMove.Instance.isMove = true;
-            // 0x0 return;
-            if (prefab == null) return;
+        else if (Physics.Raycast(ray, out hit, float.MaxValue, wallLayerMask)) 
+            return;
 
-            index = int.Parse(hit.transform.name);
+    }
 
-            if (CheckBool(index, pickScaleX, pickScaleZ))
-            {
-                return;
-            }
-
-            dummyGameObject = Instantiate(prefab, hit.transform);
-            dummyGameObject.transform.localPosition = new Vector3(-(pickScaleX - 1) * 0.5f, 1, (pickScaleZ - 1) * 0.5f);
-            buildings.Add(dummyGameObject);
-
-            IsBool(index, true, pickScaleX, pickScaleZ);
-
-            // 1 pick
-            prefab = null;
-        }
+    public void BringObject()
+    {
+        dummyGameObject = Instantiate(prefab, this.transform);
+        buildings.Add(dummyGameObject);
+        pickObject = dummyGameObject.transform;
     }
 
     private void OnDrag()
@@ -129,6 +104,25 @@ public class CameraRay : Singleton<CameraRay>
 
             pickObject.SetParent(hit.transform);
             pickObject.localPosition = new Vector3(-(pickScaleX - 1) * 0.5f, 1, (pickScaleZ - 1) * 0.5f);
+        }
+
+        if(Input.GetMouseButtonDown(1))
+        {
+            if (pickObject != null)
+            {
+                IsBool(int.Parse(pickObject.transform.parent.name), true, pickScaleX, pickScaleZ);
+                ResetBuildingsPosition();
+                if(buildings.Contains(pickObject.gameObject))
+                {
+                    pickObject = null;
+                    return;
+                }
+                else
+                {
+                    buildings.Add(pickObject.gameObject);
+                    pickObject = null;
+                }
+            }
         }
     }
 

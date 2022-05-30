@@ -8,7 +8,7 @@ public class CharacterTeleporting : MonoBehaviour
     private RaycastHit hit;
     private bool isCharaterMove;
     private int wallLayerMask = 1 << 6;
-    private int unitLayerMask = 1 << 7;
+    //private int unitLayerMask = 1 << 7;
 
     void Update()
     {

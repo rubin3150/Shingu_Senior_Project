@@ -11,7 +11,7 @@ public class Character : MonoBehaviour
     private RaycastHit hit;
     private bool isCharaterMove;
     private int wallLayerMask = 1 << 6;
-    private int unitLayerMask = 1 << 7;
+    //private int unitLayerMask = 1 << 7;
 
 
     void Update()
@@ -31,7 +31,7 @@ public class Character : MonoBehaviour
             if(hit.transform.tag == "Unit")
             {
                 return;
-                Debug.Log("unit ´©¸§");
+                //Debug.Log("unit ï¿½ï¿½ï¿½ï¿½");
             }
         }
 

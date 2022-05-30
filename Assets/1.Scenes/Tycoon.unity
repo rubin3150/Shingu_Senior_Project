@@ -303,6 +303,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 927335884}
+        m_TargetAssemblyTypeName: CameraRay, Assembly-CSharp
+        m_MethodName: BringObject
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &28402125 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4585275914009054263, guid: 267e6fcf10034564a8c47d937522ea75, type: 3}
@@ -875,6 +887,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 927335884}
+        m_TargetAssemblyTypeName: CameraRay, Assembly-CSharp
+        m_MethodName: BringObject
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &96928937 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7593915629867744512, guid: 267e6fcf10034564a8c47d937522ea75, type: 3}
@@ -966,6 +990,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 8319029611182866642, guid: e8bd2a26256552740a79d9d37d40e6df, type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 927335884}
+        m_TargetAssemblyTypeName: CameraRay, Assembly-CSharp
+        m_MethodName: BringObject
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2204,6 +2240,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 6378743642312466952, guid: 72845feb22651f24195fa824cabf2299, type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 927335884}
+        m_TargetAssemblyTypeName: CameraRay, Assembly-CSharp
+        m_MethodName: BringObject
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -5539,6 +5587,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &594640792
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 594640794}
+  - component: {fileID: 594640793}
+  m_Layer: 0
+  m_Name: System
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &594640793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 594640792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dc23b1f23fb67f478dc680feeb4db64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelObject:
+  - {fileID: 1365277296}
+  - {fileID: 739599147}
+  - {fileID: 1585211481}
+  - {fileID: 1123823743}
+--- !u!4 &594640794
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 594640792}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 570.8269, y: 336.5478, z: 227.01071}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &606065412 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3655282703017245711, guid: 267e6fcf10034564a8c47d937522ea75, type: 3}
@@ -8230,6 +8326,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 927335884}
+        m_TargetAssemblyTypeName: CameraRay, Assembly-CSharp
+        m_MethodName: BringObject
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &819051921 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8024468214348474110, guid: 267e6fcf10034564a8c47d937522ea75, type: 3}
@@ -8801,6 +8909,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 927335884}
+        m_TargetAssemblyTypeName: CameraRay, Assembly-CSharp
+        m_MethodName: BringObject
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &896265926 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1344483373116254220, guid: 267e6fcf10034564a8c47d937522ea75, type: 3}
@@ -8920,7 +9040,6 @@ GameObject:
   - component: {fileID: 927335885}
   - component: {fileID: 927335884}
   - component: {fileID: 927335886}
-  - component: {fileID: 927335887}
   m_Layer: 6
   m_Name: Map&RaySystem
   m_TagString: Untagged
@@ -9128,6 +9247,8 @@ MonoBehaviour:
   pickScaleX: 0
   pickScaleZ: 0
   buildings: []
+  isEditing: 1
+  statusText: {fileID: 1106944265}
 --- !u!114 &927335885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9159,23 +9280,6 @@ MonoBehaviour:
   cam: {fileID: 450124591}
   zoomSpeed: -5
   isMove: 1
---- !u!114 &927335887
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 927335882}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3dc23b1f23fb67f478dc680feeb4db64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  levelObject:
-  - {fileID: 1365277296}
-  - {fileID: 739599147}
-  - {fileID: 1585211481}
-  - {fileID: 1123823743}
 --- !u!1 &929623983
 GameObject:
   m_ObjectHideFlags: 0
@@ -11615,6 +11719,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 927335884}
+        m_TargetAssemblyTypeName: CameraRay, Assembly-CSharp
+        m_MethodName: BringObject
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1095943053 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 110229140778607222, guid: 267e6fcf10034564a8c47d937522ea75, type: 3}
@@ -11816,6 +11932,85 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1105317792}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1106944264
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1106944267}
+  - component: {fileID: 1106944266}
+  - component: {fileID: 1106944265}
+  m_Layer: 5
+  m_Name: StatusText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1106944265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1106944264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 14
+    m_FontStyle: 0
+    m_BestFit: 1
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: New Text
+--- !u!222 &1106944266
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1106944264}
+  m_CullTransparentMesh: 1
+--- !u!224 &1106944267
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1106944264}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1199821416}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 150, y: 75}
+  m_SizeDelta: {x: 300, y: 150}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1112694770
 GameObject:
   m_ObjectHideFlags: 0
@@ -12707,6 +12902,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1160578764}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!224 &1199821416 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 466264693900560630, guid: 267e6fcf10034564a8c47d937522ea75, type: 3}
+  m_PrefabInstance: {fileID: 1623350255}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1216987704
 GameObject:
   m_ObjectHideFlags: 0
@@ -13358,6 +13558,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 6159334025108049636, guid: 1cb21d1a067905742bc489259ef7c65a, type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 927335884}
+        m_TargetAssemblyTypeName: CameraRay, Assembly-CSharp
+        m_MethodName: BringObject
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -23489,6 +23701,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 927335884}
+        m_TargetAssemblyTypeName: CameraRay, Assembly-CSharp
+        m_MethodName: BringObject
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1865231594 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3461967222046434493, guid: 267e6fcf10034564a8c47d937522ea75, type: 3}
@@ -25801,6 +26025,18 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 6405516268909607392, guid: 2622bde4989ebfd44b80071c0e10c97f, type: 3}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 927335884}
+        m_TargetAssemblyTypeName: CameraRay, Assembly-CSharp
+        m_MethodName: BringObject
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
