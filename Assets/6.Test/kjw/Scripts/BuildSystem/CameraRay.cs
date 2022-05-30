@@ -30,6 +30,7 @@ public class CameraRay : Singleton<CameraRay>
     public List<GameObject> buildings = new List<GameObject>();
 
     public bool isEditing;
+    public bool IsEditing { set { isEditing = value; } }
     public Text statusText;
 
     private void Start()
@@ -67,6 +68,8 @@ public class CameraRay : Singleton<CameraRay>
 
         if (Physics.Raycast(ray, out hit, 50f, unitLayerMask))
         {
+            if(pickObject != null) return;
+
             index = int.Parse(hit.transform.parent.name);
             int _x = Mathf.RoundToInt(hit.transform.localScale.x);
             pickScaleX = _x;
@@ -82,9 +85,13 @@ public class CameraRay : Singleton<CameraRay>
 
     public void BringObject()
     {
-        dummyGameObject = Instantiate(prefab, this.transform);
-        buildings.Add(dummyGameObject);
-        pickObject = dummyGameObject.transform;
+        if(isEditing)
+        {
+            ResetBuildingsPosition();
+            dummyGameObject = Instantiate(prefab, this.transform);
+            buildings.Add(dummyGameObject);
+            pickObject = dummyGameObject.transform;
+        }
     }
 
     private void OnDrag()
@@ -165,33 +172,47 @@ public class CameraRay : Singleton<CameraRay>
         }
     }
 
-    public void LockBlock(int _level)
+    public void LockBlock(int _int)
     {
-        if(_level <= w)
+        if(_int <= w)
         {
-            for (int i = _level; i < w; i++)
+            for (int i = _int; i < w; i++)
             {
                 LockUnLock(i, i, true);
             }
         }
     }
 
-    public void UnLockBlock(int _level)
-    {
-        if(_level <= w)
-        {
-            for (int i = 8; i < _level; i++)
-            {
-                LockUnLock(i, i, false);
-            }
-        }
-    }
+    // public void UnLockBlock(int _int)
+    // {
+    //     if(_int <= w)
+    //     {
+    //         for (int i = 8; i < _int; i++)
+    //         {
+    //             LockUnLock(i, i, false);
+    //         }
+    //     }
+    // }
 
     public void ResetBuildingsPosition()
     {
-        for (int i = 0; i < buildings.Count; i++)
+        if(isEditing)
         {
-            IsBool(int.Parse(buildings[i].transform.parent.name), true, pickScaleX, pickScaleZ);
+            for (int i = 0; i < w; i++)
+                for (int j = 0; j < h; j++)
+                        isTrue[i, j] = false;
+            
+            if(LevelSystem.Instance.level < 5)
+            {
+                LockBlock(LevelSystem.Instance.level + 9);
+            }
+
+            Start();
+
+            for (int i = 0; i < buildings.Count; i++)
+            {
+                IsBool(int.Parse(buildings[i].transform.parent.name), true, pickScaleX, pickScaleZ);
+            }
         }
     }
 }

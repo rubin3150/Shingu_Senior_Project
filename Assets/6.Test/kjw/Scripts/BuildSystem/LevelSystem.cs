@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelSystem : MonoBehaviour
+public class LevelSystem : Singleton<LevelSystem>
 {
-    private int level;
+    public int level;
     public List<GameObject> levelObject = new List<GameObject>();
     private int lockNum = 9;
-    private int unlockNum = 10;
+    //private int unlockNum = 10;
 
     private void Start() 
     {
@@ -16,33 +16,36 @@ public class LevelSystem : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.U))
+        if(!CameraRay.Instance.isEditing)
         {
-            LevelChange(0);
-        }
+            if(Input.GetKeyDown(KeyCode.U))
+            {
+                LevelChange(0);
+            }
 
-        if(Input.GetKeyDown(KeyCode.I))
-        {
-            LevelChange(1);
-        }
+            if(Input.GetKeyDown(KeyCode.I))
+            {
+                LevelChange(1);
+            }
 
-        if(Input.GetKeyDown(KeyCode.O))
-        {
-            LevelChange(2);
-        }
+            if(Input.GetKeyDown(KeyCode.O))
+            {
+                LevelChange(2);
+            }
 
-        if(Input.GetKeyDown(KeyCode.P))
-        {
-            LevelChange(3);
+            if(Input.GetKeyDown(KeyCode.P))
+            {
+                LevelChange(3);
+            }
         }
     }
 
     public void LevelChange(int _level)
     {
-        level = _level;
         levelObject[_level].SetActive(false);
-        CameraRay.Instance.UnLockBlock(unlockNum);
-        unlockNum++;
+        level++;
+        //CameraRay.Instance.UnLockBlock(unlockNum);
+        //unlockNum++;
         CameraRay.Instance.ResetBuildingsPosition();
     }
 }
