@@ -6,33 +6,27 @@ public class _UIController : MonoBehaviour
     public GameObject setting;
     public GameObject shop;
 
-    public void ShopOnOff(bool i)
+    public void ShopOnOff(bool _bool)
     {
-        if(i) {
+        if(_bool) 
             shop.SetActive(true);
-        }
-        else {
+        else
             shop.SetActive(false);
-        }
     }
 
-    public void PopUpOnOff(bool i)
+    public void PopUpOnOff(bool _bool)
     {
-        if(i) {
+        if(_bool) 
             popUP.SetActive(true);
-        }
-        else {
+        else
             popUP.SetActive(false);
-        }
     }
 
-    public void SettingOnOff(bool i)
+    public void SettingOnOff(bool _bool)
     {
-        if(i) {
+        if(_bool) 
             setting.SetActive(true);
-        }
-        else {
+        else
             setting.SetActive(false);
-        }
     }
 }

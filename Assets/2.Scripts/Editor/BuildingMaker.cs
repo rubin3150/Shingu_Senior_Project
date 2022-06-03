@@ -17,48 +17,49 @@ public class BuildingMaker : EditorWindow
     }
 
     public Buildings buildings = Buildings.None;
-    public ResourceType BuildingResourceType = ResourceType.None;
+    public ResourceType buildingResourceType = ResourceType.None;
     public int cost;
     public float buildTime;
     public float productionTime;
     public float maxResource;
     public Sprite buildingImg;
+    public string description;
 
+    [System.Obsolete]
     private void OnGUI()
     {
         EditorGUILayout.Space(15);
-        EditorGUILayout.LabelField("******À¯´Ö »ı¼º Åø******");
+        EditorGUILayout.LabelField("******ìœ ë‹› ìƒì„± íˆ´******");
         EditorGUILayout.Space(15);
 
-        GUILayout.Label("ºôµù ÀÌ¸§°ú ¸®¼Ò½º »ı¼º Å¸ÀÔÀ» ¼±ÅÃÇØÁÖ¼¼¿ä", EditorStyles.label);
-        
-        buildings = Buildings.None;
+        GUILayout.Label("ë¹Œë”© ì´ë¦„ê³¼ ë¦¬ì†ŒìŠ¤ ìƒì„± íƒ€ì…ì„ ì„ íƒí•´ì£¼ì„¸ìš”", EditorStyles.label);
 
-        BuildingResourceType = ResourceType.None;
+        buildings = (Buildings)EditorGUILayout.EnumPopup("ë¹Œë”© ì¢…ë¥˜", buildings);
+        buildingResourceType = (ResourceType)EditorGUILayout.EnumPopup("ì¬ë£Œ ìƒì‚° íƒ€ì…", buildingResourceType);
 
         GUILayout.Space(20);
 
-        buildingImg = (Sprite)EditorGUILayout.ObjectField("À¯´Ö ÀÌ¹ÌÁö", buildingImg, typeof(Sprite));
+        buildingImg = (Sprite)EditorGUILayout.ObjectField("ìœ ë‹› ì´ë¯¸ì§€", buildingImg, typeof(Sprite));
 
         GUILayout.Space(10);
 
-        cost = EditorGUILayout.IntField("Cost", cost);
+        cost = EditorGUILayout.IntField("ë¹„ìš©", cost);
 
-        buildTime = EditorGUILayout.FloatField("Ã¼·Â", buildTime);
+        buildTime = EditorGUILayout.FloatField("ì²´ë ¥", buildTime);
 
-        productionTime = EditorGUILayout.FloatField("°ø°İ·Â", productionTime);
+        productionTime = EditorGUILayout.FloatField("ê³µê²©ë ¥", productionTime);
 
-        maxResource = EditorGUILayout.FloatField("ÀÌµ¿¼Óµµ", maxResource);
+        maxResource = EditorGUILayout.FloatField("ì´ë™ì†ë„", maxResource);
 
-        //tag = EditorGUILayout.TextField("¼³¸í", tag);
+        description = EditorGUILayout.TextField("ì„¤ëª…", description);
 
 #if UNITY_EDITOR
 
-        if (GUILayout.Button("ºôµù µ¥ÀÌÅÍ »ı¼º!"))
+        if (GUILayout.Button("ë¹Œë”© ë°ì´í„° ìƒì„±!"))
         {
             if (buildingImg == null)
             {
-                Debug.Log("ºôµù ÀÌ¹ÌÁö¸¦ ¸ÕÀú Ã¤¿öÁÖ¼¼¿ä. ºôµùÀÌ¹ÌÁö°¡ ºñ¾îÀÖÀ¸¸é »ı¼ºµÇÁö ¾Ê½À´Ï´Ù.");
+                Debug.Log("ë¹Œë”© ì´ë¯¸ì§€ë¥¼ ë¨¼ì € ì±„ì›Œì£¼ì„¸ìš”. ë¹Œë”©ì´ë¯¸ì§€ê°€ ë¹„ì–´ìˆìœ¼ë©´ ìƒì„±ë˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
                 return;
             }
 
@@ -69,19 +70,16 @@ public class BuildingMaker : EditorWindow
             buildingData.productionTime = productionTime;
             buildingData.maxResource = maxResource;
 
-            //if (!FileCheck(buildings))
-            //{
-            CreateScriptableObject<BuildingData>("test");
-            //    CreatePrefabAsset(unitName, presetGameObject);
-            //    unit.unitPrefab = presetGameObject;
-            //}
+            if (!FileCheck(buildings.ToString()))
+            {
+                CreateScriptableObject<BuildingData>(buildings.ToString());
+            }
         }
     }
 
     private void CreateScriptableObject<T>(string name) where T : ScriptableObject
     {
-        var value = buildingData;//ScriptableObject.CreateInstance<T>();
-        //AssetDatabase.CreateAsset(value, "Assets/10.Data/Units" + path + "/New" + typeof(T).ToString() + ".asset");
+        var value = buildingData;
         AssetDatabase.CreateAsset(value, "Assets/10.Data/Buildings/" + name + ".asset");
         AssetDatabase.SaveAssets();
 
@@ -95,7 +93,7 @@ public class BuildingMaker : EditorWindow
 
         if (a.Length > 0)
         {
-            Debug.Log($"{FileName}°ú °°Àº ÀÌ¸§ÀÇ ÆÄÀÏÀÌ Á¸ÀçÇÕ´Ï´Ù. ÆÄÀÏ¸íÀ» ¼öÁ¤ÇÏ¼¼¿ä");
+            Debug.Log($"{FileName}ê³¼ ê°™ì€ ì´ë¦„ì˜ íŒŒì¼ì´ ì¡´ì¬í•©ë‹ˆë‹¤. íŒŒì¼ëª…ì„ ìˆ˜ì •í•˜ì„¸ìš”");
             return true;
         }
         return false;

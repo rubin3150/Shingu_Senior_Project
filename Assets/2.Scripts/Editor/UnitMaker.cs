@@ -32,6 +32,7 @@ public class UnitMaker : EditorWindow
     public int criRate;
     public int criDamage;
 
+    [System.Obsolete]
     private void OnGUI() 
     {
         EditorGUILayout.Space(15);

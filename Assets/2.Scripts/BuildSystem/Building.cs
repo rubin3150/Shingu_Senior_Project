@@ -40,6 +40,7 @@ public class Building : MonoBehaviour
     private float buildTime;
     private float productionTime;
     private float maxResource;
+    private string description;
 
     private void Start() 
     {
