@@ -12,4 +12,5 @@ public class BuildingData : ScriptableObject
     public float productionTime;
     public float maxResource;
     public Sprite buildingImg;
+    public string description;
 }

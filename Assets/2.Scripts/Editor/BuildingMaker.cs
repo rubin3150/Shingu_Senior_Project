@@ -29,7 +29,7 @@ public class BuildingMaker : EditorWindow
     private void OnGUI()
     {
         EditorGUILayout.Space(15);
-        EditorGUILayout.LabelField("******유닛 생성 툴******");
+        EditorGUILayout.LabelField("******빌딩 생성 툴******");
         EditorGUILayout.Space(15);
 
         GUILayout.Label("빌딩 이름과 리소스 생성 타입을 선택해주세요", EditorStyles.label);
@@ -45,7 +45,7 @@ public class BuildingMaker : EditorWindow
 
         cost = EditorGUILayout.IntField("비용", cost);
 
-        buildTime = EditorGUILayout.FloatField("체력", buildTime);
+        buildTime = EditorGUILayout.FloatField("건물 건설 시간", buildTime);
 
         productionTime = EditorGUILayout.FloatField("공격력", productionTime);
 
@@ -69,6 +69,9 @@ public class BuildingMaker : EditorWindow
             buildingData.buildTime = buildTime;
             buildingData.productionTime = productionTime;
             buildingData.maxResource = maxResource;
+            buildingData.buildings = buildings;
+            buildingData.BuildingResourceType = buildingResourceType;
+            buildingData.description = description;
 
             if (!FileCheck(buildings.ToString()))
             {

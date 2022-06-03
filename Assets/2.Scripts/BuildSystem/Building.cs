@@ -51,11 +51,13 @@ public class Building : MonoBehaviour
     {
         switch (BuildingType)
         {
+            case Buildings.None:
+                return;
             case Buildings.bee: 
-                //Debug.Log("이 빌딩은 " + Buildings.bee + "입니다.");
+                Debug.Log("이 빌딩은 " + Buildings.bee + "입니다.");
             break;
             case Buildings.windmil:
-                //Debug.Log("이 빌딩은 " + Buildings.windmil + "입니다.");
+                Debug.Log("이 빌딩은 " + Buildings.windmil + "입니다.");
             break;
         }
     }

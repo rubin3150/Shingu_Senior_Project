@@ -89,6 +89,7 @@ public class CameraRay : Singleton<CameraRay>
         {
             ResetBuildingsPosition();
             dummyGameObject = Instantiate(prefab, this.transform);
+            dummyGameObject.transform.position += new Vector3(0, 100, 0);
             buildings.Add(dummyGameObject);
             pickObject = dummyGameObject.transform;
         }

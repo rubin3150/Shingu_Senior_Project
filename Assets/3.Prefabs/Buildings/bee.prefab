@@ -198,4 +198,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11ad0dae021e5469b9d73f9671acd5fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thisBuilding: 8
+  buildingData: {fileID: 0}
+  BuildingType: 8
+  BuildingResourceType: 99
