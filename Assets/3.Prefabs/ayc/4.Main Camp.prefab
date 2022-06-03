@@ -870,7 +870,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1960019414940016006}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4394737858569936234}
+        m_TargetAssemblyTypeName: _UIController, Assembly-CSharp
+        m_MethodName: PopUp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &4697915712956960446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2907,7 +2919,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6899005222174894473}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4394737858569936234}
+        m_TargetAssemblyTypeName: _UIController, Assembly-CSharp
+        m_MethodName: PopUp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5457050317460713030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9895,7 +9919,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7620000080045936680}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4394737858569936234}
+        m_TargetAssemblyTypeName: _UIController, Assembly-CSharp
+        m_MethodName: PopUp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &5934858496124950376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11191,7 +11227,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7344911695242386082}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4394737858569936234}
+        m_TargetAssemblyTypeName: _UIController, Assembly-CSharp
+        m_MethodName: PopUp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2707997938186595868
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11330,7 +11378,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 731307830594135387}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4394737858569936234}
+        m_TargetAssemblyTypeName: _UIController, Assembly-CSharp
+        m_MethodName: PopUp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &4516741101567682090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13533,7 +13593,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3142081600975079510}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 4394737858569936234}
+        m_TargetAssemblyTypeName: _UIController, Assembly-CSharp
+        m_MethodName: ToShop
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7445702646596863579
 GameObject:
   m_ObjectHideFlags: 0
@@ -22609,6 +22681,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e987e47bcf780bc43adf90ac8e8f9d5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  popUP: {fileID: 6496470327286908881}
   mainCampChild:
   - {fileID: 2502357895593892056}
   - {fileID: 7662280728161192208}
@@ -22617,8 +22690,11 @@ MonoBehaviour:
   - {fileID: 7500855583847203201}
   - {fileID: 6105244375084820891}
   - {fileID: 6496470327286908881}
-  max_MainCampChild: 0
-  shopChild: 0
+  max_MainCampChild: 7
+  toShop:
+  - {fileID: 6105244375084820891}
+  - {fileID: 7500855583847203201}
+  max_ToShop: 2
 --- !u!1001 &4996158950171132315
 PrefabInstance:
   m_ObjectHideFlags: 0

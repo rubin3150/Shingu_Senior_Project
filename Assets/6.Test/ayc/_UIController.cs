@@ -5,10 +5,15 @@ using UnityEngine.UI;
 
 public class _UIController : MonoBehaviour
 {
+    public GameObject popUP;
+    
     public GameObject[] mainCampChild;
     public int max_MainCampChild;
 
-    public int shopChild;
+    // temp
+    public GameObject[] toShop;
+    public int max_ToShop;
+    // ______
 
     public void MainCamp_False()
     {
@@ -20,6 +25,13 @@ public class _UIController : MonoBehaviour
     public void ToShop()
     {
         MainCamp_False();
-        mainCampChild[shopChild].SetActive(true);
+        for(int i=0; i<max_ToShop; i++) {
+            toShop[i].SetActive(true);
+        }
+    }
+
+    public void PopUp()
+    {
+        popUP.SetActive(true);
     }
 }
