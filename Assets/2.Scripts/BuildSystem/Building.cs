@@ -19,13 +19,36 @@ public enum Buildings
     None = 99
 }
 
+public enum ResourceType
+{
+    moonEnergy,
+    wood,
+    stew,
+    iron,
+    honey,
+
+    None = 99
+}
+
 public class Building : MonoBehaviour
 {
-    public Buildings thisBuilding = Buildings.None;
+    public BuildingData buildingData;
+    public Buildings BuildingType = Buildings.None;
+    public ResourceType BuildingResourceType = ResourceType.None;
+
+    private int cost;
+    private float buildTime;
+    private float productionTime;
+    private float maxResource;
+
+    private void Start() 
+    {
+
+    }
 
     private void Update()
     {
-        switch (thisBuilding)
+        switch (BuildingType)
         {
             case Buildings.bee: 
                 //Debug.Log("이 빌딩은 " + Buildings.bee + "입니다.");
@@ -34,13 +57,5 @@ public class Building : MonoBehaviour
                 //Debug.Log("이 빌딩은 " + Buildings.windmil + "입니다.");
             break;
         }
-        // if(thisBuilding == Buildings.bee)
-        // {
-        //     Debug.Log("이 빌딩은 " + Buildings.bee + "입니다.");
-        // }
-        // if(thisBuilding == Buildings.windmil)
-        // {
-        //     Debug.Log("이 빌딩은 " + Buildings.windmil + "입니다.");
-        // }
     }
 }
