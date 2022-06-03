@@ -6,7 +6,8 @@ using UnityEngine.UI;
 public class _UIController : MonoBehaviour
 {
     public GameObject popUP;
-    
+    public GameObject setting;
+
     public GameObject[] mainCampChild;
     public int max_MainCampChild;
 
@@ -33,5 +34,10 @@ public class _UIController : MonoBehaviour
     public void PopUp()
     {
         popUP.SetActive(true);
+    }
+
+    public void Setting()
+    {
+        setting.SetActive(true);
     }
 }
