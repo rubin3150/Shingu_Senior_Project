@@ -1,43 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class _UIController : MonoBehaviour
 {
     public GameObject popUP;
     public GameObject setting;
+    public GameObject shop;
 
-    public GameObject[] mainCampChild;
-    public int max_MainCampChild;
-
-    // temp
-    public GameObject[] toShop;
-    public int max_ToShop;
-    // ______
-
-    public void MainCamp_False()
+    public void ShopOnOff(bool i)
     {
-        for(int i=0; i<max_MainCampChild; i++) {
-            mainCampChild[i].SetActive(false);
+        if(i) {
+            shop.SetActive(true);
+        }
+        else {
+            shop.SetActive(false);
         }
     }
 
-    public void ToShop()
+    public void PopUpOnOff(bool i)
     {
-        MainCamp_False();
-        for(int i=0; i<max_ToShop; i++) {
-            toShop[i].SetActive(true);
+        if(i) {
+            popUP.SetActive(true);
+        }
+        else {
+            popUP.SetActive(false);
         }
     }
 
-    public void PopUp()
+    public void SettingOnOff(bool i)
     {
-        popUP.SetActive(true);
-    }
-
-    public void Setting()
-    {
-        setting.SetActive(true);
+        if(i) {
+            setting.SetActive(true);
+        }
+        else {
+            setting.SetActive(false);
+        }
     }
 }
