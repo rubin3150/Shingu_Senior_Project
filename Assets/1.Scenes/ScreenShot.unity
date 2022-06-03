@@ -240,6 +240,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3952476392363605939, guid: e8bd2a26256552740a79d9d37d40e6df, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b7ea7b71a098b0e42a87f28876c1863d, type: 2}
+    - target: {fileID: 3952476392363605939, guid: e8bd2a26256552740a79d9d37d40e6df, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: d6577826ca26a92408fb32990b747f2b, type: 2}
     - target: {fileID: 8319029611182866642, guid: e8bd2a26256552740a79d9d37d40e6df, type: 3}
       propertyPath: m_Name
       value: blacksmith_shop
@@ -487,7 +495,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2287101129081840994, guid: 72845feb22651f24195fa824cabf2299, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 1.8
       objectReference: {fileID: 0}
     - target: {fileID: 2287101129081840994, guid: 72845feb22651f24195fa824cabf2299, type: 3}
       propertyPath: m_LocalPosition.z
@@ -561,7 +569,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6784340974182700253, guid: 78941c0cd016bbd498364f37847fb91a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 1.93
       objectReference: {fileID: 0}
     - target: {fileID: 6784340974182700253, guid: 78941c0cd016bbd498364f37847fb91a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -627,7 +635,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5439845954523157813, guid: 1098511b9827f7b4e9b1f3612ce9770b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 5439845954523157813, guid: 1098511b9827f7b4e9b1f3612ce9770b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -786,7 +794,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7243499154935549942, guid: fb4a2d476963e2544b7665930eaa932b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 0.06
       objectReference: {fileID: 0}
     - target: {fileID: 7243499154935549942, guid: fb4a2d476963e2544b7665930eaa932b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -844,7 +852,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 878429157252779099, guid: 8072a9f2553b4d042ac874c04350dc38, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 1.348
       objectReference: {fileID: 0}
     - target: {fileID: 878429157252779099, guid: 8072a9f2553b4d042ac874c04350dc38, type: 3}
       propertyPath: m_LocalPosition.z
@@ -944,6 +952,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5423480413537468283, guid: 7d3adc0d14da53e47a764acc54bd4570, type: 3}
+      propertyPath: m_Materials.Array.data[3]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3ab0f08e457b56e40be2d236d4f784b0, type: 2}
     - target: {fileID: 8402488454842441393, guid: 7d3adc0d14da53e47a764acc54bd4570, type: 3}
       propertyPath: m_Name
       value: snow_white_castle
@@ -1135,7 +1147,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 169815903778721810, guid: 8537f4ee770e6394784435ad164a2cee, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 1.54
       objectReference: {fileID: 0}
     - target: {fileID: 169815903778721810, guid: 8537f4ee770e6394784435ad164a2cee, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1254,7 +1266,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5747738310931570404, guid: c7910dd1af2d44f48a852e431072be6e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 0.41
       objectReference: {fileID: 0}
     - target: {fileID: 5747738310931570404, guid: c7910dd1af2d44f48a852e431072be6e, type: 3}
       propertyPath: m_LocalPosition.z
