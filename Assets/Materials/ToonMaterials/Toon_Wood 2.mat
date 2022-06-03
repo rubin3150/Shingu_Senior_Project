@@ -137,7 +137,7 @@ Material:
     - _Ap_RimLight_FeatherOff: 0
     - _Ap_RimLight_Power: 0.1
     - _BaseColor_Step: 0.7
-    - _BaseShade_Feather: 0.7
+    - _BaseShade_Feather: 0.0001
     - _Base_Speed: 0
     - _BlurLevelMatcap: 0
     - _BlurLevelSGM: 0
@@ -146,7 +146,7 @@ Material:
     - _CameraRolling_Stabilizer: 0
     - _Clipping_Level: 0
     - _ColorShift_Speed: 0
-    - _CullMode: 0
+    - _CullMode: 2
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -232,7 +232,7 @@ Material:
     - _Use_BaseAs1st: 0
     - _ZWrite: 1
     - _simpleUI: 0
-    - _utsTechnique: 1
+    - _utsTechnique: 0
     - _utsVersion: 2.08
     m_Colors:
     - _1st_ShadeColor: {r: 0.4528302, g: 0.40516385, b: 0.33962265, a: 1}
