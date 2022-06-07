@@ -5,6 +5,9 @@ public class _UIController : MonoBehaviour
     public GameObject popUP;
     public GameObject setting;
     public GameObject shop;
+    /*
+    public GameObject[] mainCampPage;
+    */
 
     public void ShopOnOff(bool _bool)
     {
@@ -29,4 +32,14 @@ public class _UIController : MonoBehaviour
         else
             setting.SetActive(false);
     }
+
+    /*
+    public void mainCampOnOff(bool _bool, int _int)
+    {
+        if(_bool)
+            mainCampPage[_int].SetActive(true);
+        else
+            mainCampPage[_int].SetActive(true);
+    }
+    */
 }

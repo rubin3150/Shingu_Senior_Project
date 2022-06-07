@@ -14,12 +14,8 @@ public class UIController : Singleton<UIController>
 
     public void NextPage(int _int)
     {   
-        for(int i=0; i<maxPage; i++) {
-            pagePrefab[i].gameObject.SetActive(false);
-        }
-
+        offAllPage();
         backPageNumber = pageNumber;
-        
         pageNumber = _int - 1;
         pagePrefab[pageNumber].gameObject.SetActive(true);
 
@@ -27,12 +23,8 @@ public class UIController : Singleton<UIController>
 
     public void BackPage()
     {   
-        for(int i=0; i<maxPage; i++) {
-            pagePrefab[i].gameObject.SetActive(false);
-        }
-
+        offAllPage();
         pageNumber = backPageNumber;
-
         pagePrefab[backPageNumber].gameObject.SetActive(true);
     }
 
@@ -43,6 +35,13 @@ public class UIController : Singleton<UIController>
 #else
         Application.Quit();
 #endif
+    }
+
+    private void offAllPage()
+    {
+        for(int i=0; i<maxPage; i++) {
+            pagePrefab[i].gameObject.SetActive(false);
+        }
     }
 
     // Temp
