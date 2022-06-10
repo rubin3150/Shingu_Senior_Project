@@ -3,33 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum Buildings
-{
-    music_box,
-    windmil,
-    candlestick,
-    Fountain,
-    gazebo,
-    Tower,
-    wood_house,
-    blacksmith_shop,
-    bee,
-    mushroom_house,
-
-    None = 99
-}
-
-public enum ResourceType
-{
-    moonEnergy,
-    wood,
-    stew,
-    iron,
-    honey,
-
-    None = 99
-}
-
 public class Building : MonoBehaviour
 {
     public BuildingData buildingData;
