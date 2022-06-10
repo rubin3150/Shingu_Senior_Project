@@ -77,11 +77,12 @@ public class CameraRay : Singleton<CameraRay>
             }
         }
 
-        if (Physics.Raycast(ray, out hit, 50f, IgnoreLayerMask))
+        if (Physics.Raycast(ray, out hit, float.MaxValue, IgnoreLayerMask))
             return;
 
-        if (Physics.Raycast(ray, out hit, 50f, unitLayerMask))
+        if (Physics.Raycast(ray, out hit, float.MaxValue, unitLayerMask))
         {
+            Debug.Log("dkdlfjsld;fajdksfj;aslkdfj;laskjdf;ss");
             if(pickObject != null) return;
 
             index = int.Parse(hit.transform.parent.name);

@@ -5,9 +5,16 @@ using UnityEngine;
 public class CameraMove : Singleton<CameraMove>
 {
     public Camera cam;
+    public float moveSpeed = 5f;
     public float zoomSpeed = 5f;
     public bool isMove = true;
+    public bool isLeft;
     private Vector2 m_Input;
+
+    [SerializeField] private float MaxY;
+    [SerializeField] private float MinY;
+    [SerializeField] private float MaxX;
+    [SerializeField] private float MinX;
 
     private void Update()
     {
@@ -31,6 +38,15 @@ public class CameraMove : Singleton<CameraMove>
 
     public void CamMove()
     {
+        //if (isLeft == true && theCam.transform.position.x > -13.5f)
+        //{
+        //    theCam.transform.position -= new Vector3(cameraSpeed * Time.deltaTime, 0, 0);
+        //}
+        //else if (isLeft == false && theCam.transform.position.x < 32.5f)
+        //{
+        //    theCam.transform.position += new Vector3(cameraSpeed * Time.deltaTime, 0, 0);
+        //}
+
         if (Input.GetMouseButtonDown(0))
         {
             m_Input.x = cam.transform.position.x;
@@ -39,10 +55,10 @@ public class CameraMove : Singleton<CameraMove>
 
         if (Input.GetMouseButton(0))
         {
-            m_Input.x += -Input.GetAxis("Mouse X");
-            m_Input.y += -Input.GetAxis("Mouse Y");
+            m_Input.x += -Input.GetAxis("Mouse X") * moveSpeed;
+            m_Input.y += -Input.GetAxis("Mouse Y") * moveSpeed;
 
-            cam.transform.position = new Vector3(Mathf.Clamp(m_Input.x, 0, 25), cam.transform.position.y, Mathf.Clamp(m_Input.y, -25, -10));
+            cam.transform.position = new Vector3(Mathf.Clamp(m_Input.x, MinX, MaxX), cam.transform.position.y, Mathf.Clamp(m_Input.y, MinY, MaxY));
         }
     }
 }
