@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraMove : Singleton<CameraMove>
 {
     public Camera cam;
-    public float zoomSpeed = -5f;
+    public float zoomSpeed = 5f;
     public bool isMove = true;
     private Vector2 m_Input;
 
@@ -18,7 +18,7 @@ public class CameraMove : Singleton<CameraMove>
 
     public void Zoom()
     {
-        float scroll = -Input.GetAxis("Mouse ScrollWheel") * zoomSpeed;
+        float scroll = -Input.GetAxis("Mouse ScrollWheel") * -zoomSpeed;
 
         if (cam.orthographicSize <= 4f && scroll > 0) // Maximum Zoom in
             cam.orthographicSize = 4f;

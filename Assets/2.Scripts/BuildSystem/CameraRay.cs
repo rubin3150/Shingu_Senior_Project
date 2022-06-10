@@ -27,11 +27,12 @@ public class CameraRay : Singleton<CameraRay>
     private Ray ray;
     private RaycastHit hit;
 
-    public List<GameObject> buildings = new List<GameObject>();
-
     public bool isEditing;
     public bool IsEditing { set { isEditing = value; } }
+    public bool isMoving;
     public Text statusText;
+    public GameObject option;
+    public List<GameObject> buildings = new List<GameObject>();
 
     private void Start()
     {
@@ -63,6 +64,19 @@ public class CameraRay : Singleton<CameraRay>
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
+        if(Physics.Raycast(ray, out hit))
+        {
+            if(hit.transform.CompareTag("Sell"))
+            {
+                SellBuilding(hit.transform.parent.transform.parent.gameObject);
+            }
+            if(hit.transform.CompareTag("Move"))
+            {
+                Destroy(hit.transform.parent.gameObject);
+                isMoving = true;
+            }
+        }
+
         if (Physics.Raycast(ray, out hit, 50f, IgnoreLayerMask))
             return;
 
@@ -72,26 +86,33 @@ public class CameraRay : Singleton<CameraRay>
 
             index = int.Parse(hit.transform.parent.name);
             int _x = Mathf.RoundToInt(hit.transform.localScale.x);
+            int _z = Mathf.RoundToInt(hit.transform.localScale.z);
             pickScaleX = _x;
-            pickScaleZ = (int)hit.transform.localScale.z;
+            pickScaleZ = _z;//(int)hit.transform.localScale.z;
 
             IsBool(index, false, pickScaleX, pickScaleZ);
             pickObject = hit.transform;
+
+            Vector3 _position = hit.transform.position - new Vector3(0, -2.5f, 1);
+            option.transform.localScale = new Vector3(1,1,1);
+            Vector3 _option = new Vector3(option.transform.localScale.x / pickScaleX, 1, option.transform.localScale.z / pickScaleX);
+            option.transform.localScale = _option;
+            Instantiate(option, _position, option.transform.localRotation, hit.transform);
         }
         else if (Physics.Raycast(ray, out hit, float.MaxValue, wallLayerMask)) 
             return;
-
     }
 
     public void BringObject()
     {
         if(isEditing)
         {
+            if(!buildings.Contains(dummyGameObject)) Destroy(dummyGameObject);
             ResetBuildingsPosition();
             dummyGameObject = Instantiate(prefab, this.transform);
             dummyGameObject.transform.position += new Vector3(0, 100, 0);
-            buildings.Add(dummyGameObject);
             pickObject = dummyGameObject.transform;
+            isMoving = true;
         }
     }
 
@@ -109,6 +130,7 @@ public class CameraRay : Singleton<CameraRay>
         if (Physics.Raycast(ray, out hit, float.MaxValue, wallLayerMask))
         {
             if (CheckBool(int.Parse(hit.transform.name), pickScaleX, pickScaleZ)) return;
+            if (!isMoving) return;
 
             pickObject.SetParent(hit.transform);
             pickObject.localPosition = new Vector3(-(pickScaleX - 1) * 0.5f, 1, (pickScaleZ - 1) * 0.5f);
@@ -118,6 +140,7 @@ public class CameraRay : Singleton<CameraRay>
         {
             if (pickObject != null)
             {
+                isMoving = false;
                 IsBool(int.Parse(pickObject.transform.parent.name), true, pickScaleX, pickScaleZ);
                 ResetBuildingsPosition();
                 if(buildings.Contains(pickObject.gameObject))
@@ -184,16 +207,12 @@ public class CameraRay : Singleton<CameraRay>
         }
     }
 
-    // public void UnLockBlock(int _int)
-    // {
-    //     if(_int <= w)
-    //     {
-    //         for (int i = 8; i < _int; i++)
-    //         {
-    //             LockUnLock(i, i, false);
-    //         }
-    //     }
-    // }
+    public void SellBuilding(GameObject go)
+    {
+        buildings.Remove(go);
+        pickObject = null;
+        Destroy(go);
+    }
 
     public void ResetBuildingsPosition()
     {

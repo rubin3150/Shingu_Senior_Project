@@ -10,6 +10,8 @@ TagManager:
   - Tower
   - Wall
   - Enemy
+  - Sell
+  - Move
   layers:
   - Default
   - TransparentFX

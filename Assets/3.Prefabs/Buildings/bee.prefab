@@ -201,3 +201,4 @@ MonoBehaviour:
   buildingData: {fileID: 0}
   BuildingType: 8
   BuildingResourceType: 99
+  option: {fileID: 0}
