@@ -14,9 +14,11 @@ public class StageManager : MonoBehaviour
 
     public GameObject[] spawnUnitTxt;
     public GameObject[] moonEnergyText;
+    public GameObject[] unitMoonIcon;
 
     public GameObject[] skillTxt;
-    public GameObject[] skillMoonEnergyTxt;
+    public GameObject[] skillManaTxt;
+    public GameObject[] skillManaIcon;
 
     public SelectUnitBase selectUnitBase;
 
@@ -55,22 +57,33 @@ public class StageManager : MonoBehaviour
 
     [SerializeField] private Transform playerTf;
 
+    [SerializeField] private SkillManager _skillManager;
+
     public void SetActiveUnitText()
     {
         for (int i = 0; i < skillTxt.Length; i++)
         {
-            skillTxt[i].SetActive(true);
-            skillMoonEnergyTxt[i].GetComponent<Text>().text = playerSet.skillMoonEnergy[skill.skillNum + i].ToString();
-            skillMoonEnergyTxt[i].SetActive(true);
+            if (_skillManager.isActive[i] == true)
+            {
+                skillManaIcon[i].SetActive(true);
+                skillTxt[i].SetActive(true);
+                skillManaTxt[i].SetActive(true);
+                skillManaTxt[i].GetComponentInChildren<TextMeshProUGUI>().text = playerSet.skillMoonEnergy[skill.skillNum + i].ToString();
+            }
+            else
+            {
+                break;
+            }
         }
         
         for (int i = 0; i < spawnUnitTxt.Length; i++)
         {
             if (selectUnitBase.quickSlot[i].unit != null)
             {
+                unitMoonIcon[i].SetActive(true);
                 spawnUnitTxt[i].SetActive(true);
-                moonEnergyText[i].GetComponent<Text>().text = selectUnitBase.quickSlot[i].unit.moonEnergy.ToString();
                 moonEnergyText[i].SetActive(true);
+                moonEnergyText[i].GetComponentInChildren<TextMeshProUGUI>().text = selectUnitBase.quickSlot[i].unit.moonEnergy.ToString();
             }
             else
             {
@@ -91,23 +104,23 @@ public class StageManager : MonoBehaviour
                 UpdateManaBar();
             }
             
-            if (Input.GetKeyDown(KeyCode.A))
+            if (Input.GetKeyDown(KeyCode.Q))
             {
                 CheckSpawnUnit(0);
             }
-            else if (Input.GetKeyDown(KeyCode.S))
+            else if (Input.GetKeyDown(KeyCode.W))
             {
                 CheckSpawnUnit(1);
             }
-            else if (Input.GetKeyDown(KeyCode.D))
+            else if (Input.GetKeyDown(KeyCode.E))
             {
                 CheckSpawnUnit(2);
             }
-            else if (Input.GetKeyDown(KeyCode.F))
+            else if (Input.GetKeyDown(KeyCode.R))
             {
                 CheckSpawnUnit(3);
             }
-            else if (Input.GetKeyDown(KeyCode.G))
+            else if (Input.GetKeyDown(KeyCode.T))
             {
                 CheckSpawnUnit(4);
             }

@@ -38,9 +38,10 @@ public class SkillManager : MonoBehaviour
     [SerializeField] private float range;
 
     [SerializeField] private LayerMask unitLayer;
+    [SerializeField] private LayerMask enemyLayer;
 
     [SerializeField] private Collider2D[] collider2Ds;
-    [SerializeField] private UnitMove[] unitHPs;
+    // [SerializeField] private UnitMove[] unitHPs;
     [SerializeField] private UnitMove[] setUnits;
     
     private UnitMove _unitMove;
@@ -48,7 +49,15 @@ public class SkillManager : MonoBehaviour
     [SerializeField] private GameObject[] units;
     
     [SerializeField] private GameObject damageText;
-     
+
+    private bool _manaCheck;
+
+   public bool moonCheck;
+
+    [SerializeField] private GameObject warningUi;
+
+    [SerializeField] private TextMeshProUGUI warningTxt;
+
     private int k = 0;
     
     private void Start()
@@ -94,23 +103,19 @@ public class SkillManager : MonoBehaviour
         goBase.transform.position = pos;
         
         txtSkillName.text = playerSet.skillName[currentSkillNum];
-    
-        txtSkillDesc.text = "소비하는 달빛 에너지 : " + playerSet.skillMoonEnergy[currentSkillNum] + "\n스킬 사거리 : " + playerSet.skillRange[currentSkillNum] + "\n스킬 쿨타임 : " +
-                            playerSet.skillCoolTime[currentSkillNum] + "초" + "\n스킬 유지 시간 : " +
-                            playerSet.maintainTime[currentSkillNum] + "초";
-        
+
         if (currentSkillNum == 0)
         {
-            txtSkillDesc.text += "\n스킬 가이드 : 사거리 내에 있는 모든 힐러 유닛 회복력을 " + playerSet.addStat[0] + "," + "모든 근거리 딜러 유닛 공격력을 " + playerSet.addStat[1] + "," + "모든 원거리 딜러 유닛 치명타 확률을 " + playerSet.addStat[2] + "," + "모든 탱커 유닛의 넉백 저항 수치를 " + playerSet.addStat[3] + ", " + "모든 유닛들의 이동속도를 " + playerSet.addStat[4] + "만큼 증가 시킨다";
+            txtSkillDesc.text = "\n스킬 가이드 : 사거리 내에 있는 모든 힐러 유닛 회복력을 " + playerSet.addStat[0] + "," + "모든 근거리 딜러 유닛 공격력을 " + playerSet.addStat[1] + "," + "모든 원거리 딜러 유닛 치명타 확률을 " + playerSet.addStat[2] + "," + "모든 탱커 유닛의 넉백 저항 수치를 " + playerSet.addStat[3] + ", " + "모든 유닛들의 이동속도를 " + playerSet.addStat[4] + "만큼 증가 시킨다";
         }
         else if (currentSkillNum == 1)
         {
-            txtSkillDesc.text += "\n스킬 가이드 : 소환된 모든 아군 유닛들의 체력을 최대 체력으로 회복시키고 유닛의 스킬 쿨타임을 " + playerSet.addStat[5] +
+            txtSkillDesc.text = "\n스킬 가이드 : 소환된 모든 아군 유닛들의 체력을 최대 체력으로 회복시키고 유닛의 스킬 쿨타임을 " + playerSet.addStat[5] +
                                  "만큼 감소시킨다";
         }
         else
         {
-            txtSkillDesc.text += "\n스킬 가이드 : 범위 안에 있는 모든 적군 유닛을 " + playerSet.addStat[6] + "~" + playerSet.addStat[7] + "랜덤 넉백 수치 만큼 넉백하고 고정 데미지 " + playerSet.addStat[8] + "를 입힌다";
+            txtSkillDesc.text = "\n스킬 가이드 : 범위 안에 있는 모든 적군 유닛을 " + playerSet.addStat[7] + "~" + playerSet.addStat[8] + "랜덤 넉백 수치 만큼 넉백하고 고정 데미지 " + playerSet.addStat[9] + "를 입힌다";
         }
         
         if (stageManager.inStage == false)
@@ -150,12 +155,32 @@ public class SkillManager : MonoBehaviour
                     // 첫번째 스킬 호출
                     SkillEffect(6);
                 }
+                else
+                {
+                    if (!coolTimeManager.isCoolTime[6] == isMaintain[0] == false)
+                    {
+                        if (_manaCheck == false)
+                        {
+                            ShowManaWarningUI("마나가 없습니다");
+                        }
+                    }
+                }
             }
             else if (skillNum == 1 && isActive[1] == true)
             {
                 if (stageManager.nowMana >= playerSet.skillMoonEnergy[skillNum])
                 {
                     SkillEffect(7);
+                }
+                else
+                {
+                    if (!coolTimeManager.isCoolTime[6])
+                    {
+                        if (_manaCheck == false)
+                        {
+                            ShowManaWarningUI("마나가 없습니다");
+                        }
+                    }
                 }
             }
             else if (skillNum == 2 && isActive[2] == true)
@@ -164,19 +189,57 @@ public class SkillManager : MonoBehaviour
                 {
                     SkillEffect(8);
                 }
+                else
+                {
+                    if (!coolTimeManager.isCoolTime[7])
+                    {
+                        if (_manaCheck == false)
+                        {
+                            ShowManaWarningUI("마나가 없습니다");
+                        }
+                    }
+                }
             }
         }
     }
 
-    private void ResetMaintain(int num)
+    private void ShowManaWarningUI(string text)
     {
-        if (isMaintain[num] == true)
-        {
-            skillEffect[num].Stop();
-            isMaintain[num] = false;
-            coolTimeManager.CoolTime(num + 6, true);
-        }
+        _manaCheck = true;
+        warningUi.SetActive(true);
+        warningTxt.text = text;
+        Invoke("HideManaWarningUI", 1f);
     }
+
+    private void HideManaWarningUI()
+    {
+        _manaCheck = false;
+        warningUi.SetActive(false);
+    }
+
+    public void ShowMoonWarningUI(string text)
+    {
+        moonCheck = true;
+        warningUi.SetActive(true);
+        warningTxt.text = text;
+        Invoke("HideMoonWarningUI", 1f);
+    }
+    
+    private void HideMoonWarningUI()
+    {
+        moonCheck = false;
+        warningUi.SetActive(false);
+    }
+
+    // private void ResetMaintain(int num)
+    // {
+    //     if (isMaintain[num] == true)
+    //     {
+    //         skillEffect[num].Stop();
+    //         isMaintain[num] = false;
+    //         coolTimeManager.CoolTime(num + 6, true);
+    //     }
+    // }
     
     public void SkillEffect(int num)
     {
@@ -213,29 +276,40 @@ public class SkillManager : MonoBehaviour
                 // 유닛 쿨타임 감소 구현해야함
                 UnitMove _unitMove = units[i].GetComponent<UnitMove>();
 
-                if (_unitMove.unit.unitName == "팅커벨")
+                if (_unitMove.isDead == false)
                 {
-                    ShowDamageTxt(_unitMove, _unitMove.maxHp - _unitMove.nowHpStat, new Vector3(0, 9.5f, 0));
-                }
-                else
-                {
-                    ShowDamageTxt(_unitMove, _unitMove.maxHp - _unitMove.nowHpStat, new Vector3(0, 5.5f, 0));
-                }
+                    if (_unitMove.unit.unitName == "팅커벨")
+                    {
+                        ShowDamageTxt(_unitMove.gameObject, _unitMove.maxHp - _unitMove.nowHpStat, new Vector3(0, 9.5f, 0), false);
+                    }
+                    else
+                    {
+                        ShowDamageTxt(_unitMove.gameObject, _unitMove.maxHp - _unitMove.nowHpStat, new Vector3(0, 5.5f, 0), false);
+                    }
                 
-                _unitMove.nowHpStat = _unitMove.maxHp;
-                _unitMove.UpdateHpBar(0, false);
+                    _unitMove.nowHpStat = _unitMove.maxHp;
+                    _unitMove.UpdateHpBar(0, false);
+                }
             }
         }
 
         Invoke("HideEffectSkill2", 2f);
     }
     
-    private void ShowDamageTxt(UnitMove unitMove, float damage, Vector3 yPos)
+    private void ShowDamageTxt(GameObject go, float damage, Vector3 yPos, bool damageCheck)
     {
         GameObject damageGo = Instantiate(damageText);
-        damageGo.transform.parent = unitMove.transform;
-        damageGo.transform.position = unitMove.transform.position + yPos; // 일반 유닛 5.5 // 팅커벨 유닛 7.5
-        damageGo.GetComponent<DamageText>().text.color = Color.green;
+        damageGo.transform.parent = go.transform;
+        damageGo.transform.position = go.transform.position + yPos; // 일반 유닛 5.5 // 팅커벨 유닛 7.5
+
+        if (damageCheck == true)
+        {
+            damageGo.GetComponent<DamageText>().text.color = Color.red;
+        }
+        else
+        {
+            damageGo.GetComponent<DamageText>().text.color = Color.green;
+        }
         damageGo.GetComponent<DamageText>().damage = damage;
         
         damageGo.GetComponent<DamageText>().isCri = false;
@@ -255,8 +329,31 @@ public class SkillManager : MonoBehaviour
 
     private void Skill3()
     {
+        coolTimeManager.CoolTime(8, true);
+
+        RaycastHit2D[] _rays = Physics2D.BoxCastAll(transform.position, new Vector2(1f, 18), 0, Vector2.right, playerSet.addStat[6], enemyLayer);
+
+        for (int i = 0; i < _rays.Length; i++)
+        {
+            if (_rays[i].transform.tag == "Enemy")
+            {
+                int _r = Random.Range(playerSet.addStat[7], playerSet.addStat[8] + 1);
+                _rays[i].transform.position += new Vector3(_r, 0f, 0f);
+                Enemy _enemy = _rays[i].transform.GetComponent<Enemy>();
+                _enemy.UpdateHpBar(playerSet.addStat[9]);
+                if (_enemy.unit.unitName == "달팽이")
+                {
+                    ShowDamageTxt(_enemy.gameObject, playerSet.addStat[9], new Vector3(0, 2f, 0), true);
+                }
+                else
+                {
+                    ShowDamageTxt(_enemy.gameObject, playerSet.addStat[9], new Vector3(0, 4f, 0), true);
+                }
+            }
+        }
+
         // 스킬 구현 전에 적 먼저 만들기
-        Invoke("HideEffectSkill2", 2f);
+        Invoke("HideEffectSkill3", 2f);
     }
 
     private void HideEffectSkill2()

@@ -48,13 +48,22 @@ public class Tower : MonoBehaviour
         {
             if (_isSpawn[0] == false)
             {
-                Debug.Log(1);
-                SpawnSnail(0);
+                SpawnMonster(0);
+            }
+
+            if (_isSpawn[1] == false)
+            {
+                SpawnMonster(1);
+            }
+
+            if (_isSpawn[2] == false)
+            {
+                SpawnMonster(2);
             }
         }
     }
 
-    private void SpawnSnail(int num)
+    private void SpawnMonster(int num)
     {
         _isSpawn[num] = true;
         StartCoroutine(SpawnSnailCoroutine(num));
@@ -68,7 +77,6 @@ public class Tower : MonoBehaviour
             {
                 SpawnEnemySet(num);
                 nowEnemy[num] += 1;
-                
             }
             
             yield return new WaitForSeconds(Units[num].spawnCoolTime);
@@ -84,6 +92,13 @@ public class Tower : MonoBehaviour
     {
         int _ranValue = UnityEngine.Random.Range(0, 3);
 
+        // 슬라임이 소환될 때마다 3마리 중 랜덤으로 하나 소환
+        if (num == 2)
+        {
+            int randomMonster = UnityEngine.Random.Range(2, 5);
+            num = randomMonster;
+        }
+
         // 몬스터 생성 부분 작성
         GameObject go = Instantiate(Units[num].unitPrefab, Vector3.zero, Quaternion.identity);
         
@@ -93,9 +108,9 @@ public class Tower : MonoBehaviour
 
         go.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
         
-        go.GetComponent<RectTransform>().localPosition = new Vector3(38.75f, -0.5f + -2.5f * _ranValue, 0);
+        go.GetComponent<RectTransform>().localPosition = new Vector3(38.75f, 0.5f + -2.5f * _ranValue, 0);
     }
- 
+    
     public void UpdateHpBar(float damage)
     {
         towerImage.color = new Color(153f / 255f, 153f / 255f, 153f / 255f, 255f / 255f);

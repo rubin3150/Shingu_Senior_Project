@@ -17,9 +17,9 @@ MonoBehaviour:
   unitPrefab: {fileID: 456347407088691645, guid: 8b97cd36f00160143a60a8a7748aa401, type: 3}
   moonEnergy: 20
   spawnCoolTime: 6
-  attackStat: 40
-  healStat: 0
-  attackRangeStat: 2
+  attackStat: 0
+  healStat: 20
+  attackRangeStat: 3
   attackAddRangeStat: 0
   criRate: 0
   criDamage: 0
@@ -30,3 +30,5 @@ MonoBehaviour:
   hpStat: 100
   type: Healer
   mpGet: 0
+  attackType: X
+  bossType: 

@@ -28,5 +28,7 @@ MonoBehaviour:
   attackDelayStat: 3
   speedStat: 5
   hpStat: 100
-  type: Melee
-  mpGet: 0
+  type: 
+  mpGet: 5
+  attackType: "\uC57D\uC810"
+  bossType: None

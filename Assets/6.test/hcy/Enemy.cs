@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
 using Effekseer;
+using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 public class Enemy : MonoBehaviour
 {
@@ -18,9 +21,13 @@ public class Enemy : MonoBehaviour
     public float attack;
     public float attackRange;
     public float attackAddRange;
-    public float arrackDelay;
+    public float pushResist;
+    public float attackDelay;
     public float criRate;
     public int criDamage;
+    public float mana;
+    public string bossType;
+    public string attackType;
     
     public LayerMask layerMask;
 
@@ -40,7 +47,7 @@ public class Enemy : MonoBehaviour
     
     private Vector3 _hitPos;
 
-    private bool isDead;
+    public bool isDead;
     
     [SerializeField] private BoxCollider2D boxCol;
     
@@ -49,19 +56,34 @@ public class Enemy : MonoBehaviour
     private float _unitAlphaTime = 1f;
 
     [SerializeField] private GameObject damageText;
-    
+
+    [SerializeField] private StageManager _stageManager;
+
+    [SerializeField] private Image hpBackImage;
+
+    public bool isStop;
+
+    private int k;
+
+    private Vector3 unitPos;
+
     // Start is called before the first frame update
     void Start()
     {
+        _stageManager = GameObject.Find("Manager").gameObject.GetComponent<StageManager>();
         moveSpeed = unit.speedStat;
         nowHpStat = unit.hpStat;
         attack = unit.attackStat;
         attackRange = unit.attackRangeStat;
         attackAddRange = unit.attackAddRangeStat;
-        arrackDelay = unit.attackDelayStat;
+        attackDelay = unit.attackDelayStat;
         pushRange = unit.pushRange;
+        pushResist = unit.pushResist;
         criRate = unit.criRate;
         criDamage = unit.criDamage;
+        mana = unit.mpGet;
+        bossType = unit.bossType;
+        attackType = unit.attackType;
         isMove = true;
     }
 
@@ -78,12 +100,13 @@ public class Enemy : MonoBehaviour
                 }
             
                 CheckObject();
+                CheckAttack();
 
                 if (_isAttack == true)
                 {
                     _currentDelay += Time.deltaTime;
 
-                    if (_currentDelay >= arrackDelay)
+                    if (_currentDelay >= attackDelay)
                     {
                         _isAttack = false;
                         _currentDelay = 0;
@@ -93,30 +116,72 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private RaycastHit2D[] _rays;
-    
     private void CheckObject()
     {
-        // _rays = Physics2D.BoxCastAll(transform.position, new Vector2(7.5f,18), 0, Vector2.left, attackRange, layerMask);
-        _ray = Physics2D.BoxCast(transform.position, new Vector2(1f,18), 0, Vector2.left, attackRange + attackAddRange, layerMask);
-        // Debug.DrawRay();
-        // ray를 rays로 변경
+        RaycastHit2D[] rays = Physics2D.BoxCastAll(transform.position, new Vector2(1f, 18), 0, Vector2.left,
+            attackRange + attackAddRange, layerMask);
+
+        for (int i = 0; i < rays.Length; i++)
+        {
+            if (rays[i].transform.tag == "Player")
+            {
+                _ray = rays[i];
+                
+                break;
+            }
+            else
+            {
+                if (attackType != "약점")
+                {
+                    _ray = Physics2D.BoxCast(transform.position, new Vector2(1f, 18), 0, Vector2.left,
+                        attackRange + attackAddRange, layerMask);
+                }
+                else
+                {
+                    if (i + 1 < rays.Length)
+                    {
+                        if (rays[i + 1].transform.tag != "Player")
+                        {
+                            if (rays[k].transform.GetComponent<UnitMove>().nowHpStat >=
+                                rays[i + 1].transform.GetComponent<UnitMove>().nowHpStat)
+                            {
+                                k = i + 1;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        _ray = rays[k];
+                        k = 0;
+                    }
+                }
+            }
+        }
+    }
+    
+    private void CheckAttack()
+    {
         if (_ray.collider != null)
         {
-            Debug.Log("아군 발견");
+            
             donMove = true;
+            _currentRay = _ray;
 
             if (!_isAttack)
             {
-                // _currentRay = _ray;
+
                 Attack();
             }
-            
+
         }
         else
         {
+            if (isStop == false)
+            {
+                donMove = false;
+            }
             // _isAttack = false;
-            donMove = false;
+            
         }
     }
     
@@ -136,18 +201,21 @@ public class Enemy : MonoBehaviour
             
             float criticalDamage = attack * (criDamage * 0.01f);
             
-            if (_ray.transform.tag == "Player")
+            if (_currentRay.transform.tag == "Player")
             {
-                _ray.transform.GetComponent<Player>().UpdateHpBar(criticalDamage);
+                _currentRay.transform.GetComponent<Player>().UpdateHpBar(criticalDamage);
                 ShowDamageTxt(criticalDamage, true, new Vector3(0, 6.5f, 0));
                 _hitPos = new Vector3(3f, 1, 0);
             }
-            else if (_ray.transform.tag == "Unit")
+            else if (_currentRay.transform.tag == "Unit")
             {
-                _ray.transform.GetComponent<UnitMove>().UpdateHpBar(criticalDamage, true);
+                UnitMove _unitMove = _currentRay.transform.GetComponent<UnitMove>();
+                
+                _unitMove.UpdateHpBar(criticalDamage, true);
 
-                if (_ray.transform.GetComponent<UnitMove>().unit.unitName == "팅커벨")
+                if (_unitMove.unit.unitName == "팅커벨")
                 {
+                    _unitMove.MoveAnim();
                     // Debug.Log("팅커벨 발견");
                     _hitPos = new Vector3(3f, 4, 0);
                     ShowDamageTxt(criticalDamage, true, new Vector3(0, 9.5f, 0));
@@ -157,25 +225,45 @@ public class Enemy : MonoBehaviour
                     ShowDamageTxt(criticalDamage, true, new Vector3(0, 5.5f, 0));
                     _hitPos = new Vector3(1f, -1, 0);
                 }
-                _ray.transform.position -= new Vector3(_ray.transform.GetComponent<UnitMove>().pushRange, 0f, 0f);
+
+                if (pushRange - _unitMove.pushResist >= 0)
+                {
+                    unitPos = _currentRay.transform.position -= new Vector3(pushRange - _unitMove.pushResist, 0f, 0f);
+                }
+                
+                if (unitPos.x < -46.25f)
+                {
+                    _currentRay.transform.position = new Vector3(46.25f, 0, 0);
+                }
+                else
+                {
+                    _currentRay.transform.position = unitPos;
+                }
+
+                if (_unitMove.isStop == false)
+                {
+                    _unitMove.StopMove();
+                }
             }
         }
         else
         {
-            if (_ray.transform.tag == "Player")
+            if (_currentRay.transform.tag == "Player")
             {
                 // Debug.Log(1);
-                _ray.transform.GetComponent<Player>().UpdateHpBar(attack);
+                _currentRay.transform.GetComponent<Player>().UpdateHpBar(attack);
 
                 ShowDamageTxt(attack, false, new Vector3(0, 6.5f, 0));
                 
                 _hitPos = new Vector3(3f, 1, 0);
             }
-            else if (_ray.transform.tag == "Unit")
+            else if (_currentRay.transform.tag == "Unit")
             {
-                _ray.transform.GetComponent<UnitMove>().UpdateHpBar(attack, true);
+                UnitMove _unitMove = _currentRay.transform.GetComponent<UnitMove>();
+                
+                _unitMove.UpdateHpBar(attack, true);
 
-                if (_ray.transform.GetComponent<UnitMove>().unit.unitName == "팅커벨")
+                if (_unitMove.unit.unitName == "팅커벨")
                 {
                     // Debug.Log("팅커벨 발견");
                     ShowDamageTxt(attack, false, new Vector3(0, 9.5f, 0));
@@ -183,13 +271,13 @@ public class Enemy : MonoBehaviour
                 }
                 else
                 {
-                    ShowDamageTxt(attack, false, new Vector3(0, 5.5f, 0));
+                    ShowDamageTxt(attack, false, new Vector3(0, 5, 0));
                     _hitPos = new Vector3(1f, -1, 0);
                 }
             }
         }
 
-        GameObject go = Instantiate(hit_Effect, _ray.transform.position + _hitPos, Quaternion.identity);
+        GameObject go = Instantiate(hit_Effect, _currentRay.transform.position + _hitPos, Quaternion.identity);
         go.GetComponent<EffekseerEmitter>().Play();
         
         Destroy(go, 1.5f);
@@ -200,8 +288,8 @@ public class Enemy : MonoBehaviour
     private void ShowDamageTxt(float damage, bool cirDamage, Vector3 yPos)
     {
         GameObject damageGo = Instantiate(damageText);
-        damageGo.transform.parent = _ray.transform;
-        damageGo.transform.position = _ray.transform.position + yPos; // 일반 유닛 5.5 // 팅커벨 유닛 7.5
+        damageGo.transform.SetParent(_currentRay.transform);
+        damageGo.transform.position = _currentRay.transform.position + yPos; // 일반 유닛 5.5 // 팅커벨 유닛 7.5
         damageGo.GetComponent<DamageText>().text.color = Color.red;
         damageGo.GetComponent<DamageText>().damage = damage;
         if (cirDamage == true)
@@ -233,6 +321,9 @@ public class Enemy : MonoBehaviour
             {
                 isDead = true;
                 boxCol.enabled = false;
+
+                _stageManager.nowMana += unit.mpGet;
+                _stageManager.UpdateManaBar();
                 StartCoroutine(FadeUnit());
             }
         }
@@ -256,6 +347,7 @@ public class Enemy : MonoBehaviour
             alpha.a = Mathf.Lerp(0, 1, _unitAlpha);
 
             unitImage.color = alpha;
+            hpBackImage.color = alpha;
 
             yield return null;
         }
@@ -277,6 +369,7 @@ public class Enemy : MonoBehaviour
 
             // 조절한 알파 값을 이미지의 컬러 값에 넣음
             unitImage.color = alpha;
+            hpBackImage.color = alpha;
             
             yield return null;
         }
@@ -284,7 +377,20 @@ public class Enemy : MonoBehaviour
         yield return null;
         Destroy(gameObject);
     }
-    
+
+    public void StopMove()
+    {
+        isStop = true;
+        donMove = true;
+        Invoke("DonStopMove", 1f);
+    }
+
+    private void DonStopMove()
+    {
+        isStop = false;
+        donMove = false;
+    }
+
     private void ResetImageAlpha()
     {
         unitImage.color = new Color(255f / 255f, 255f / 255f, 255f / 255f, 255f / 255f);

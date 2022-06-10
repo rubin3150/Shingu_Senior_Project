@@ -40,4 +40,8 @@ public class Unit : ScriptableObject
     [Tooltip("유닛의 직업군")] public string type;
 
     [Tooltip("적 유닛을 처치하였을 때 얻을 수 있는 마나")] public float mpGet;
+
+    [Tooltip("유닛의 공격 타입")] public string attackType;
+
+    [Tooltip("유닛이 보스 타입인지 아닌지 구분할 변수")] public string bossType;
 }

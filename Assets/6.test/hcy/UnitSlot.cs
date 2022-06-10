@@ -206,6 +206,13 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                     go.GetComponent<RectTransform>().localPosition = new Vector3(-46.25f, 0.5f + -2.5f * _ranValue, 0);
                 }
             }
+            else
+            {
+                if (_skillManager.moonCheck == false)
+                {
+                    _skillManager.ShowMoonWarningUI("달빛이 없습니다");
+                }
+            }
         }
     }
 

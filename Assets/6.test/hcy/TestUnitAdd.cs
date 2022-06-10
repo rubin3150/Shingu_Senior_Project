@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TestUnitAdd : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class TestUnitAdd : MonoBehaviour
 
     [SerializeField] private StageManager stageManager;
 
+    [SerializeField] private FadeIn _fadeIn;
+
     // Update is called once per frame
     void Update()
     {
@@ -23,29 +26,39 @@ public class TestUnitAdd : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.V))
             {
-                _r = Random.Range(0, Units.Length);
-
-                if (Units[_r] != null)
+                for (int i = 0; i < Units.Length; i++)
                 {
-                    theBase.AddMaxUnit(Units[_r].GetComponent<UnitPickUp>().unit);
-                    Units[_r] = null;
-                }
-                else if (Units[_r] == null)
-                {
-                    _r = Random.Range(0, Units.Length);
-                    if (Units[_r] != null)
+                    if (Units[i] != null)
                     {
-                        theBase.AddMaxUnit(Units[_r].GetComponent<UnitPickUp>().unit);
+                        theBase.AddMaxUnit(Units[i].GetComponent<UnitPickUp>().unit);
+                        Units[i] = null;
                     }
-
-                    Units[_r] = null;
                 }
+                // _r = Random.Range(0, Units.Length);
+                //
+                // if (Units[_r] != null)
+                // {
+                //     theBase.AddMaxUnit(Units[_r].GetComponent<UnitPickUp>().unit);
+                //     Units[_r] = null;
+                // }
+                // else if (Units[_r] == null)
+                // {
+                //     _r = Random.Range(0, Units.Length);
+                //     if (Units[_r] != null)
+                //     {
+                //         theBase.AddMaxUnit(Units[_r].GetComponent<UnitPickUp>().unit);
+                //     }
+                //
+                //     Units[_r] = null;
+                // }
             }
             else if (Input.GetKeyDown(KeyCode.B))
             {
                 if (skillManager.skillImage.Length > k)
                 {
                     skillManager.isActive[k] = true;
+                    _fadeIn.skillBorderImage[k].GetComponent<Image>().color =
+                        new Color(255f / 255f, 255f / 255f, 255f / 255f, 255f / 255f);
                     skillManager.SetColor();
                     k += 1;
                 }

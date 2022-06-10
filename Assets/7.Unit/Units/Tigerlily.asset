@@ -19,7 +19,8 @@ MonoBehaviour:
   spawnCoolTime: 6
   attackStat: 40
   healStat: 0
-  attackRangeStat: 1
+  attackRangeStat: 3
+  attackAddRangeStat: 0
   criRate: 15
   criDamage: 120
   pushRange: 5
@@ -29,3 +30,5 @@ MonoBehaviour:
   hpStat: 100
   type: Bruiser
   mpGet: 0
+  attackType: "\uC57D\uC810"
+  bossType: 

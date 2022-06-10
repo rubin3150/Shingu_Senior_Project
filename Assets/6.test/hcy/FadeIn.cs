@@ -38,7 +38,7 @@ public class FadeIn : MonoBehaviour
     [SerializeField] private Image fadeImage;
     
     
-    [SerializeField] private RectTransform[] skillBorderImage;
+    [SerializeField] public RectTransform[] skillBorderImage;
     [SerializeField] private RectTransform[] skillImage;
 
     [SerializeField] private SkillManager skillManager;
@@ -125,27 +125,43 @@ public class FadeIn : MonoBehaviour
             // 크기 변경
             quickBackImage.sizeDelta = new Vector2(1920, 200);
             // 퀵슬롯의 배경 이미지의 위치 변경
-            quickBackImage.localPosition = new Vector3(0f, -440f, 0);
+            quickBackImage.localPosition = new Vector3(0f, -445f, 0);
 
             quickSlotUnits.localPosition = new Vector3(-420f, 0f, 0);
             // 달빛 에너지 이미지 위치 변경
-            moonEnergyImage.localPosition = new Vector3(-450f, -315f, 0);
+            moonEnergyImage.localPosition = new Vector3(-450f, -327.5f, 0);
             
             skillBackImage.GetComponent<Image>().enabled = false;
 
             for (int i = 0; i < quickSlotImage.Length; i++)
             {
-                quickSlotImage[i].localPosition = new Vector3(-395 + 185 * i, -17.5f, 0);
+                quickSlotImage[i].localPosition = new Vector3(-395 + 185 * i, 0f, 0);
             }
 
             for (int i = 0; i < skillBorderImage.Length; i++)
             {
                 skillBorderImage[i].sizeDelta = new Vector2(243, 256);
                 skillBorderImage[i].localPosition = new Vector3(-430 + 265 * i, -210, 0);
-                skillImage[i].sizeDelta = new Vector2(140, 140);
+
+                if (i != 2)
+                {
+                    skillImage[i].localPosition = new Vector2(7.5f, 20);
+                    if (i == 1)
+                    {
+                        skillImage[i].localPosition = new Vector2(5f, -10);
+                    }
+                    skillImage[i].sizeDelta = new Vector2(500, 500);
+                }
+                else
+                {
+                    skillImage[i].localPosition = new Vector2(5, 5);
+                    skillImage[i].sizeDelta = new Vector2(128, 128);
+                }
 
                 if (skillManager.isActive[i] == true)
                 {
+                    skillBorderImage[i].GetComponent<Image>().color =
+                        new Color(255f / 255f, 255f / 255f, 255f / 255f, 255f / 255f);
                     btn[i].enabled = true;
                 }
             }

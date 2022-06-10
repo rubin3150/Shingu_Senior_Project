@@ -21,9 +21,6 @@ public class PlayerSet : MonoBehaviour
     // 플레이어의 스킬이미지를 담을 변수 
     public Sprite[] skillImage;
 
-    // 플레이어의 스킬 사거리를 담을 변수
-    public float[] skillRange;
-
     // 플레이어의 스킬 쿨타임을 담을 변수 
     public float[] skillCoolTime;
 
@@ -33,5 +30,5 @@ public class PlayerSet : MonoBehaviour
     public float[] maintainTime;
 
     // 플레이어의 스킬에 따라 증가하는 첫번째 스텟을 담을 변수 
-    public float[] addStat;
+    public int[] addStat;
 }

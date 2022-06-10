@@ -271,3 +271,4 @@ MonoBehaviour:
   text: {fileID: 5101791154306258000}
   damage: 0
   criUI: {fileID: 3668091191272929178}
+  isCri: 0

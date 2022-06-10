@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 public class CameraMovehcy : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -19,10 +20,10 @@ public class CameraMovehcy : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     [SerializeField] private bool isLeft;
 
     // 카메라의 이동 속도를 담을 변수 
-    [SerializeField] private float cameraSpeed;
+    [SerializeField] private float mouseCameraSpeed;
 
     // 카메라가 영역에 들어왔는지 아닌지 체크할 변수
-    private bool _dragMouse;
+    public bool _dragMouse;
 
     #endregion
     
@@ -32,19 +33,22 @@ public class CameraMovehcy : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     private void Update()
     {
         // 마우스 포인트가 영역에 들어와 있으면서 전투 스테이지라면 아래 코드 실행
-        if (_dragMouse == true && stageManager.inStage == true)
+        if (stageManager.inStage == true)
         {
-            // 변수 값이 참이라면 아래 코드 실행 (왼쪽 영역이라면)
-            if (isLeft == true && theCam.transform.position.x > -13.5f)
+            if (_dragMouse == true)
             {
-                // 카메라의 위치를 카메라 스피드 만큼 좌측으로 이동
-                theCam.transform.position -= new Vector3(cameraSpeed  * Time.deltaTime, 0, 0);
-            }
-            // 변수 값이 거짓이라면 아래 코드 실행 (오른쪽 영역이라면)
-            else if (isLeft == false && theCam.transform.position.x < 32.5f)
-            {
-                // 카메라의 위치를 카메라 스피드 만큼 우측으로 이동
-                theCam.transform.position += new Vector3(cameraSpeed  * Time.deltaTime, 0, 0);
+                // 변수 값이 참이라면 아래 코드 실행 (왼쪽 영역이라면)
+                if (isLeft == true && theCam.transform.position.x > -13.5f)
+                {
+                    // 카메라의 위치를 카메라 스피드 만큼 좌측으로 이동
+                    theCam.transform.position -= new Vector3(mouseCameraSpeed  * Time.deltaTime, 0, 0);
+                }
+                // 변수 값이 거짓이라면 아래 코드 실행 (오른쪽 영역이라면)
+                else if (isLeft == false && theCam.transform.position.x < 32.5f)
+                {
+                    // 카메라의 위치를 카메라 스피드 만큼 우측으로 이동
+                    theCam.transform.position += new Vector3(mouseCameraSpeed  * Time.deltaTime, 0, 0);
+                }
             }
         }
     }
