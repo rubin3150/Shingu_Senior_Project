@@ -178,6 +178,7 @@ GameObject:
   - component: {fileID: 1425735955532011501}
   - component: {fileID: 6526322333007490978}
   - component: {fileID: 2309365334203187584}
+  - component: {fileID: -2667527014651102277}
   m_Layer: 7
   m_Name: blacksmith_shop
   m_TagString: Unit
@@ -263,3 +264,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-2667527014651102277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8319029611182866642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11ad0dae021e5469b9d73f9671acd5fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingData: {fileID: 11400000, guid: 21b4032abba33814a8f050d5abd67eea, type: 2}
+  buildingType: 7
+  resourceType: 9

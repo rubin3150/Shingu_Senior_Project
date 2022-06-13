@@ -5,7 +5,7 @@ using UnityEngine;
 public enum ResourceType
 {
     //Resource
-    moonEnergy  = 0,
+    childlikeEnergy  = 0,
     log         = 1,
     flower    = 2,
     ore         = 3,
@@ -20,12 +20,12 @@ public enum ResourceType
     None
 }
 
-public enum Buildings
+public enum BuildingType
 {
     music_box,
     windmil,
     candlestick,
-    Fountain,
+    fountain,
     gazebo,
     Tower,
     wood_house,
@@ -34,9 +34,4 @@ public enum Buildings
     mushroom_house,
 
     None
-}
-
-public class EnumManager : MonoBehaviour
-{
-
 }

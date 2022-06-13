@@ -6,20 +6,23 @@ using UnityEngine.UI;
 public class Building : MonoBehaviour
 {
     public BuildingData buildingData;
-    public Buildings buildingType = Buildings.None;
+    public BuildingType buildingType = BuildingType.None;
     public ResourceType resourceType = ResourceType.None;
     
     private int resource;
 
     private int cost;
     private float buildTime;
-    private float createTime;
     private int maxResource;
     private string description;
     private bool isCreation = true;
     private bool isCollect;
+    private Collider _collider;
+    private MeshRenderer _mesh;
 
     private Coroutine thisCoroutine;
+    private GameObject model;
+    private GameObject effect;
 
     private void OnEnable() 
     {
@@ -27,6 +30,8 @@ public class Building : MonoBehaviour
         buildTime = buildingData.buildTime;
         maxResource = buildingData.maxResource;
         description = buildingData.description;
+        _collider = this.GetComponent<Collider>();
+        _mesh = this.GetComponent<MeshRenderer>();
         CreateReosource();
     }
 
@@ -42,40 +47,40 @@ public class Building : MonoBehaviour
         }
     }
 
-    public void BuildingType()
+    public void thisType()
     {
         switch (buildingType)
         {
-            case Buildings.None:
+            case BuildingType.None:
                 return;
-            case Buildings.music_box:
+            case BuildingType.music_box:
 
             break;
-            case Buildings.windmil:
+            case BuildingType.windmil:
 
             break;
-            case Buildings.candlestick:
+            case BuildingType.candlestick:
 
                 break;
-            case Buildings.Fountain:
+            case BuildingType.fountain:
 
                 break;
-            case Buildings.gazebo:
+            case BuildingType.gazebo:
 
                 break;
-            case Buildings.Tower:
+            case BuildingType.Tower:
 
                 break;
-            case Buildings.wood_house:
+            case BuildingType.wood_house:
 
                 break;
-            case Buildings.blacksmith_shop:
+            case BuildingType.blacksmith_shop:
 
                 break;
-            case Buildings.bee:
+            case BuildingType.bee:
 
                 break;
-            case Buildings.mushroom_house:
+            case BuildingType.mushroom_house:
 
                 break;
         }
@@ -87,25 +92,50 @@ public class Building : MonoBehaviour
         {
             case ResourceType.None:
                 return;
-            case ResourceType.moonEnergy:
+            case ResourceType.childlikeEnergy:
                 thisCoroutine = StartCoroutine(Create(2, 1f));
                 return;
             case ResourceType.log:
                 resource = maxResource;
+                
                 return;
             case ResourceType.flower:
                 resource = maxResource;
+                
                 return;
             case ResourceType.ore:
                 resource = maxResource;
+                
                 return;
             case ResourceType.mushroom:
                 resource = maxResource;
+                
                 return;
         }
     }
 
-    IEnumerator Create(int _int, float _time)
+    public void Stop()
+    {
+        StopCoroutine(thisCoroutine);
+    }
+
+    public void buildBuilding(GameObject _model, GameObject _effect)
+    {
+        for (int i = 0; i < transform.GetChildCount(); i++)
+        {
+            transform.GetChild(i).gameObject.SetActive(false);
+        }
+        _collider.enabled = false;
+        model = Instantiate(_model, transform);
+        effect = Instantiate(_effect, transform);
+        model.transform.localPosition = new Vector3(0, -0.5f, 0);
+        model.transform.localEulerAngles = new Vector3(0, -transform.localEulerAngles.y, 0);
+        model.transform.localScale = new Vector3(0.31f, 0.31f * this.transform.localScale.x, 0.31f);
+        effect.transform.localScale = new Vector3(0.7f, 0.31f * this.transform.localScale.x, 0.7f);
+        StartCoroutine(DestroyEffect(model, effect, buildTime));
+    }
+
+    private IEnumerator Create(int _int, float _time)
     {
         while(isCreation)
         {
@@ -114,8 +144,25 @@ public class Building : MonoBehaviour
         }
     }
 
-    public void Stop()
+    private IEnumerator DestroyEffect(GameObject _model, GameObject _effect, float _time)
     {
-        StopCoroutine(thisCoroutine);
+        yield return new WaitForSeconds(_time);
+        Destroy(_model);
+        Destroy(_effect);
+        _collider.enabled = true;
+        for (int i = 0; i < transform.GetChildCount(); i++)
+        {
+            transform.GetChild(i).gameObject.SetActive(true);
+        }
+    }
+
+    public IEnumerator GetResource(GameObject _gameObject, float _time)
+    {
+        ResourceSystem.Instance.GetResource(resourceType, resource);
+        _mesh.enabled = false;
+        _collider.enabled = false;
+        yield return new WaitForSeconds(_time);
+        _mesh.enabled = true;
+        _collider.enabled = true;
     }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Building", menuName = "New Building/building")]
 public class BuildingData : ScriptableObject
 {
-    public Buildings buildings = Buildings.None;
+    public BuildingType buildingType = BuildingType.None;
     public ResourceType BuildingResourceType = ResourceType.None;
     public int cost;
     public float buildTime;

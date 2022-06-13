@@ -199,7 +199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11ad0dae021e5469b9d73f9671acd5fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingData: {fileID: 0}
+  buildingData: {fileID: 11400000, guid: f0928b772c20baf4daab92c063505929, type: 2}
   buildingType: 10
   resourceType: 9
 --- !u!1 &6529729034749750765

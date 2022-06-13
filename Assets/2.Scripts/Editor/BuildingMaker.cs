@@ -16,7 +16,7 @@ public class BuildingMaker : EditorWindow
         window.Show();
     }
 
-    public Buildings buildings = Buildings.None;
+    public BuildingType buildingType = BuildingType.None;
     public ResourceType buildingResourceType = ResourceType.None;
     public int cost;
     public float buildTime;
@@ -33,7 +33,7 @@ public class BuildingMaker : EditorWindow
 
         GUILayout.Label("빌딩 이름과 리소스 생성 타입을 선택해주세요", EditorStyles.label);
 
-        buildings = (Buildings)EditorGUILayout.EnumPopup("빌딩 종류", buildings);
+        buildingType = (BuildingType)EditorGUILayout.EnumPopup("빌딩 종류", buildingType);
         buildingResourceType = (ResourceType)EditorGUILayout.EnumPopup("재료 생산 타입", buildingResourceType);
 
         GUILayout.Space(20);
@@ -65,13 +65,13 @@ public class BuildingMaker : EditorWindow
             buildingData.cost = cost;
             buildingData.buildTime = buildTime;
             buildingData.maxResource = maxResource;
-            buildingData.buildings = buildings;
+            buildingData.buildingType = buildingType;
             buildingData.BuildingResourceType = buildingResourceType;
             buildingData.description = description;
 
-            if (!FileCheck(buildings.ToString()))
+            if (!FileCheck(buildingType.ToString()))
             {
-                CreateScriptableObject<BuildingData>(buildings.ToString());
+                CreateScriptableObject<BuildingData>(buildingType.ToString());
             }
         }
     }

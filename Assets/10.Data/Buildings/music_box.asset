@@ -13,10 +13,9 @@ MonoBehaviour:
   m_Name: music_box
   m_EditorClassIdentifier: 
   buildings: 0
-  BuildingResourceType: 5
-  cost: 15
-  buildTime: 5
-  createTime: 55
-  maxResource: 5
-  buildingImg: {fileID: 21300000, guid: 95910c61c2dbc4e43b22769f27cd2766, type: 3}
-  description: 5
+  BuildingResourceType: 0
+  cost: 0
+  buildTime: 30
+  maxResource: 0
+  buildingImg: {fileID: 21300000, guid: 9fc37b2adc5404e448fe4c339cb2e288, type: 3}
+  description: "\uB3D9\uC2EC\uC5D0\uB108\uC9C0\uB97C \uC0DD\uC0B0\uD558\uB294 \uAC74\uBB3C"
