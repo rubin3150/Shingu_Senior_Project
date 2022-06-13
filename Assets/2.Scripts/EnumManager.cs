@@ -6,16 +6,16 @@ public enum ResourceType
 {
     //Resource
     moonEnergy  = 0,
-    wood        = 1,
-    stew        = 2,
+    log         = 1,
+    flower    = 2,
     ore         = 3,
-    honey       = 4,
+    mushroom      = 4,
 
     //ManufactureResource
-    board = 5,
-    mushroom    = 6,
+    board       = 5,
+    honey        = 6,
     iron        = 7,
-    flower      = 8,
+    stew      = 8,
 
     None
 }

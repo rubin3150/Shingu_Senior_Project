@@ -72,6 +72,7 @@ public class CameraRay : Singleton<CameraRay>
             }
             if(hit.transform.CompareTag("Move"))
             {
+                pickObject.transform.GetChild(1).GetComponent<MeshRenderer>().enabled = true;
                 Destroy(hit.transform.parent.gameObject);
                 isMoving = true;
             }
@@ -82,23 +83,25 @@ public class CameraRay : Singleton<CameraRay>
 
         if (Physics.Raycast(ray, out hit, float.MaxValue, unitLayerMask))
         {
-            Debug.Log("dkdlfjsld;fajdksfj;aslkdfj;laskjdf;ss");
-            if(pickObject != null) return;
+            if(isEditing)
+            {
+                if(pickObject != null) return;
 
-            index = int.Parse(hit.transform.parent.name);
-            int _x = Mathf.RoundToInt(hit.transform.localScale.x);
-            int _z = Mathf.RoundToInt(hit.transform.localScale.z);
-            pickScaleX = _x;
-            pickScaleZ = _z;//(int)hit.transform.localScale.z;
+                index = int.Parse(hit.transform.parent.name);
+                int _x = Mathf.RoundToInt(hit.transform.localScale.x);
+                int _z = Mathf.RoundToInt(hit.transform.localScale.z);
+                pickScaleX = _x;
+                pickScaleZ = _z;//(int)hit.transform.localScale.z;
 
-            IsBool(index, false, pickScaleX, pickScaleZ);
-            pickObject = hit.transform;
+                IsBool(index, false, pickScaleX, pickScaleZ);
+                pickObject = hit.transform;
 
-            Vector3 _position = hit.transform.position - new Vector3(0, -2.5f, 1);
-            option.transform.localScale = new Vector3(1,1,1);
-            Vector3 _option = new Vector3(option.transform.localScale.x / pickScaleX, 1, option.transform.localScale.z / pickScaleX);
-            option.transform.localScale = _option;
-            Instantiate(option, _position, option.transform.localRotation, hit.transform);
+                Vector3 _position = hit.transform.position - new Vector3(0, -2.5f, 1);
+                option.transform.localScale = new Vector3(1,1,1);
+                Vector3 _option = new Vector3(option.transform.localScale.x / pickScaleX, 1, option.transform.localScale.z / pickScaleX);
+                option.transform.localScale = _option;
+                Instantiate(option, _position, option.transform.localRotation, hit.transform);
+            }
         }
         else if (Physics.Raycast(ray, out hit, float.MaxValue, wallLayerMask)) 
             return;
@@ -112,6 +115,7 @@ public class CameraRay : Singleton<CameraRay>
             ResetBuildingsPosition();
             dummyGameObject = Instantiate(prefab, this.transform);
             dummyGameObject.transform.position += new Vector3(0, 100, 0);
+            dummyGameObject.transform.GetChild(1).GetComponent<MeshRenderer>().enabled = true;
             pickObject = dummyGameObject.transform;
             isMoving = true;
         }
@@ -123,7 +127,7 @@ public class CameraRay : Singleton<CameraRay>
 
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(ray, out hit, 50f, IgnoreLayerMask))
+        if (Physics.Raycast(ray, out hit, float.MaxValue, IgnoreLayerMask))
         {
             return;
         }
@@ -144,6 +148,7 @@ public class CameraRay : Singleton<CameraRay>
                 isMoving = false;
                 IsBool(int.Parse(pickObject.transform.parent.name), true, pickScaleX, pickScaleZ);
                 ResetBuildingsPosition();
+                dummyGameObject.transform.GetChild(1).GetComponent<MeshRenderer>().enabled = false;
                 if(buildings.Contains(pickObject.gameObject))
                 {
                     pickObject = null;

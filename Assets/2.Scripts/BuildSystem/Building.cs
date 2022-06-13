@@ -15,6 +15,7 @@ public class Building : MonoBehaviour
     private float createTime;
     private float maxResource;
     private string description;
+    private bool isCreation = true;
 
     private Coroutine thisCoroutine;
 
@@ -80,7 +81,7 @@ public class Building : MonoBehaviour
         {
             case ResourceType.None:
                 return;
-            case ResourceType.wood:
+            case ResourceType.log:
                 thisCoroutine = StartCoroutine(Create(1));
                 break;
             case ResourceType.stew:
@@ -97,10 +98,10 @@ public class Building : MonoBehaviour
 
     IEnumerator Create(int _int)
     {
-        while(true)
+        while(isCreation)
         {
             resource += _int;
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(1f);
         }
     }
 
