@@ -14,6 +14,8 @@ public class PlayerSet : MonoBehaviour
     
     // 플레이어의 최대 Hp를 담을 변수
     public float[] maxHpStat;
+
+    public float[] manaStat;
     
     // 플레이어의 스피드를 담을 변수
     public float[] speedStat;

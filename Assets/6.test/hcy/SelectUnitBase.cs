@@ -18,6 +18,7 @@ public class SelectUnitBase : MonoBehaviour
     
     // 왼쪽 화살표 이미지를 담을 변수
     [SerializeField] private Image leftArrow;
+    [SerializeField] private Image rightArrow;
     
     // Player 스크립트를 담을 변수
     [SerializeField] private Player player;
@@ -27,7 +28,8 @@ public class SelectUnitBase : MonoBehaviour
     // 페이지 텍스트를 담을 변수
     [SerializeField] private TextMeshProUGUI pageText;
     // 플레이어 정보 텍스트를 담을 변수
-    [SerializeField] private TextMeshProUGUI playerInfoText;
+    [SerializeField] private TextMeshProUGUI playerHpTxt;
+    [SerializeField] private TextMeshProUGUI playerManaTxt;
     
     // 퀵슬롯의 스크립트를 관리할 변수 
     public UnitSlot[] quickSlot;
@@ -53,9 +55,10 @@ public class SelectUnitBase : MonoBehaviour
     {
         // 유닛슬롯의 하위 오브젝트들을 모두 변수에 넣음
         _unitSlots = unitSlotParent.GetComponentsInChildren<UnitSlot>();
-        
-        // 변수에 설정한 플레이어의 스텟을 넣어줌
-        playerInfoText.text = "체력 : " + player.hpStat + "\n스피드 : " + player.speedStat;
+
+        playerHpTxt.text = player.hpStat + "/" + player.hpStat;
+
+        playerManaTxt.text = player.maxMana + "/" + player.maxMana;
     }
 
     /// <summary>
@@ -79,6 +82,8 @@ public class SelectUnitBase : MonoBehaviour
             }
         }
     }
+    
+    // -70 , 15
 
     /// <summary>
     /// 퀵슬롯의 유닛을 클릭하였을때 호출하는 함수
@@ -327,6 +332,7 @@ public class SelectUnitBase : MonoBehaviour
         {
             _page++;
             pageText.text = _page + "/" + maxUnit.Length / (maxUnit.Length / 2);
+            rightArrow.color = new Color(100f / 255f, 100f / 255f, 100f / 255f, 155f / 255f);
             leftArrow.color = new Color(255f / 255f, 255f / 255f, 255f / 255f, 255f / 255f);
             PageSetting();
         }
@@ -339,6 +345,7 @@ public class SelectUnitBase : MonoBehaviour
         {
             _page--;
             pageText.text = _page + "/" + maxUnit.Length / (maxUnit.Length / 2);
+            rightArrow.color = new Color(255f / 255f, 255f / 255f, 255f / 255f, 255f / 255f);
             leftArrow.color = new Color(100f / 255f, 100f / 255f, 100f / 255f, 155f / 255f);
             PageSetting();
             

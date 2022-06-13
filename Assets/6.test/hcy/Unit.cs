@@ -18,11 +18,12 @@ public class Unit : ScriptableObject
     [Tooltip("유닛의 공격력")] public float attackStat;
 
     [Tooltip("유닛의 회복력")] public float healStat;
+
+    [Tooltip("적과 어느 정도의 거리를 두고 이동을 멈추게 하는 거리")]
+    public float donMoveDistance;
     
     [Tooltip("유닛의 기본 공격 사거리")] public float attackRangeStat;
-    
-    [Tooltip("유닛의 추가 공격 사거리")] public float attackAddRangeStat;
-    
+
     [Tooltip("유닛의 치명차 확률")] public int criRate;
     
     [Tooltip("유닛의 치명타 대미지")] public int criDamage;

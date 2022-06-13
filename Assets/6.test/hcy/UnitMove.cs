@@ -13,8 +13,8 @@ public class UnitMove : MonoBehaviour
 {
     public float moveSpeed;
     public float attack;
+    public float donMoveDistance;
     public float attackRange;
-    public float attackAddRangeStat;
     public float heal;
     public float pushResist;
     public float attackDelay;
@@ -72,13 +72,13 @@ public class UnitMove : MonoBehaviour
     
     [SerializeField] private GameObject damageText;
 
-    [SerializeField] private Image hpBackImage;
+    [SerializeField] public Image hpBackImage;
 
     public bool isStop;
     
     private int k = 0;
 
-    private Vector3 enemyPos;
+    private Vector3 _enemyPos;
 
     private void Update()
     {
@@ -132,8 +132,8 @@ public class UnitMove : MonoBehaviour
                     maxHp = unit.hpStat;
                     attack = unit.attackStat;
                     heal = unit.healStat;
+                    donMoveDistance = unit.donMoveDistance;
                     attackRange = unit.attackRangeStat;
-                    attackAddRangeStat = unit.attackAddRangeStat;
                     attackDelay = unit.attackDelayStat;
                     pushRange = unit.pushRange;
                     pushResist = unit.pushResist;
@@ -156,21 +156,20 @@ public class UnitMove : MonoBehaviour
         // 힐러가 아니라면 아래 코드 실행
         if (unit.type != "Healer")
         {
-            RaycastHit2D[] rays = Physics2D.BoxCastAll(transform.position, new Vector2(1f, 18), 0, Vector2.right, attackRange + attackAddRangeStat, enemyMask);
+            RaycastHit2D[] rays = Physics2D.BoxCastAll(transform.position, new Vector2(1f, 18), 0, Vector2.right, attackRange, enemyMask);
 
             // 앞에 몬스터가 없을 경우
             if (rays.Length == 0)
             {
                 // 포탑 공격대상으로 선택
                 _ray = Physics2D.BoxCast(transform.position, new Vector2(1f, 18), 0, Vector2.right,
-                    attackRange + attackAddRangeStat, towerMask);
+                    attackRange, towerMask);
             }
             // 앞에 몬스터가 있음
             else
             {
                 for (int i = 0; i < rays.Length; i++)
                 {
-
                     if (rays[i].transform.GetComponent<Enemy>().bossType == "Boss")
                     {
                         _ray = rays[i];
@@ -183,7 +182,7 @@ public class UnitMove : MonoBehaviour
                         if (attackType != "약점")
                         {
                             _ray = Physics2D.BoxCast(transform.position, new Vector2(1f, 18), 0, Vector2.right,
-                                attackRange + attackAddRangeStat, enemyMask);
+                                attackRange, enemyMask);
                         }
                         // 공격 타입이 약점
                         else
@@ -215,50 +214,46 @@ public class UnitMove : MonoBehaviour
         else
         {
             // 플레이어와 유닛이 있는 인덱스를 제외하고 검출하기
+
+            RaycastHit2D[] rays = Physics2D.BoxCastAll(transform.position, new Vector2(1f, 18), 0, Vector2.right, attackRange, unitMask);
             
-            
-            
-            
-            // RaycastHit2D[] rays = Physics2D.BoxCastAll(transform.position, new Vector2(1f, 18), 0, Vector2.right, attackRange + attackAddRangeStat, unitMask);
-            //
-            // // 앞에 유닛이 없을 경우
-            // if (rays.Length == 1)
-            // {
-            //     // 포탑 공격대상으로 선택
-            //     _ray = Physics2D.BoxCast(transform.position, new Vector2(1f, 18), 0, Vector2.right,
-            //         attackRange + attackAddRangeStat, enemyTowerMask);
-            // }
-            // else
-            // {
-            //     for (int i = 0; i < rays.Length; i++)
-            //     {
-            //         // 가장 낮은 hp를 보유한 유닛 검출
-            //         if (rays[i].transform.tag != "Player" && rays[i].transform.name != transform.name)
-            //         {
-            //             if (i + 1 < rays.Length)
-            //             {
-            //                 if (rays[i + 1].transform.tag != "Player" && rays[i + 1].transform.name != transform.name)
-            //                 {
-            //                     if (rays[k].transform.GetComponent<UnitMove>().nowHpStat >=
-            //                         rays[i + 1].transform.GetComponent<UnitMove>().nowHpStat)
-            //                     {
-            //                         k = i + 1;
-            //                     }
-            //                 }
-            //             }
-            //             // 반복문 끝남
-            //             else
-            //             {
-            //                 _ray = rays[k];
-            //                 k = 0;
-            //             }
-            //         }
-            //         else
-            //         {
-            //             k += 1;
-            //         }
-            //     }
-            // }
+            // 앞에 유닛이 없을 경우
+            if (rays.Length == 0)
+            {
+                // 포탑 공격대상으로 선택
+                _ray = Physics2D.BoxCast(transform.position, new Vector2(1f, 18), 0, Vector2.right,
+                    2, enemyTowerMask);
+            }
+            else
+            {
+                for (int i = 0; i < rays.Length; i++)
+                {
+                    if (rays[i].transform.tag == "Player")
+                    {
+                        
+                    }
+                    else
+                    {
+                        if (i + 1 < rays.Length)
+                        {
+                            if (rays[i + 1].transform.name != transform.name)
+                            {
+                                if (rays[k].transform.GetComponent<UnitMove>().nowHpStat >=
+                                    rays[i + 1].transform.GetComponent<UnitMove>().nowHpStat)
+                                {
+                                    k = i + 1;
+                                }
+                            }
+                        }
+                        // 반복문 끝남
+                        else
+                        {
+                            _ray = rays[k];
+                            k = 0;
+                        }
+                    }
+                }
+            }
             
         }
     }
@@ -267,28 +262,34 @@ public class UnitMove : MonoBehaviour
     {
         if (_ray.collider != null)
         {
-            donMove = true;
-            _currentRay = _ray;
-
-            if (animator != null)
+            if (Vector2.Distance(new Vector2(transform.position.x, 0f), new Vector2(_ray.transform.position.x, 0)) <= donMoveDistance)
             {
-                animator.SetBool("Move", false);
+                donMove = true;
             }
 
-            // Debug.Log("적 발견");
-
-            if (!_isAttack)
+            if (donMove == true)
             {
-                if (unit.type != "Healer")
+                _currentRay = _ray;
+
+                if (animator != null)
                 {
-                    Attack();
+                    animator.SetBool("Move", false);
                 }
-                else
+
+                // Debug.Log("적 발견");
+
+                if (!_isAttack)
                 {
-                    Heal();
+                    if (unit.type != "Healer")
+                    {
+                        Attack();
+                    }
+                    else
+                    {
+                        Heal();
+                    }
                 }
             }
-
         }
         else
         {
@@ -511,8 +512,11 @@ public class UnitMove : MonoBehaviour
     private void Heal()
     {
         _isAttack = true;
-        animator.SetBool("Attack", false);
-        
+        if (animator != null)
+        {
+            animator.SetBool("Attack", false);
+        }
+
         if (_currentRay.transform.tag != "Enemy" && _currentRay.transform.tag != "Tower")
         {
             if (animator != null)
@@ -530,9 +534,8 @@ public class UnitMove : MonoBehaviour
 
     private void HealDelay()
     {
-        Debug.Log(_currentRay.transform.name);
         UnitMove _unitMove = _currentRay.transform.GetComponent<UnitMove>();
-        _unitMove.nowHpStat += unit.healStat;
+        _unitMove.nowHpStat += heal;
 
         if (_unitMove.nowHpStat > _unitMove.maxHp)
         {
@@ -541,15 +544,8 @@ public class UnitMove : MonoBehaviour
         
         if (_unitMove.isDead == false)
         {
-            if (_unitMove.unit.unitName == "팅커벨")
-            {
-                ShowDamageTxtUnit(unit.healStat, new Vector3(0, 9.5f, 0));
-            }
-            else
-            {
-                ShowDamageTxtUnit(unit.healStat, new Vector3(0, 5.5f, 0));
-            }
-            
+            ShowDamageTxtUnit(unit.healStat, _unitMove.hpBackImage.transform.position + new Vector3(0, 1, 0));
+
             _unitMove.UpdateHpBar(0, false);
         }
     }
@@ -557,8 +553,8 @@ public class UnitMove : MonoBehaviour
     private void ShowDamageTxtUnit(float damage, Vector3 yPos)
     {
         GameObject damageGo = Instantiate(damageText);
-        damageGo.transform.SetParent(transform);
-        damageGo.transform.position = transform.position + yPos; // 일반 유닛 5.5 // 팅커벨 유닛 7.5
+        damageGo.transform.SetParent(_currentRay.transform);
+        damageGo.transform.position = yPos; // 일반 유닛 5.5 // 팅커벨 유닛 7.5
         
         damageGo.GetComponent<DamageText>().text.color = Color.green;
         
@@ -578,29 +574,27 @@ public class UnitMove : MonoBehaviour
             
             if (_currentRay.transform.tag == "Tower")
             {
-                ShowDamageTxt(criticalDamage, true, new Vector3(0, 7.5f, 0));
+                ShowDamageTxt(criticalDamage, true, _currentRay.transform.GetComponent<Tower>().towerHpImage.transform.position + new Vector3(0, 1f, 0));
                 _ray.transform.GetComponent<Tower>().UpdateHpBar(criticalDamage);
             }
             else if (_currentRay.transform.tag == "Enemy")
             {
                 Enemy _enemy = _currentRay.transform.GetComponent<Enemy>();
                 
-                ShowDamageTxt(criticalDamage, true, new Vector3(0, 4, 0));
+                ShowDamageTxt(criticalDamage, true, _enemy.maxHpStatImage.transform.position + new Vector3(0, 1f, 0));
                 
                 _enemy.UpdateHpBar(criticalDamage);
 
-                if (pushRange - _enemy.pushResist >= 0)
+                if (_enemy.pushResist - pushRange < 0)
                 {
-                    enemyPos = _currentRay.transform.position += new Vector3(pushRange - _enemy.pushResist, 0f, 0f);
+                    Debug.Log("저항 수치 높음");
+                   _currentRay.transform.position -= new Vector3(_enemy.pushResist - pushRange, 0f, 0f);
                 }
 
-                if (enemyPos.x > 38.5f)
+                if (_enemyPos.x > 38.5f)
                 {
+                    Debug.Log(1);
                     _currentRay.transform.position = new Vector3(38.75f, 0, 0);
-                }
-                else
-                {
-                    _currentRay.transform.position = enemyPos;
                 }
 
                 if (_enemy.isStop == false)
@@ -613,31 +607,20 @@ public class UnitMove : MonoBehaviour
         {
             if (_currentRay.transform.tag == "Tower")
             {
-                ShowDamageTxt(attack, false, new Vector3(0, 7.5f, 0));
+                ShowDamageTxt(attack, false, _currentRay.transform.GetComponent<Tower>().towerHpImage.transform.position + new Vector3(0, 1f, 0));
                 _currentRay.transform.GetComponent<Tower>().UpdateHpBar(attack);
             }
             else if (_currentRay.transform.tag == "Enemy")
             {
                 Enemy _enemy = _currentRay.transform.GetComponent<Enemy>();
-                
-                if (_enemy.unit.unitName == "달팽이")
-                {
-                    ShowDamageTxt(attack, false, new Vector3(0, 2, 0));
-                }
-                else if (_enemy.unit.unitName == "유령")
-                {
-                    ShowDamageTxt(attack, false, new Vector3(0, 4, 0));
-                }
-                else
-                {
-                    ShowDamageTxt(attack, false, new Vector3(0, 1, 0));
-                }
-                
+
+                ShowDamageTxt(attack, false, _enemy.maxHpStatImage.transform.position + new Vector3(0, 1f, 0));
+
                 _enemy.UpdateHpBar(attack);
             }
         }
         
-        GameObject go = Instantiate(hit_Effect, _currentRay.transform.position - new Vector3(3.5f, 0, 0), Quaternion.identity);
+        GameObject go = Instantiate(hit_Effect, _currentRay.transform.position, Quaternion.identity);
         go.GetComponent<EffekseerEmitter>().Play();
         Destroy(go, 1.5f);
     }
@@ -646,7 +629,7 @@ public class UnitMove : MonoBehaviour
     {
         GameObject damageGo = Instantiate(damageText);
         damageGo.transform.SetParent(_currentRay.transform);
-        damageGo.transform.position = _currentRay.transform.position + yPos;
+        damageGo.transform.position = yPos;
         damageGo.GetComponent<DamageText>().text.color = Color.red;
         damageGo.GetComponent<DamageText>().damage = damage;
         if (cirDamage == true)

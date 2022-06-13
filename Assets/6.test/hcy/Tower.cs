@@ -15,7 +15,7 @@ public class Tower : MonoBehaviour
     [SerializeField] private StageManager _stageManager;
     
     // 유닛을 소환할 때 부모로 사용할 오브젝트 (캔버스)
-    [SerializeField] private GameObject parentTrans;
+    [SerializeField] private GameObject[] parentTrans;
 
     public Unit[] Units;
 
@@ -104,11 +104,31 @@ public class Tower : MonoBehaviour
         
         go.GetComponent<Enemy>().unit = Units[num];
 
-        go.GetComponent<RectTransform>().SetParent(parentTrans.transform, false);
+
+        if (_ranValue == 0)
+        {
+            go.GetComponent<RectTransform>().SetParent(parentTrans[0].transform, false);
+        }
+        else if (_ranValue == 1)
+        {
+            go.GetComponent<RectTransform>().SetParent(parentTrans[1].transform, false);
+        }
+        else
+        {
+            go.GetComponent<RectTransform>().SetParent(parentTrans[2].transform, false);
+        }
 
         go.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
-        
-        go.GetComponent<RectTransform>().localPosition = new Vector3(38.75f, 0.5f + -2.5f * _ranValue, 0);
+
+        // 유령이라면 
+        if (num == 0)
+        {
+            go.GetComponent<RectTransform>().localPosition = new Vector3(38.75f, -1.75f + -2.5f * _ranValue, 0);
+        }
+        else
+        {
+            go.GetComponent<RectTransform>().localPosition = new Vector3(38.75f, -0.5f + -2.5f * _ranValue, 0);
+        }
     }
     
     public void UpdateHpBar(float damage)

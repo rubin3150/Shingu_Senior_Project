@@ -18,10 +18,12 @@ public class Player : MonoBehaviour
     [SerializeField] private LayerMask layerMask;
     
     // 플레이어의 Hp 이미지를 담을 변수
-    [SerializeField] private Image hpImage;
+    [SerializeField] public Image hpImage;
     
     // 플레이어의 스피드를 담을 변수
     public float speedStat;
+
+    public float maxMana;
 
     // 플레이어의 현재 Hp를 담을 변수
     public float hpStat;
@@ -55,6 +57,7 @@ public class Player : MonoBehaviour
     {
         // 변수에 최대 Hp값을 넣어줌
         hpStat = playerSet.maxHpStat[playerSet.playerNum];
+        maxMana = playerSet.manaStat[playerSet.playerNum];
         stagePlayerImage.sprite = playerSet.playerImages[playerSet.playerNum];
         quickSlotSetPlayerImage.sprite = playerSet.playerImages[playerSet.playerNum];
         speedStat = playerSet.speedStat[playerSet.playerNum];

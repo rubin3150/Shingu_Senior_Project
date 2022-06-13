@@ -52,7 +52,7 @@ public class SkillManager : MonoBehaviour
 
     private bool _manaCheck;
 
-   public bool moonCheck;
+    public bool moonCheck;
 
     [SerializeField] private GameObject warningUi;
 
@@ -278,15 +278,8 @@ public class SkillManager : MonoBehaviour
 
                 if (_unitMove.isDead == false)
                 {
-                    if (_unitMove.unit.unitName == "팅커벨")
-                    {
-                        ShowDamageTxt(_unitMove.gameObject, _unitMove.maxHp - _unitMove.nowHpStat, new Vector3(0, 9.5f, 0), false);
-                    }
-                    else
-                    {
-                        ShowDamageTxt(_unitMove.gameObject, _unitMove.maxHp - _unitMove.nowHpStat, new Vector3(0, 5.5f, 0), false);
-                    }
-                
+                    ShowDamageTxt(_unitMove.gameObject, _unitMove.maxHp - _unitMove.nowHpStat, _unitMove.hpBackImage.transform.position + new Vector3(0, 1, 0), false);
+
                     _unitMove.nowHpStat = _unitMove.maxHp;
                     _unitMove.UpdateHpBar(0, false);
                 }
@@ -300,7 +293,7 @@ public class SkillManager : MonoBehaviour
     {
         GameObject damageGo = Instantiate(damageText);
         damageGo.transform.parent = go.transform;
-        damageGo.transform.position = go.transform.position + yPos; // 일반 유닛 5.5 // 팅커벨 유닛 7.5
+        damageGo.transform.position = yPos; // 일반 유닛 5.5 // 팅커벨 유닛 7.5
 
         if (damageCheck == true)
         {
@@ -341,14 +334,8 @@ public class SkillManager : MonoBehaviour
                 _rays[i].transform.position += new Vector3(_r, 0f, 0f);
                 Enemy _enemy = _rays[i].transform.GetComponent<Enemy>();
                 _enemy.UpdateHpBar(playerSet.addStat[9]);
-                if (_enemy.unit.unitName == "달팽이")
-                {
-                    ShowDamageTxt(_enemy.gameObject, playerSet.addStat[9], new Vector3(0, 2f, 0), true);
-                }
-                else
-                {
-                    ShowDamageTxt(_enemy.gameObject, playerSet.addStat[9], new Vector3(0, 4f, 0), true);
-                }
+               
+                ShowDamageTxt(_enemy.gameObject, playerSet.addStat[9], _enemy.maxHpStatImage.transform.position + new Vector3(0, 1, 0), true);
             }
         }
 

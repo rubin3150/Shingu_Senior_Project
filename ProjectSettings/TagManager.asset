@@ -10,8 +10,8 @@ TagManager:
   - Tower
   - Wall
   - Enemy
-  - Sell
   - Move
+  - Sell
   layers:
   - Default
   - TransparentFX
@@ -25,9 +25,9 @@ TagManager:
   - PostProcessing
   - MiniMap
   - TycoonIgnore
-  - 
-  - 
-  - 
+  - Tower
+  - Player
+  - HealerUnit
   - 
   - 
   - 

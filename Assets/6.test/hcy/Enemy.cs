@@ -19,8 +19,8 @@ public class Enemy : MonoBehaviour
     public float pushRange;
     public float moveSpeed;
     public float attack;
+    public float donMoveDistance;
     public float attackRange;
-    public float attackAddRange;
     public float pushResist;
     public float attackDelay;
     public float criRate;
@@ -44,8 +44,6 @@ public class Enemy : MonoBehaviour
     private float _currentDelay;
 
     public Image unitImage;
-    
-    private Vector3 _hitPos;
 
     public bool isDead;
     
@@ -65,7 +63,7 @@ public class Enemy : MonoBehaviour
 
     private int k;
 
-    private Vector3 unitPos;
+    private Vector3 _unitPos;
 
     // Start is called before the first frame update
     void Start()
@@ -74,8 +72,8 @@ public class Enemy : MonoBehaviour
         moveSpeed = unit.speedStat;
         nowHpStat = unit.hpStat;
         attack = unit.attackStat;
+        donMoveDistance = unit.donMoveDistance;
         attackRange = unit.attackRangeStat;
-        attackAddRange = unit.attackAddRangeStat;
         attackDelay = unit.attackDelayStat;
         pushRange = unit.pushRange;
         pushResist = unit.pushResist;
@@ -119,40 +117,49 @@ public class Enemy : MonoBehaviour
     private void CheckObject()
     {
         RaycastHit2D[] rays = Physics2D.BoxCastAll(transform.position, new Vector2(1f, 18), 0, Vector2.left,
-            attackRange + attackAddRange, layerMask);
+            attackRange, layerMask);
 
-        for (int i = 0; i < rays.Length; i++)
+        if (rays.Length == 0)
         {
-            if (rays[i].transform.tag == "Player")
+            // 포탑 공격대상으로 선택
+            _ray = Physics2D.BoxCast(transform.position, new Vector2(1f, 18), 0, Vector2.left,
+                attackRange, layerMask);
+        }
+        else
+        {
+            for (int i = 0; i < rays.Length; i++)
             {
-                _ray = rays[i];
-                
-                break;
-            }
-            else
-            {
-                if (attackType != "약점")
+                if (rays[i].transform.tag == "Player")
                 {
-                    _ray = Physics2D.BoxCast(transform.position, new Vector2(1f, 18), 0, Vector2.left,
-                        attackRange + attackAddRange, layerMask);
+                    _ray = rays[i];
+                
+                    break;
                 }
                 else
                 {
-                    if (i + 1 < rays.Length)
+                    if (attackType != "약점")
                     {
-                        if (rays[i + 1].transform.tag != "Player")
-                        {
-                            if (rays[k].transform.GetComponent<UnitMove>().nowHpStat >=
-                                rays[i + 1].transform.GetComponent<UnitMove>().nowHpStat)
-                            {
-                                k = i + 1;
-                            }
-                        }
+                        _ray = Physics2D.BoxCast(transform.position, new Vector2(1f, 18), 0, Vector2.left,
+                            attackRange, layerMask);
                     }
                     else
                     {
-                        _ray = rays[k];
-                        k = 0;
+                        if (i + 1 < rays.Length)
+                        {
+                            if (rays[i + 1].transform.tag != "Player")
+                            {
+                                if (rays[k].transform.GetComponent<UnitMove>().nowHpStat >=
+                                    rays[i + 1].transform.GetComponent<UnitMove>().nowHpStat)
+                                {
+                                    k = i + 1;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            _ray = rays[k];
+                            k = 0;
+                        }
                     }
                 }
             }
@@ -163,16 +170,21 @@ public class Enemy : MonoBehaviour
     {
         if (_ray.collider != null)
         {
-            
-            donMove = true;
-            _currentRay = _ray;
-
-            if (!_isAttack)
+            if (Vector2.Distance(new Vector2(transform.position.x, 0f), new Vector2(_ray.transform.position.x, 0)) <= donMoveDistance)
             {
-
-                Attack();
+                donMove = true;
             }
 
+            if (donMove == true)
+            {
+                _currentRay = _ray;
+
+                if (!_isAttack)
+                {
+
+                    Attack();
+                }
+            }
         }
         else
         {
@@ -204,8 +216,7 @@ public class Enemy : MonoBehaviour
             if (_currentRay.transform.tag == "Player")
             {
                 _currentRay.transform.GetComponent<Player>().UpdateHpBar(criticalDamage);
-                ShowDamageTxt(criticalDamage, true, new Vector3(0, 6.5f, 0));
-                _hitPos = new Vector3(3f, 1, 0);
+                ShowDamageTxt(criticalDamage, true, _currentRay.transform.GetComponent<Player>().hpImage.transform.position + new Vector3(0, 1, 0));
             }
             else if (_currentRay.transform.tag == "Unit")
             {
@@ -216,28 +227,19 @@ public class Enemy : MonoBehaviour
                 if (_unitMove.unit.unitName == "팅커벨")
                 {
                     _unitMove.MoveAnim();
-                    // Debug.Log("팅커벨 발견");
-                    _hitPos = new Vector3(3f, 4, 0);
-                    ShowDamageTxt(criticalDamage, true, new Vector3(0, 9.5f, 0));
-                }
-                else
-                {
-                    ShowDamageTxt(criticalDamage, true, new Vector3(0, 5.5f, 0));
-                    _hitPos = new Vector3(1f, -1, 0);
                 }
 
-                if (pushRange - _unitMove.pushResist >= 0)
+                ShowDamageTxt(criticalDamage, true, _unitMove.hpBackImage.transform.position + new Vector3(0, 1f, 0));
+
+                if (_unitMove.pushResist - pushRange < 0)
                 {
-                    unitPos = _currentRay.transform.position -= new Vector3(pushRange - _unitMove.pushResist, 0f, 0f);
+                    Debug.Log("저항 수치 높음");
+                    _currentRay.transform.position += new Vector3(_unitMove.pushResist - pushRange, 0f, 0f);
                 }
                 
-                if (unitPos.x < -46.25f)
+                if (_unitPos.x < -46.25f)
                 {
                     _currentRay.transform.position = new Vector3(46.25f, 0, 0);
-                }
-                else
-                {
-                    _currentRay.transform.position = unitPos;
                 }
 
                 if (_unitMove.isStop == false)
@@ -253,31 +255,22 @@ public class Enemy : MonoBehaviour
                 // Debug.Log(1);
                 _currentRay.transform.GetComponent<Player>().UpdateHpBar(attack);
 
-                ShowDamageTxt(attack, false, new Vector3(0, 6.5f, 0));
-                
-                _hitPos = new Vector3(3f, 1, 0);
+                ShowDamageTxt(attack, false, _currentRay.transform.GetComponent<Player>().hpImage.transform.position + new Vector3(0, 1, 0));
             }
             else if (_currentRay.transform.tag == "Unit")
             {
                 UnitMove _unitMove = _currentRay.transform.GetComponent<UnitMove>();
                 
                 _unitMove.UpdateHpBar(attack, true);
+                
+                ShowDamageTxt(attack, false,_unitMove.hpBackImage.transform.position + new Vector3(0, 1f, 0));
 
-                if (_unitMove.unit.unitName == "팅커벨")
-                {
-                    // Debug.Log("팅커벨 발견");
-                    ShowDamageTxt(attack, false, new Vector3(0, 9.5f, 0));
-                    _hitPos = new Vector3(3f, 4, 0);
-                }
-                else
-                {
-                    ShowDamageTxt(attack, false, new Vector3(0, 5, 0));
-                    _hitPos = new Vector3(1f, -1, 0);
-                }
+                ShowDamageTxt(attack, false, _unitMove.hpBackImage.transform.position + new Vector3(0, 1f, 0));
+                
             }
         }
 
-        GameObject go = Instantiate(hit_Effect, _currentRay.transform.position + _hitPos, Quaternion.identity);
+        GameObject go = Instantiate(hit_Effect, _currentRay.transform.position, Quaternion.identity);
         go.GetComponent<EffekseerEmitter>().Play();
         
         Destroy(go, 1.5f);
@@ -289,7 +282,7 @@ public class Enemy : MonoBehaviour
     {
         GameObject damageGo = Instantiate(damageText);
         damageGo.transform.SetParent(_currentRay.transform);
-        damageGo.transform.position = _currentRay.transform.position + yPos; // 일반 유닛 5.5 // 팅커벨 유닛 7.5
+        damageGo.transform.position = yPos; // 일반 유닛 5.5 // 팅커벨 유닛 7.5
         damageGo.GetComponent<DamageText>().text.color = Color.red;
         damageGo.GetComponent<DamageText>().damage = damage;
         if (cirDamage == true)
@@ -322,7 +315,7 @@ public class Enemy : MonoBehaviour
                 isDead = true;
                 boxCol.enabled = false;
 
-                _stageManager.nowMana += unit.mpGet;
+                _stageManager.nowMana += mana;
                 _stageManager.UpdateManaBar();
                 StartCoroutine(FadeUnit());
             }

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,6 +19,8 @@ public class TestUnitAdd : MonoBehaviour
     [SerializeField] private StageManager stageManager;
 
     [SerializeField] private FadeIn _fadeIn;
+
+    [SerializeField] private GameObject[] skillTxt;
 
     // Update is called once per frame
     void Update()
@@ -59,6 +62,11 @@ public class TestUnitAdd : MonoBehaviour
                     skillManager.isActive[k] = true;
                     _fadeIn.skillBorderImage[k].GetComponent<Image>().color =
                         new Color(255f / 255f, 255f / 255f, 255f / 255f, 255f / 255f);
+
+                    for (int i = 0; i < k * 2; i++)
+                    {
+                        skillTxt[i].transform.GetComponent<TextMeshProUGUI>().color = new Color(96f / 255f, 77f / 255f, 66f / 255f, 255f / 255f);
+                    }
                     skillManager.SetColor();
                     k += 1;
                 }

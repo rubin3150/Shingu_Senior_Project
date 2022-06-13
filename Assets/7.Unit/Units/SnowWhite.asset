@@ -19,8 +19,8 @@ MonoBehaviour:
   spawnCoolTime: 6
   attackStat: 0
   healStat: 20
+  donMoveDistance: 7
   attackRangeStat: 3
-  attackAddRangeStat: 0
   criRate: 0
   criDamage: 0
   pushRange: 5

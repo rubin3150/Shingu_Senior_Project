@@ -25,7 +25,7 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     [SerializeField] private GameObject startBtn;
     
     // 유닛을 소환할 때 부모로 사용할 오브젝트 (캔버스)
-    [SerializeField] private GameObject parentTrans;
+    [SerializeField] private GameObject[] parentTrans;
     
     // 전투 시작 텍스트 오브젝트를 담을 변수
     [SerializeField] private TextMeshProUGUI startText;
@@ -68,6 +68,15 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         // 변수에 받은 유닛의 정보를 넣음
         unit = _unit;
+
+        if (_unit.unitName == "나나")
+        {
+            unitImage.GetComponent<RectTransform>().localPosition = new Vector3(-70, 15, 0);
+        }
+        else
+        {
+            unitImage.GetComponent<RectTransform>().localPosition = new Vector3(5, -25, 0);
+        }
         
         // 변수에 받은 유닛의 이미를 넣음
         unitImage.sprite = unit.unitImage;
@@ -102,10 +111,7 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void StartBtnColorSet(float btnAlpha, float textAlpha, float textMeshAlpha)
     {
         // 전투 시작 버튼 알파 값 조절
-        startBtn.GetComponent<Image>().color = new Color(100f / 255f, 100f / 255f, 100f / 255f, btnAlpha / 255f);
-        
-        // 전투 시작 글자 알파 값 조절
-        startText.color = new Color(0, 0, 0, textMeshAlpha / 255f);
+        startBtn.GetComponent<Image>().color = new Color(255f / 255f, 255f / 255f, 255f / 255f, btnAlpha / 255f);
     }
 
     /// <summary>
@@ -193,17 +199,28 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
                 
                 _skillManager.AddUnit(go);
 
-                go.GetComponent<RectTransform>().SetParent(parentTrans.transform, false);
+                if (_ranValue == 0)
+                {
+                    go.GetComponent<RectTransform>().SetParent(parentTrans[0].transform, false);
+                }
+                else if (_ranValue == 1)
+                {
+                    go.GetComponent<RectTransform>().SetParent(parentTrans[1].transform, false);
+                }
+                else
+                {
+                    go.GetComponent<RectTransform>().SetParent(parentTrans[2].transform, false);
+                }
 
                 go.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
 
                 if (unit.unitName == "팅커벨")
                 {
-                    go.GetComponent<RectTransform>().localPosition = new Vector3(-46.25f, -4 + -2.5f * _ranValue, 0);
+                    go.GetComponent<RectTransform>().localPosition = new Vector3(-46.25f, -4.75f + -2.5f * _ranValue, 0);
                 }
                 else
                 {
-                    go.GetComponent<RectTransform>().localPosition = new Vector3(-46.25f, 0.5f + -2.5f * _ranValue, 0);
+                    go.GetComponent<RectTransform>().localPosition = new Vector3(-46.25f, -0.5f + -2.5f * _ranValue, 0);
                 }
             }
             else
