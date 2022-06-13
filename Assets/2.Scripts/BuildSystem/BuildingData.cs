@@ -9,8 +9,7 @@ public class BuildingData : ScriptableObject
     public ResourceType BuildingResourceType = ResourceType.None;
     public int cost;
     public float buildTime;
-    public float createTime;
-    public float maxResource;
+    public int maxResource;
     public Sprite buildingImg;
     public string description;
 }

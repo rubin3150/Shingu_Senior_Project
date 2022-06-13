@@ -8,19 +8,25 @@ public class Building : MonoBehaviour
     public BuildingData buildingData;
     public Buildings buildingType = Buildings.None;
     public ResourceType resourceType = ResourceType.None;
+    
+    private int resource;
 
     private int cost;
-    private int resource;
     private float buildTime;
     private float createTime;
-    private float maxResource;
+    private int maxResource;
     private string description;
     private bool isCreation = true;
+    private bool isCollect;
 
     private Coroutine thisCoroutine;
 
-    private void Start() 
+    private void OnEnable() 
     {
+        cost = buildingData.cost;
+        buildTime = buildingData.buildTime;
+        maxResource = buildingData.maxResource;
+        description = buildingData.description;
         CreateReosource();
     }
 
@@ -81,27 +87,30 @@ public class Building : MonoBehaviour
         {
             case ResourceType.None:
                 return;
+            case ResourceType.moonEnergy:
+                thisCoroutine = StartCoroutine(Create(2, 1f));
+                return;
             case ResourceType.log:
-                thisCoroutine = StartCoroutine(Create(1));
-                break;
-            case ResourceType.stew:
-                thisCoroutine = StartCoroutine(Create(2));
-                break;
+                resource = maxResource;
+                return;
+            case ResourceType.flower:
+                resource = maxResource;
+                return;
             case ResourceType.ore:
-
-                break;
-            case ResourceType.honey:
-
-                break;
+                resource = maxResource;
+                return;
+            case ResourceType.mushroom:
+                resource = maxResource;
+                return;
         }
     }
 
-    IEnumerator Create(int _int)
+    IEnumerator Create(int _int, float _time)
     {
         while(isCreation)
         {
             resource += _int;
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(_time);
         }
     }
 

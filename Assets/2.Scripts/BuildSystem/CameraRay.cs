@@ -148,7 +148,7 @@ public class CameraRay : Singleton<CameraRay>
                 isMoving = false;
                 IsBool(int.Parse(pickObject.transform.parent.name), true, pickScaleX, pickScaleZ);
                 ResetBuildingsPosition();
-                dummyGameObject.transform.GetChild(1).GetComponent<MeshRenderer>().enabled = false;
+                pickObject.transform.GetChild(1).GetComponent<MeshRenderer>().enabled = false;
                 if(buildings.Contains(pickObject.gameObject))
                 {
                     pickObject = null;
