@@ -4,21 +4,18 @@ using UnityEngine;
 
 public enum ResourceType
 {
+    //Resource
     moonEnergy  = 0,
     wood        = 1,
     stew        = 2,
     ore         = 3,
     honey       = 4,
 
-    None
-}
-
-public enum ManufactureReosource
-{
-    board       = 11,
-    mushroom    = 12,
-    iron        = 13,
-    flower      = 14,
+    //ManufactureResource
+    board = 5,
+    mushroom    = 6,
+    iron        = 7,
+    flower      = 8,
 
     None
 }

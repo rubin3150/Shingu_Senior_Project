@@ -199,6 +199,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingData: {fileID: 0}
-  BuildingType: 8
-  BuildingResourceType: 99
-  option: {fileID: 0}
+  buildingType: 10
+  resourceType: 9

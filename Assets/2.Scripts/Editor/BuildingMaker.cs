@@ -20,7 +20,7 @@ public class BuildingMaker : EditorWindow
     public ResourceType buildingResourceType = ResourceType.None;
     public int cost;
     public float buildTime;
-    public float productionTime;
+    public float createTime;
     public float maxResource;
     public Sprite buildingImg;
     public string description;
@@ -47,9 +47,9 @@ public class BuildingMaker : EditorWindow
 
         buildTime = EditorGUILayout.FloatField("건물 건설 시간", buildTime);
 
-        productionTime = EditorGUILayout.FloatField("공격력", productionTime);
+        createTime = EditorGUILayout.FloatField("자원 생산 시간", createTime);
 
-        maxResource = EditorGUILayout.FloatField("이동속도", maxResource);
+        maxResource = EditorGUILayout.FloatField("최대 자원 개수", maxResource);
 
         description = EditorGUILayout.TextField("설명", description);
 
@@ -67,7 +67,7 @@ public class BuildingMaker : EditorWindow
             buildingData.buildingImg = buildingImg;
             buildingData.cost = cost;
             buildingData.buildTime = buildTime;
-            buildingData.productionTime = productionTime;
+            buildingData.createTime = createTime;
             buildingData.maxResource = maxResource;
             buildingData.buildings = buildings;
             buildingData.BuildingResourceType = buildingResourceType;

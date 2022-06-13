@@ -13,24 +13,21 @@ public class ResourceDict
 
 public class ResourceSystem : Singleton<ResourceSystem>
 {
-    public List<ResourceDict> resourceText = new List<ResourceDict>();
+    public List<ResourceDict> resourceElements = new List<ResourceDict>();
+    private string[] resourceString = { "moonEnergy", "wood", "stew", "ore", "honey", "board", "mushroom", "iron", "flower" };
     public static int moonEnergy, wood, stew, ore, honey, board, mushroom, iron, flower;
 
     private void Start()
     {
-        //for (int i = 0; i < 9; i++)
-        //{
-        //    resourceText[i].resourceName = 
-        //}
+        for (int i = 0; i < resourceString.Length; i++)
+        {
+            resourceElements[i].resourceName = resourceString[i];
+            resourceElements[i].resourceValue = 0;
+        }
     }
 
     public void GetResource(ResourceType _resourceType, int _int)
     {
-
-    }
-    
-    public void GetResource(ManufactureReosource _manufactureReosource, int _int)
-    {
-
+        resourceElements[(int)_resourceType].resourceValue = _int;
     }
 }
