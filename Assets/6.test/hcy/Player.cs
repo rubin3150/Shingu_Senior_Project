@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     
     // 플레이어의 Hp 이미지를 담을 변수
     [SerializeField] public Image hpImage;
+    [SerializeField] private Image backSliderHp;
     
     // 플레이어의 스피드를 담을 변수
     public float speedStat;
@@ -48,6 +49,14 @@ public class Player : MonoBehaviour
 
     [SerializeField] private Image hpTxtImage;
 
+    private bool backHpHit;
+    
+    public GameObject damageText;
+    
+    public int nowDamagePos;
+    
+    public List<GameObject> damageTexts = new List<GameObject>();
+
     #endregion
     
     /// <summary>
@@ -69,6 +78,19 @@ public class Player : MonoBehaviour
     /// </summary>
     void Update()
     {
+        hpTxtImage.fillAmount = Mathf.Lerp(hpTxtImage.fillAmount, hpStat / playerSet.maxHpStat[playerSet.playerNum], Time.deltaTime * 5f);
+        hpImage.fillAmount = Mathf.Lerp(hpImage.fillAmount, hpStat / playerSet.maxHpStat[playerSet.playerNum], Time.deltaTime * 5f);
+
+        if (backHpHit == true)
+        {
+            backSliderHp.fillAmount = Mathf.Lerp(backSliderHp.fillAmount, hpImage.fillAmount, Time.deltaTime * 5f);
+            if (hpImage.fillAmount >= backSliderHp.fillAmount - 0.01f)
+            {
+                backHpHit = false;
+                backSliderHp.fillAmount = hpImage.fillAmount;
+            }
+        }
+        
         // 변수 값이 참이라면 아래 코드 실행 (전투 스테이지라면)
         if (stageManager.inStage == true && isDead == false)
         {
@@ -97,9 +119,9 @@ public class Player : MonoBehaviour
     private void CheckObject()
     {
         // 변수에 좌측으로 레이캐스트를 발사해 걸린 물체를 반환함
-        RaycastHit2D rayLeftHit = Physics2D.Raycast(transform.position, Vector2.left, 3.75f, layerMask);
+        RaycastHit2D rayLeftHit = Physics2D.BoxCast(transform.position,new Vector2(1f, 18), 0,Vector2.left, 3f, layerMask);
         // 변수에 우측으로 레이캐스트를 발사해 걸린 물체를 반환함
-        RaycastHit2D rayRightHit = Physics2D.Raycast(transform.position, Vector2.right, 3.75f, layerMask);
+        RaycastHit2D rayRightHit = Physics2D.BoxCast(transform.position,new Vector2(1f, 18), 0, Vector2.right, 3.75f, layerMask);
 
         // 변수에 있는 콜라이더 값이 비어 있지 않다면 아래 코드 실행 (물체가 레이캐스트에 걸렸다면)
         if (rayLeftHit.collider != null)
@@ -132,14 +154,10 @@ public class Player : MonoBehaviour
     {
         stagePlayerImage.color = new Color(153f / 255f, 153f / 255f, 153f / 255f, 255f / 255f);
         Invoke("ResetImageAlpha", 0.5f);
+        Invoke("BackHpFun", 0.5f);
         hpStat -= damage;
 
         hpTxt.text = hpStat + "/" + playerSet.maxHpStat[playerSet.playerNum];
-
-        hpTxtImage.fillAmount = hpStat / playerSet.maxHpStat[playerSet.playerNum];
-
-        // 체력 게이지 값 설정.
-        hpImage.fillAmount = hpStat / playerSet.maxHpStat[playerSet.playerNum];
 
         if (hpStat <= 0)
         {
@@ -147,6 +165,11 @@ public class Player : MonoBehaviour
             boxCol.enabled = false;
             StartCoroutine(FadeUnit());
         }
+    }
+    
+    private void BackHpFun()
+    {
+        backHpHit = true;
     }
     
     private IEnumerator FadeUnit()

@@ -99,7 +99,7 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         SetColor(0.5f);
         
         // 함수 호출
-        StartBtnColorSet(255f, 1, 255f);
+        StartBtnColorSet(255f);
 
         // 함수 호출
         selectUnitBase.AddQuickSlot(unit);
@@ -108,10 +108,12 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     /// <summary>
     /// 전투 시작 버튼과 전투 시작 텍스트의 알파값을 조절할 함수
     /// </summary>
-    public void StartBtnColorSet(float btnAlpha, float textAlpha, float textMeshAlpha)
+    public void StartBtnColorSet(float btnAlpha)
     {
         // 전투 시작 버튼 알파 값 조절
         startBtn.GetComponent<Image>().color = new Color(255f / 255f, 255f / 255f, 255f / 255f, btnAlpha / 255f);
+        
+        startText.color = new Color(255f / 255f, 255f / 255f, 255f / 255f, btnAlpha / 255f);
     }
 
     /// <summary>
@@ -227,7 +229,7 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
             {
                 if (_skillManager.moonCheck == false)
                 {
-                    _skillManager.ShowMoonWarningUI("달빛이 없습니다");
+                    _skillManager.ShowMoonWarningUI("달빛이 부족합니다.");
                 }
             }
         }

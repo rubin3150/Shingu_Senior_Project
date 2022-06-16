@@ -22,6 +22,9 @@ public class Unit : ScriptableObject
     [Tooltip("적과 어느 정도의 거리를 두고 이동을 멈추게 하는 거리")]
     public float donMoveDistance;
     
+    [Tooltip("적 타워 또는 플레이어와 어느 정도의 거리를 두고 이동을 멈추게 하는 거리")]
+    public float donTowerMoveDistance;
+    
     [Tooltip("유닛의 기본 공격 사거리")] public float attackRangeStat;
 
     [Tooltip("유닛의 치명차 확률")] public int criRate;
@@ -45,4 +48,10 @@ public class Unit : ScriptableObject
     [Tooltip("유닛의 공격 타입")] public string attackType;
 
     [Tooltip("유닛이 보스 타입인지 아닌지 구분할 변수")] public string bossType;
+
+    [Tooltip("유닛의 스킬 쿨타임")] public float skillCoolTime;
+    
+    [Tooltip("유닛의 스킬 인덱스 : 0은 도끼 던지기")] public int skillIndex;
+    
+    [Tooltip("유닛의 스킬 사용후 상태이상 : 0출혈")] public int skillEffect;
 }

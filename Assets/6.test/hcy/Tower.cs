@@ -11,6 +11,7 @@ public class Tower : MonoBehaviour
     public float towerHp;
 
     public Image towerHpImage;
+    [SerializeField] private Image backSliderHp;
 
     [SerializeField] private StageManager _stageManager;
     
@@ -37,6 +38,16 @@ public class Tower : MonoBehaviour
 
     private bool isCheck;
 
+    [SerializeField] private DefenceLevel _defenceLevel;
+
+    private float spwanCooltime;
+    
+    private bool backHpHit;
+
+    public int nowDamagePos;
+    
+    public List<GameObject> damageTexts = new List<GameObject>();
+
     private void Start()
     {
         towerHp = maxTowerHp;
@@ -44,6 +55,18 @@ public class Tower : MonoBehaviour
 
     private void Update()
     {
+        towerHpImage.fillAmount = Mathf.Lerp(towerHpImage.fillAmount, towerHp / maxTowerHp, Time.deltaTime * 5f);
+       
+        if (backHpHit == true)
+        {
+            backSliderHp.fillAmount = Mathf.Lerp(backSliderHp.fillAmount, towerHpImage.fillAmount, Time.deltaTime * 5f);
+            if (towerHpImage.fillAmount >= backSliderHp.fillAmount - 0.01f)
+            {
+                backHpHit = false;
+                backSliderHp.fillAmount = towerHpImage.fillAmount;
+            }
+        }
+        
         if (_stageManager.inStage == true && isDead == false)
         {
             if (_isSpawn[0] == false)
@@ -78,13 +101,47 @@ public class Tower : MonoBehaviour
                 SpawnEnemySet(num);
                 nowEnemy[num] += 1;
             }
+
+            if (_defenceLevel.isLevel[0] == true)
+            {
+                SetSpawnCoolTime(num, 0);
+            }
+            else if (_defenceLevel.isLevel[1] == true)
+            {
+                SetSpawnCoolTime(num, 1);
+            }
+            else if (_defenceLevel.isLevel[2] == true)
+            {
+                SetSpawnCoolTime(num, 2);
+            }
+            else
+            {
+                SetSpawnCoolTime(num, 3);
+            }
             
-            yield return new WaitForSeconds(Units[num].spawnCoolTime);
+            yield return new WaitForSeconds(spwanCooltime);
+            
             _isSpawn[num] = false;
             if (isCheck == false)
             {
                 isCheck = true;
             }
+        }
+    }
+
+    private void SetSpawnCoolTime(int num, int i)
+    {
+        if (num == 0)
+        {
+            spwanCooltime = Units[num].spawnCoolTime - _defenceLevel.ghostLevelCoolTime[i];
+        }
+        else if (num == 1)
+        {
+            spwanCooltime = Units[num].spawnCoolTime - _defenceLevel.snailLevelCoolTime[i];
+        }
+        else
+        {
+            spwanCooltime = Units[num].spawnCoolTime - _defenceLevel.slimeLevelCoolTime[i];
         }
     }
     
@@ -123,11 +180,11 @@ public class Tower : MonoBehaviour
         // 유령이라면 
         if (num == 0)
         {
-            go.GetComponent<RectTransform>().localPosition = new Vector3(38.75f, -1.75f + -2.5f * _ranValue, 0);
+            go.GetComponent<RectTransform>().localPosition = new Vector3(40f, -1.75f + -2.5f * _ranValue, 0);
         }
         else
         {
-            go.GetComponent<RectTransform>().localPosition = new Vector3(38.75f, -0.5f + -2.5f * _ranValue, 0);
+            go.GetComponent<RectTransform>().localPosition = new Vector3(40f, -0.5f + -2.5f * _ranValue, 0);
         }
     }
     
@@ -136,9 +193,7 @@ public class Tower : MonoBehaviour
         towerImage.color = new Color(153f / 255f, 153f / 255f, 153f / 255f, 255f / 255f);
         Invoke("ResetImageAlpha", 0.5f);
         towerHp -= damage;
-        // hpText.text = nowHpStat + " / " + unit.hpStat;
-        // 체력 게이지 값 설정.
-        towerHpImage.fillAmount = towerHp / maxTowerHp;
+        Invoke("BackHpFun", 0.5f);
 
         if (towerHp <= 0)
         {
@@ -147,6 +202,11 @@ public class Tower : MonoBehaviour
             StartCoroutine(FadeUnit());
         }
         // 텍스트는 now값의 버림 소수점 제거한 값만 받음
+    }
+    
+    private void BackHpFun()
+    {
+        backHpHit = true;
     }
     
     private IEnumerator FadeUnit()

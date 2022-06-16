@@ -20,6 +20,7 @@ MonoBehaviour:
   attackStat: 40
   healStat: 0
   donMoveDistance: 3.5
+  donTowerMoveDistance: 6
   attackRangeStat: 2
   criRate: 15
   criDamage: 120
@@ -32,3 +33,6 @@ MonoBehaviour:
   mpGet: 0
   attackType: "\uADFC\uC811"
   bossType: 
+  skillCoolTime: 6
+  skillIndex: 0
+  skillEffect: 0

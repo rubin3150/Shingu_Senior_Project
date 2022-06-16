@@ -33,7 +33,9 @@ public class FadeIn : MonoBehaviour
     [SerializeField] private RectTransform moonEnergyImage;
 
     [SerializeField] private Sprite quickBackChangeImage;
-    
+    [SerializeField] private Sprite unitBorderChangeImage;
+    [SerializeField] private Sprite unitChangeImage;
+
     // Fade 이미지를 담을 변수
     [SerializeField] private Image fadeImage;
     
@@ -127,9 +129,9 @@ public class FadeIn : MonoBehaviour
 
             quickBackImage.transform.GetComponent<Image>().sprite = quickBackChangeImage;
             // 크기 변경
-            quickBackImage.sizeDelta = new Vector2(1920, 200);
+            quickBackImage.sizeDelta = new Vector2(1920, 188);
             // 퀵슬롯의 배경 이미지의 위치 변경
-            quickBackImage.localPosition = new Vector3(0f, -445f, 0);
+            quickBackImage.localPosition = new Vector3(0f, -446f, 0);
 
             quickSlotUnits.localPosition = new Vector3(-420f, 0f, 0);
             // 달빛 에너지 이미지 위치 변경
@@ -137,31 +139,54 @@ public class FadeIn : MonoBehaviour
 
             for (int i = 0; i < quickSlotImage.Length; i++)
             {
-                quickSlotImage[i].localPosition = new Vector3(-395 + 185 * i, 0f, 0);
-                quickSlotImage[i].sizeDelta = new Vector2(160, 160);
+                quickSlotImage[i].GetComponent<Image>().sprite = unitBorderChangeImage;
+                quickSlotImage[i].sizeDelta = new Vector2(150, 150);
+                quickSlotImage[i].localPosition = new Vector3(-395 + 185 * i, 4.75f, 0);
+                
                 quickSlotUnit[i].sizeDelta = new Vector2(140, 140);
+                quickSlotUnit[i].GetComponent<Image>().sprite = unitChangeImage;
+                quickSlotUnit[i].GetComponent<Image>().color = new Color(255f / 255f, 255f / 255f, 255f / 255f, 1f / 255f);
                 quickSlotUnitImage[i].sizeDelta = new Vector2(300, 300);
             }
 
             for (int i = 0; i < skillBorderImage.Length; i++)
             {
-                skillBorderImage[i].sizeDelta = new Vector2(243, 256);
-                skillBorderImage[i].localPosition = new Vector3(-430 + 265 * i, -210, 0);
+                skillBorderImage[i].sizeDelta = new Vector2(201, 201);
+                skillBorderImage[i].localScale = new Vector3(1, 1, 1);
 
-                if (i != 2)
+                if (i == 0)
                 {
-                    skillImage[i].localPosition = new Vector2(7.5f, 20);
-                    if (i == 1)
-                    {
-                        skillImage[i].localPosition = new Vector2(5f, -10);
-                    }
+                    skillBorderImage[i].localPosition = new Vector3(-425, -226, 0);
+                    skillImage[i].localPosition = new Vector2(-0.25f, 10);
                     skillImage[i].sizeDelta = new Vector2(500, 500);
+                    skillImage[i].localScale = new Vector3(0.375f, 0.375f, 0.375f);
+                }
+                else if (i == 1)
+                {
+                    skillBorderImage[i].localPosition = new Vector3(-165.5f, -226, 0);
+                    skillImage[i].localPosition = new Vector2(0, -16);
+                    skillImage[i].sizeDelta = new Vector2(500, 500);
+                    skillImage[i].localScale = new Vector3(0.3f, 0.3f, 0.3f);
                 }
                 else
                 {
-                    skillImage[i].localPosition = new Vector2(5, 5);
+                    skillBorderImage[i].localPosition = new Vector3(95, -226, 0);
+                    skillImage[i].localPosition = new Vector2(0, -2.8f);
                     skillImage[i].sizeDelta = new Vector2(128, 128);
+                    skillImage[i].localScale = new Vector3(0.9f, 0.9f, 0.9f);
                 }
+                // // skillImage[i].localPosition = new Vector2(7.5f, 20);
+                //     if (i == 1)
+                //     {
+                //         skillImage[i].localPosition = new Vector2(5f, -10);
+                //     }
+                //     skillImage[i].sizeDelta = new Vector2(1, 1);
+                //
+                // else
+                // {
+                //     skillImage[i].localPosition = new Vector2(5, 5);
+                //     skillImage[i].sizeDelta = new Vector2(128, 128);
+                // }
 
                 if (skillManager.isActive[i] == true)
                 {

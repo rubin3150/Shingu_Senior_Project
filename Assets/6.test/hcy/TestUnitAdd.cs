@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -65,7 +66,7 @@ public class TestUnitAdd : MonoBehaviour
 
                     for (int i = 0; i < k * 2; i++)
                     {
-                        skillTxt[i].transform.GetComponent<TextMeshProUGUI>().color = new Color(96f / 255f, 77f / 255f, 66f / 255f, 255f / 255f);
+                        skillTxt[i].transform.GetComponent<TextMeshProUGUI>().color = new Color(255f / 255f, 255f / 255f, 255f / 255f, 255f / 255f);
                     }
                     skillManager.SetColor();
                     k += 1;

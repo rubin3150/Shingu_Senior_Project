@@ -58,6 +58,8 @@ public class SkillManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI warningTxt;
 
+    [SerializeField] private UnitSkillManager _unitSkillManager;
+
     private int k = 0;
     
     private void Start()
@@ -195,7 +197,7 @@ public class SkillManager : MonoBehaviour
                     {
                         if (_manaCheck == false)
                         {
-                            ShowManaWarningUI("마나가 없습니다");
+                            ShowManaWarningUI("마나가 부족합니다.");
                         }
                     }
                 }
@@ -278,7 +280,9 @@ public class SkillManager : MonoBehaviour
 
                 if (_unitMove.isDead == false)
                 {
-                    ShowDamageTxt(_unitMove.gameObject, _unitMove.maxHp - _unitMove.nowHpStat, _unitMove.hpBackImage.transform.position + new Vector3(0, 1, 0), false);
+                    _unitMove._skillDelay += playerSet.addStat[5];
+                    _unitMove.skillCoolTimeImage.fillAmount = _unitMove._skillDelay / _unitMove.skillCoolTime;
+                    ShowDamageTxt(_unitMove.transform, (_unitMove.maxHp - _unitMove.nowHpStat).ToString(), _unitMove.hpBackImage.transform.position + new Vector3(0, 1, 0), Color.green);
 
                     _unitMove.nowHpStat = _unitMove.maxHp;
                     _unitMove.UpdateHpBar(0, false);
@@ -289,22 +293,52 @@ public class SkillManager : MonoBehaviour
         Invoke("HideEffectSkill2", 2f);
     }
     
-    private void ShowDamageTxt(GameObject go, float damage, Vector3 yPos, bool damageCheck)
+    private void ShowDamageTxt(Transform go, string damage, Vector3 yPos, Color color)
     {
         GameObject damageGo = Instantiate(damageText);
-        damageGo.transform.parent = go.transform;
-        damageGo.transform.position = yPos; // 일반 유닛 5.5 // 팅커벨 유닛 7.5
+        damageGo.transform.SetParent(go.transform);
+        damageGo.GetComponent<DamageText>().parent = go.gameObject;
 
-        if (damageCheck == true)
+        if (go.tag == "Unit")
         {
-            damageGo.GetComponent<DamageText>().text.color = Color.red;
+            UnitMove _unitMove = go.GetComponent<UnitMove>();
+            
+            _unitMove.damageTexts.Add(damageGo); 
+            _unitMove.nowDamagePos += 1;
+
+            int currentDamagePos = _unitMove.nowDamagePos;
+            
+            for (int i = 0; i < _unitMove.damageTexts.Count; i++)
+            {
+                if (_unitMove.damageTexts[i] != null)
+                {
+                    currentDamagePos -= 1;
+                    _unitMove.damageTexts[i].transform.position = yPos + new Vector3(0, currentDamagePos);
+                }
+            }
         }
-        else
+        else if (go.tag == "Enemy")
         {
-            damageGo.GetComponent<DamageText>().text.color = Color.green;
+            Enemy _enemy = go.GetComponent<Enemy>();
+            
+            _enemy.damageTexts.Add(damageGo); 
+            _enemy.nowDamagePos += 1;
+
+            int currentDamagePos = _enemy.nowDamagePos;
+            
+            for (int i = 0; i < _enemy.damageTexts.Count; i++)
+            {
+                if (_enemy.damageTexts[i] != null)
+                {
+                    currentDamagePos -= 1;
+                    _enemy.damageTexts[i].transform.position = yPos + new Vector3(0, currentDamagePos);
+                }
+            }
         }
+
         damageGo.GetComponent<DamageText>().damage = damage;
-        
+        damageGo.GetComponent<DamageText>().text.color = color;
+
         damageGo.GetComponent<DamageText>().isCri = false;
     }
 
@@ -333,9 +367,33 @@ public class SkillManager : MonoBehaviour
                 int _r = Random.Range(playerSet.addStat[7], playerSet.addStat[8] + 1);
                 _rays[i].transform.position += new Vector3(_r, 0f, 0f);
                 Enemy _enemy = _rays[i].transform.GetComponent<Enemy>();
-                _enemy.UpdateHpBar(playerSet.addStat[9]);
+
+                // 출혈이 아니라면
+                if (_enemy.isHurt == false)
+                {
+                    _enemy.UpdateHpBar(playerSet.addStat[9]);
+                
+                    ShowDamageTxt(_enemy.transform, playerSet.addStat[9].ToString(), _enemy.maxHpStatImage.transform.position + new Vector3(0, 1, 0), Color.red);
+                }
+                // 출혈중이라면
+                else
+                {
+                    Debug.Log("출혈 대미지");
+                    int hurtDamage = Mathf.RoundToInt(playerSet.addStat[9] * _unitSkillManager.hurtStat[1] * 0.01f);
+                    
+                    _enemy.UpdateHpBar(playerSet.addStat[9] + hurtDamage);
+                
+                    ShowDamageTxt(_enemy.transform, playerSet.addStat[9].ToString(), _enemy.maxHpStatImage.transform.position + new Vector3(0, 1, 0), Color.red);
+                    ShowDamageTxt(_enemy.transform, hurtDamage.ToString(), _enemy.maxHpStatImage.transform.position + new Vector3(0, 1, 0), Color.yellow);
+                }
+                
+                
+                if (_enemy.isStop == false)
+                {
+                    _enemy.StopMove();
+                }
                
-                ShowDamageTxt(_enemy.gameObject, playerSet.addStat[9], _enemy.maxHpStatImage.transform.position + new Vector3(0, 1, 0), true);
+                
             }
         }
 
@@ -494,7 +552,7 @@ public class SkillManager : MonoBehaviour
                                 {
                                     float dis = Vector2.Distance(transform.position, unitMove.transform.position);
                                     
-                                    if (dis >= 19f)
+                                    if (dis >= 17f)
                                     {
                                         unitMove.isBuff = false;
                                         unitMove.heal -= playerSet.addStat[0];
@@ -510,7 +568,7 @@ public class SkillManager : MonoBehaviour
                                 {
                                     float dis = Vector2.Distance(transform.position, unitMove.transform.position);
                                     
-                                    if (dis >= 19f)
+                                    if (dis >= 17f)
                                     {
                                         unitMove.isBuff = false;
                                         unitMove.attack -= playerSet.addStat[1];
@@ -525,7 +583,7 @@ public class SkillManager : MonoBehaviour
                                 if (unitMove.isBuff == true)
                                 {
                                     float dis = Vector2.Distance(transform.position, unitMove.transform.position);
-                                    if (dis >= 19f)
+                                    if (dis >= 17f)
                                     {
                                         unitMove.isBuff = false;
                                         if (unitMove.criRate > unitMove.unit.criRate)
@@ -544,7 +602,7 @@ public class SkillManager : MonoBehaviour
                                 {
                                     float dis = Vector2.Distance(transform.position, unitMove.transform.position);
                                     
-                                    if (dis >= 19f)
+                                    if (dis >= 17f)
                                     {
                                         unitMove.isBuff = false;
                                         unitMove.pushResist -= playerSet.addStat[3];

@@ -20,6 +20,7 @@ MonoBehaviour:
   attackStat: 0
   healStat: 20
   donMoveDistance: 7
+  donTowerMoveDistance: 6
   attackRangeStat: 3
   criRate: 0
   criDamage: 0
@@ -32,3 +33,6 @@ MonoBehaviour:
   mpGet: 0
   attackType: X
   bossType: 
+  skillCoolTime: 6
+  skillIndex: 0
+  skillEffect: 0

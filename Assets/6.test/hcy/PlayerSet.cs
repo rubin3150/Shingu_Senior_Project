@@ -32,5 +32,5 @@ public class PlayerSet : MonoBehaviour
     public float[] maintainTime;
 
     // 플레이어의 스킬에 따라 증가하는 첫번째 스텟을 담을 변수 
-    public int[] addStat;
+    [Tooltip("플레이어의 스킬 스탯\n0은 힐러의 회복량\n1은 근거리 딜러의 공격력\n2는 원거리 딜러의 치명타 확률\n3은 탱커의 넉백 저항\n4는 모든 유닛의 이동 속도\n5는 스킬 쿨타임\n6은 3번째 스킬의 사거리\n7은 랜덤 넉백의 최소값\n8은 랜덤 넉백의 최대값\n9는 고정 대미지 값")] public int[] addStat;
 }

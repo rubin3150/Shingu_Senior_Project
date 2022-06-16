@@ -30,6 +30,8 @@ public class SelectUnitBase : MonoBehaviour
     // 플레이어 정보 텍스트를 담을 변수
     [SerializeField] private TextMeshProUGUI playerHpTxt;
     [SerializeField] private TextMeshProUGUI playerManaTxt;
+
+    [SerializeField] private TextMeshProUGUI[] skillManaTxt;
     
     // 퀵슬롯의 스크립트를 관리할 변수 
     public UnitSlot[] quickSlot;
@@ -48,6 +50,8 @@ public class SelectUnitBase : MonoBehaviour
     // 모든 페이지의 유닛들을 담을 변수
     [SerializeField] private Unit[] maxUnit;
 
+    [SerializeField] private PlayerSet playerSet;
+    
     /// <summary>
     /// 씬 시작시 처음 호출 되는 함수
     /// </summary>
@@ -55,6 +59,11 @@ public class SelectUnitBase : MonoBehaviour
     {
         // 유닛슬롯의 하위 오브젝트들을 모두 변수에 넣음
         _unitSlots = unitSlotParent.GetComponentsInChildren<UnitSlot>();
+
+        for (int i = 0; i < skillManaTxt.Length; i++)
+        {
+            skillManaTxt[i].text = playerSet.skillMoonEnergy[i].ToString();
+        }
 
         playerHpTxt.text = player.hpStat + "/" + player.hpStat;
 
@@ -223,7 +232,7 @@ public class SelectUnitBase : MonoBehaviour
                 startFlag = false;
                 
                 // i번째 퀵슬롯의 스크립트에서 함수 호출
-                quickSlot[i].StartBtnColorSet(155f, 0.5f, 60);
+                quickSlot[i].StartBtnColorSet(155f);
             }
             // i번째 퀵슬롯의 유닛이 있다면 아래 코드 실행 (퀵슬롯에 유닛이 하나라도 있다면)
             else

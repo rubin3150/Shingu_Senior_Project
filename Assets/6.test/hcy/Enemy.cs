@@ -16,10 +16,12 @@ public class Enemy : MonoBehaviour
     public float nowHpStat;
     public float maxHpStat;
     public Image maxHpStatImage;
+    public Image backSliderHp;
     public float pushRange;
     public float moveSpeed;
     public float attack;
     public float donMoveDistance;
+    public float donPlayerMoveDistance;
     public float attackRange;
     public float pushResist;
     public float attackDelay;
@@ -53,8 +55,6 @@ public class Enemy : MonoBehaviour
     
     private float _unitAlphaTime = 1f;
 
-    [SerializeField] private GameObject damageText;
-
     [SerializeField] private StageManager _stageManager;
 
     [SerializeField] private Image hpBackImage;
@@ -65,14 +65,83 @@ public class Enemy : MonoBehaviour
 
     private Vector3 _unitPos;
 
+    [SerializeField] private DefenceLevel _defenceLevel;
+    
+    [SerializeField] private UnitSkillManager _unitSkillManager;
+
+    public GameObject damageText;
+
+    private bool backHpHit;
+
+    public int nowDamagePos;
+
+    public List<GameObject> damageTexts = new List<GameObject>();
+
+    // 출혈증인지 아닌지 체크할 변수 
+    public bool isHurt;
+    // 출혈 유지 시간
+    public float hurtMaintainTime;
+    // 출혈 동안 몇초나 지났는지 체크할 변수
+    public float currentHurtDamageTime;
+
+    private void SetHpStat(int i)
+    {
+        if (unit.unitName == "유령")
+        {
+            maxHpStat = unit.hpStat + _defenceLevel.ghostLevelHp[i];
+            nowHpStat = unit.hpStat + _defenceLevel.ghostLevelHp[i];
+        }
+        else if (unit.unitName == "달팽이")
+        {
+            maxHpStat = unit.hpStat + _defenceLevel.snailLevelHp[i];
+            nowHpStat = unit.hpStat + _defenceLevel.snailLevelHp[i];
+        }
+        else if (unit.unitName == "레드 큐브 슬라임")
+        {
+            maxHpStat = unit.hpStat + _defenceLevel.redSlimeLevelHp[i];
+            nowHpStat = unit.hpStat + _defenceLevel.redSlimeLevelHp[i];
+        }
+        else if (unit.unitName == "그린 큐브 슬라임")
+        {
+            maxHpStat = unit.hpStat + _defenceLevel.greenSlimeLevelHp[i];
+            nowHpStat = unit.hpStat + _defenceLevel.greenSlimeLevelHp[i];
+        }
+        else
+        {
+            maxHpStat = unit.hpStat + _defenceLevel.blueSlimeLevelHp[i];
+            nowHpStat = unit.hpStat + _defenceLevel.blueSlimeLevelHp[i];
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         _stageManager = GameObject.Find("Manager").gameObject.GetComponent<StageManager>();
+        _defenceLevel = GameObject.Find("TestDefenceLevel").gameObject.GetComponent<DefenceLevel>();
+        _unitSkillManager = GameObject.Find("Manager").transform.GetComponent<UnitSkillManager>();
         moveSpeed = unit.speedStat;
-        nowHpStat = unit.hpStat;
+
+        if (_defenceLevel.isLevel[0] == true)
+        {
+            SetHpStat(0);
+        }
+        else if (_defenceLevel.isLevel[1] == true)
+        {
+            SetHpStat(1);
+        }
+        else if (_defenceLevel.isLevel[2] == true)
+        {
+            SetHpStat(2);
+        }
+        else if (_defenceLevel.isLevel[3] == true)
+        {
+            SetHpStat(3);
+        }
+        
+        
         attack = unit.attackStat;
         donMoveDistance = unit.donMoveDistance;
+        donPlayerMoveDistance = unit.donTowerMoveDistance;
         attackRange = unit.attackRangeStat;
         attackDelay = unit.attackDelayStat;
         pushRange = unit.pushRange;
@@ -88,6 +157,18 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        maxHpStatImage.fillAmount = Mathf.Lerp(maxHpStatImage.fillAmount, nowHpStat / maxHpStat, Time.deltaTime * 5f);
+       
+        if (backHpHit == true)
+        {
+            backSliderHp.fillAmount = Mathf.Lerp(backSliderHp.fillAmount, maxHpStatImage.fillAmount, Time.deltaTime * 5f);
+            if (maxHpStatImage.fillAmount >= backSliderHp.fillAmount - 0.01f)
+            {
+                backHpHit = false;
+                backSliderHp.fillAmount = maxHpStatImage.fillAmount;
+            }
+        }
+        
         if (isDead == false)
         {
             if (isMove == true)
@@ -99,6 +180,7 @@ public class Enemy : MonoBehaviour
             
                 CheckObject();
                 CheckAttack();
+                Hurt();
 
                 if (_isAttack == true)
                 {
@@ -170,9 +252,19 @@ public class Enemy : MonoBehaviour
     {
         if (_ray.collider != null)
         {
-            if (Vector2.Distance(new Vector2(transform.position.x, 0f), new Vector2(_ray.transform.position.x, 0)) <= donMoveDistance)
+            if (_ray.transform.tag == "Player")
             {
-                donMove = true;
+                if (Vector2.Distance(new Vector2(transform.position.x, 0f), new Vector2(_ray.transform.position.x, 0)) <= donPlayerMoveDistance)
+                {
+                    donMove = true;
+                }
+            }
+            else
+            {
+                if (Vector2.Distance(new Vector2(transform.position.x, 0f), new Vector2(_ray.transform.position.x, 0)) <= donMoveDistance)
+                {
+                    donMove = true;
+                }
             }
 
             if (donMove == true)
@@ -210,13 +302,12 @@ public class Enemy : MonoBehaviour
         if (r <= criRate)
         {
             // Debug.Log("적이 치명타 공격함");
-            
-            float criticalDamage = attack * (criDamage * 0.01f);
-            
+            int criticalDamage = Mathf.RoundToInt(attack * (criDamage * 0.01f));
+
             if (_currentRay.transform.tag == "Player")
             {
                 _currentRay.transform.GetComponent<Player>().UpdateHpBar(criticalDamage);
-                ShowDamageTxt(criticalDamage, true, _currentRay.transform.GetComponent<Player>().hpImage.transform.position + new Vector3(0, 1, 0));
+                ShowDamageTxt(_currentRay.transform, criticalDamage.ToString(), true, _currentRay.transform.GetComponent<Player>().hpImage.transform.position + new Vector3(0, 1, 0), Color.red);
             }
             else if (_currentRay.transform.tag == "Unit")
             {
@@ -229,11 +320,10 @@ public class Enemy : MonoBehaviour
                     _unitMove.MoveAnim();
                 }
 
-                ShowDamageTxt(criticalDamage, true, _unitMove.hpBackImage.transform.position + new Vector3(0, 1f, 0));
+                ShowDamageTxt(_currentRay.transform, criticalDamage.ToString(), true, _unitMove.hpBackImage.transform.position + new Vector3(0, 1f, 0), Color.red);
 
                 if (_unitMove.pushResist - pushRange < 0)
                 {
-                    Debug.Log("저항 수치 높음");
                     _currentRay.transform.position += new Vector3(_unitMove.pushResist - pushRange, 0f, 0f);
                 }
                 
@@ -255,7 +345,7 @@ public class Enemy : MonoBehaviour
                 // Debug.Log(1);
                 _currentRay.transform.GetComponent<Player>().UpdateHpBar(attack);
 
-                ShowDamageTxt(attack, false, _currentRay.transform.GetComponent<Player>().hpImage.transform.position + new Vector3(0, 1, 0));
+                ShowDamageTxt(_currentRay.transform, attack.ToString(), false, _currentRay.transform.GetComponent<Player>().hpImage.transform.position + new Vector3(0, 1, 0), Color.red);
             }
             else if (_currentRay.transform.tag == "Unit")
             {
@@ -263,10 +353,7 @@ public class Enemy : MonoBehaviour
                 
                 _unitMove.UpdateHpBar(attack, true);
                 
-                ShowDamageTxt(attack, false,_unitMove.hpBackImage.transform.position + new Vector3(0, 1f, 0));
-
-                ShowDamageTxt(attack, false, _unitMove.hpBackImage.transform.position + new Vector3(0, 1f, 0));
-                
+                ShowDamageTxt(_currentRay.transform, attack.ToString(), false,_unitMove.hpBackImage.transform.position + new Vector3(0, 1f, 0), Color.red);
             }
         }
 
@@ -278,13 +365,70 @@ public class Enemy : MonoBehaviour
         // _isAttack = false;
     }
 
-    private void ShowDamageTxt(float damage, bool cirDamage, Vector3 yPos)
+    private void ShowDamageTxt(Transform go, string damage, bool cirDamage, Vector3 yPos, Color color)
     {
         GameObject damageGo = Instantiate(damageText);
-        damageGo.transform.SetParent(_currentRay.transform);
-        damageGo.transform.position = yPos; // 일반 유닛 5.5 // 팅커벨 유닛 7.5
-        damageGo.GetComponent<DamageText>().text.color = Color.red;
+        damageGo.transform.SetParent(go);
+        damageGo.GetComponent<DamageText>().parent = go.gameObject;
+        
+        if (go.tag == "Player")
+        {
+            Player _player = go.GetComponent<Player>();
+            
+            _player.damageTexts.Add(damageGo); 
+            _player.nowDamagePos += 1;
+
+            int currentDamagePos = _player.nowDamagePos;
+            
+            for (int i = 0; i < _player.damageTexts.Count; i++)
+            {
+                if (_player.damageTexts[i] != null)
+                {
+                    currentDamagePos -= 1;
+                    _player.damageTexts[i].transform.position = yPos + new Vector3(0, currentDamagePos);
+                }
+            }
+        }
+        else if (go.tag == "Unit")
+        {
+            UnitMove _unitMove = go.GetComponent<UnitMove>();
+            
+            _unitMove.damageTexts.Add(damageGo); 
+            _unitMove.nowDamagePos += 1;
+
+            int currentDamagePos = _unitMove.nowDamagePos;
+            
+            for (int i = 0; i < _unitMove.damageTexts.Count; i++)
+            {
+                if (_unitMove.damageTexts[i] != null)
+                {
+                    currentDamagePos -= 1;
+                    _unitMove.damageTexts[i].transform.position = yPos + new Vector3(0, currentDamagePos);
+                }
+            }
+        }
+        else
+        {
+            Enemy _enemy = go.GetComponent<Enemy>();
+            
+            _enemy.damageTexts.Add(damageGo); 
+            _enemy.nowDamagePos += 1;
+
+            int currentDamagePos = _enemy.nowDamagePos;
+            
+            for (int i = 0; i < _enemy.damageTexts.Count; i++)
+            {
+                if (_enemy.damageTexts[i] != null)
+                {
+                    currentDamagePos -= 1;
+                    _enemy.damageTexts[i].transform.position = yPos + new Vector3(0, currentDamagePos);
+                }
+            }
+        }
+        
         damageGo.GetComponent<DamageText>().damage = damage;
+        damageGo.GetComponent<DamageText>().text.color = color;
+        
         if (cirDamage == true)
         {
             // 알파 값 조절
@@ -300,6 +444,7 @@ public class Enemy : MonoBehaviour
     {
         if (isMove == true)
         {
+            Invoke("BackHpFun", 0.5f);
             nowHpStat -= damage;
         
             unitImage.color = new Color(153f / 255f, 153f / 255f, 153f / 255f, 255f / 255f);
@@ -308,7 +453,7 @@ public class Enemy : MonoBehaviour
         
             // hpText.text = nowHpStat + " / " + unit.hpStat;
             // 체력 게이지 값 설정.
-            maxHpStatImage.fillAmount = nowHpStat / unit.hpStat;
+            
 
             if (nowHpStat <= 0)
             {
@@ -321,7 +466,12 @@ public class Enemy : MonoBehaviour
             }
         }
     }
-    
+
+    private void BackHpFun()
+    {
+        backHpHit = true;
+    }
+
     private IEnumerator FadeUnit()
     {
         // 변수 초기화
@@ -381,11 +531,35 @@ public class Enemy : MonoBehaviour
     private void DonStopMove()
     {
         isStop = false;
-        donMove = false;
     }
 
     private void ResetImageAlpha()
     {
         unitImage.color = new Color(255f / 255f, 255f / 255f, 255f / 255f, 255f / 255f);
+    }
+
+    private void Hurt()
+    {
+        if (isHurt == true)
+        {
+            hurtMaintainTime += Time.deltaTime;
+            currentHurtDamageTime += Time.deltaTime;
+            
+            // 일정 지속 시간 지나 지속 대미지를 받음
+            if (currentHurtDamageTime >= _unitSkillManager.hurtStat[2])
+            {
+                UpdateHpBar(_unitSkillManager.hurtStat[3]);
+                ShowDamageTxt(transform, _unitSkillManager.hurtStat[3].ToString(), false, hpBackImage.transform.position + new Vector3(0, 1, 0), Color.red);
+                currentHurtDamageTime = 0;
+            }
+
+            // 지속 시간 끝남
+            if (hurtMaintainTime >= _unitSkillManager.hurtStat[0])
+            {
+                currentHurtDamageTime = 0;
+                hurtMaintainTime = 0;
+                isHurt = false;
+            }
+        }
     }
 }
