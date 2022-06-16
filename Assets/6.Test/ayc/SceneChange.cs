@@ -7,7 +7,7 @@ public class SceneChange : MonoBehaviour
 
     public void SceneChanger()
     {
-        SceneManager.LoadScene("Defence");
+        SceneManager.LoadScene("Defence 1");
         DontDestroyOnLoad(stage);
     }
 }
