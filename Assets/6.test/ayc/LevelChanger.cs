@@ -23,6 +23,6 @@ public class LevelChanger : MonoBehaviour
 
     public void OnFadeComplete()
     {
-
+        animator.SetTrigger("FadeIn");
     }
 }

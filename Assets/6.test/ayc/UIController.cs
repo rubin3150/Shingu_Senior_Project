@@ -3,7 +3,10 @@ using UnityEngine;
 public class UIController : Singleton<UIController>
 {
     public GameObject[] pagePrefab;
-    public int maxPage;   
+    public int maxPage;
+
+    public Animator animator;
+    private int levelToLoad;
 
     private void offAllPage()
     {
@@ -24,5 +27,17 @@ public class UIController : Singleton<UIController>
 #else
         Application.Quit();
 #endif
+    }
+
+    public void FadeToLevel(int levelIndex)
+    {
+        levelToLoad = levelIndex;
+        animator.SetTrigger("FadeOut");
+    }
+
+    public void OnFadeComplete()
+    {
+        NextPage(levelToLoad);
+        animator.SetTrigger("FadeIn");
     }
 }
