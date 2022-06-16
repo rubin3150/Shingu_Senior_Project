@@ -12,6 +12,7 @@ TagManager:
   - Enemy
   - Move
   - Sell
+  - Resource
   layers:
   - Default
   - TransparentFX

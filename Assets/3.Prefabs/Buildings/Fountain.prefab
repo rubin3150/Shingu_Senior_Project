@@ -179,7 +179,7 @@ GameObject:
   - component: {fileID: 836356473559529650}
   - component: {fileID: -7447844399279269591}
   m_Layer: 7
-  m_Name: fountain
+  m_Name: Fountain
   m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -194,7 +194,7 @@ Transform:
   m_GameObject: {fileID: 6405516268909607392}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 3, y: 1, z: 3}
+  m_LocalScale: {x: 3.000001, y: 1, z: 3.000001}
   m_Children:
   - {fileID: 7024959939767634724}
   - {fileID: 7377804855140715783}

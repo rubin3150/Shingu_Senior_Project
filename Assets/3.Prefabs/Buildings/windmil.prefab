@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 3761857389224021521}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
-  m_LocalScale: {x: 3, y: 1, z: 2}
+  m_LocalScale: {x: 3.000001, y: 1, z: 2.000001}
   m_Children:
   - {fileID: 8582994785453927130}
   m_Father: {fileID: 0}
@@ -110,8 +110,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingData: {fileID: 0}
-  BuildingType: 99
-  BuildingResourceType: 99
+  buildingType: 10
+  resourceType: 9
 --- !u!1 &6768450061179217557
 GameObject:
   m_ObjectHideFlags: 0

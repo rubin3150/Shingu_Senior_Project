@@ -9,13 +9,12 @@ public class Building : MonoBehaviour
     public BuildingType buildingType = BuildingType.None;
     public ResourceType resourceType = ResourceType.None;
     
-    private int resource;
+    public int resource;
 
     private int cost;
     private float buildTime;
     private int maxResource;
     private string description;
-    private bool isCreation = true;
     private bool isCollect;
     private Collider _collider;
     private MeshRenderer _mesh;
@@ -35,19 +34,7 @@ public class Building : MonoBehaviour
         CreateReosource();
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.B))
-        {
-            Stop();
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            CreateReosource();
-        }
-    }
-
-    public void thisType()
+    public void ThisType()
     {
         switch (buildingType)
         {
@@ -93,7 +80,7 @@ public class Building : MonoBehaviour
             case ResourceType.None:
                 return;
             case ResourceType.childlikeEnergy:
-                thisCoroutine = StartCoroutine(Create(2, 1f));
+                StartCoroutine(Create(2, 1f));
                 return;
             case ResourceType.log:
                 resource = maxResource;
@@ -114,11 +101,6 @@ public class Building : MonoBehaviour
         }
     }
 
-    public void Stop()
-    {
-        StopCoroutine(thisCoroutine);
-    }
-
     public void buildBuilding(GameObject _model, GameObject _effect)
     {
         for (int i = 0; i < transform.GetChildCount(); i++)
@@ -135,13 +117,12 @@ public class Building : MonoBehaviour
         StartCoroutine(DestroyEffect(model, effect, buildTime));
     }
 
-    private IEnumerator Create(int _int, float _time)
+    public IEnumerator Create(int _int, float _time)
     {
-        while(isCreation)
-        {
-            resource += _int;
-            yield return new WaitForSeconds(_time);
-        }
+        yield return new WaitForSeconds(_time);
+        resource += _int;
+        Debug.Log("달빛에너지 생산중");
+        StartCoroutine(Create(2, 1f));
     }
 
     private IEnumerator DestroyEffect(GameObject _model, GameObject _effect, float _time)
@@ -156,7 +137,7 @@ public class Building : MonoBehaviour
         }
     }
 
-    public IEnumerator GetResource(GameObject _gameObject, float _time)
+    public IEnumerator GetResource(float _time)
     {
         ResourceSystem.Instance.GetResource(resourceType, resource);
         _mesh.enabled = false;
@@ -164,5 +145,15 @@ public class Building : MonoBehaviour
         yield return new WaitForSeconds(_time);
         _mesh.enabled = true;
         _collider.enabled = true;
+    }
+
+    public void GetBuildingResource(Building _gameObject)
+    {
+        if(_gameObject.resourceType == ResourceType.childlikeEnergy)
+        {
+            //if (isCollect == false) return;
+            ResourceSystem.Instance.GetResource(resourceType, resource);
+            this.resource = 0;
+        }
     }
 }

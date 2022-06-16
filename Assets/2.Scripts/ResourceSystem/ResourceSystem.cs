@@ -19,7 +19,6 @@ public class ResourceSystem : Singleton<ResourceSystem>
     // public List<GameObject> oreSpawner = new List<GameObject>();
     // public List<GameObject> mushroomSpawner = new List<GameObject>();
     public List<ResourceDict> resourceElements = new List<ResourceDict>();
-    //public static int childlikeEnergy, log, flower, ore, mushroom, board, honey, iron, stew;
 
     private void Start()
     {
@@ -34,12 +33,8 @@ public class ResourceSystem : Singleton<ResourceSystem>
     public void GetResource(ResourceType _resourceType, int _int)
     {
         resourceElements[(int)_resourceType].resourceValue += _int;
-        InsertResource();
-    }
-
-    public void InsertResource()
-    {
-        for (int i = 0; i < resourceElements.Count; i++)
+        
+        for (int i = 0; i < resourceElements.Count; i++) //InsertResource
         {
             if(resourceElements[i].resourceText == null)
                 continue;

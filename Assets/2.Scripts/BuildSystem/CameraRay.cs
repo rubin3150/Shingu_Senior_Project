@@ -52,13 +52,13 @@ public class CameraRay : Singleton<CameraRay>
         if(isEditing)
         {
             OnDrag();
-            statusText.text = "수정중입니다.";
             CameraMove.Instance.isMove = false;
+            statusText.text = "수정중입니다.";
         }
         else
         {
-            statusText.text = "수정중이 아닙니다.";
             CameraMove.Instance.isMove = true;
+            statusText.text = "수정중이 아닙니다.";
         }
     }
 
@@ -78,11 +78,21 @@ public class CameraRay : Singleton<CameraRay>
                 Destroy(hit.transform.parent.gameObject);
                 isMoving = true;
             }
-            if(hit.transform.CompareTag("Building"))
+            if(!isEditing)
             {
-                var go = hit.transform.gameObject.GetComponent<Building>();
-                go.StartCoroutine(go.GetResource(hit.transform.gameObject, 300f));
-                //go.GetResource(go.resourceType, hit.transform.gameObject, 300f);
+                if (hit.transform.CompareTag("Resource"))
+                {
+                    Building go = hit.transform.gameObject.GetComponent<Building>();
+                    go.StartCoroutine(go.GetResource(300f));
+                    //go.GetResource(go.resourceType, hit.transform.gameObject, 300f);
+                }
+
+                if (hit.transform.CompareTag("Unit"))
+                {
+                    Building go = hit.transform.gameObject.GetComponent<Building>();
+                    go.GetBuildingResource(go);
+                    go.resource = 0;
+                }
             }
         }
 
@@ -248,10 +258,9 @@ public class CameraRay : Singleton<CameraRay>
 
             for (int i = 0; i < buildings.Count; i++)
             {
-                var x = buildings[i].gameObject.transform.localScale.x.ToString();
-                var z = buildings[i].gameObject.transform.localScale.z.ToString();
-                IsBool(int.Parse(buildings[i].transform.parent.name), true, int.Parse(x), int.Parse(z));
-                Debug.Log(buildings[i].transform.parent.name+"의 x 크기를"+int.Parse(x)+"으로 바꿨습니다.");
+                var LocalScale = buildings[i].gameObject.transform.localScale;
+                IsBool(int.Parse(buildings[i].transform.parent.name), true, (int)LocalScale.x, (int)LocalScale.z);
+                //Debug.Log(buildings[i].transform.parent.name+"의 x 크기를"+int.Parse(x)+"으로 바꿨습니다.");
             }
         }
     }
