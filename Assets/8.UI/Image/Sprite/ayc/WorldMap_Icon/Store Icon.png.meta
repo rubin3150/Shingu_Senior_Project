@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: 72fb8b978c7cbb94f985d98395fb67ea
+guid: 7cc7816a10b929247a0107bcd1aa15e9
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -211929488317335079
-    second: Store Pop-Up_0
+      213: 2030853677089970672
+    second: Store Icon_0
+  - first:
+      213: 3494042983200647782
+    second: Store Icon_1
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -106,13 +109,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Store Pop-Up_0
+      name: Store Icon_0
       rect:
         serializedVersion: 2
-        x: 151
-        y: 90
-        width: 657
-        height: 362
+        x: 372
+        y: 225
+        width: 90
+        height: 90
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -120,8 +123,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9d93a63d0431f0df0800000000000000
-      internalID: -211929488317335079
+      spriteID: 0f95ebdc8aa0f2c10800000000000000
+      internalID: 2030853677089970672
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Store Icon_1
+      rect:
+        serializedVersion: 2
+        x: 474
+        y: 228
+        width: 113
+        height: 62
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66aee9bb4955d7030800000000000000
+      internalID: 3494042983200647782
       vertices: []
       indices: 
       edges: []
@@ -129,7 +153,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: eec9f4455220ac24f84496d32c502bda
+    spriteID: 3f36cb975eb9bb444adba06ba2eb0372
     internalID: 0
     vertices: []
     indices: 
