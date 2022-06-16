@@ -8,6 +8,7 @@ using Effekseer;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
+using Effekseer;
 
 public class UnitMove : MonoBehaviour
 {
@@ -824,6 +825,7 @@ public class UnitMove : MonoBehaviour
                 // 스킬 효과가 출혈이라면
                 if (skillEffect == 0)
                 {
+                    _enemy.skillEffect[0].Play();
                     _enemy.isHurt = true;
                     _enemy.hurtMaintainTime = 0;
                     _enemy.currentHurtDamageTime = 0;

@@ -76,6 +76,9 @@ public class Enemy : MonoBehaviour
     public int nowDamagePos;
 
     public List<GameObject> damageTexts = new List<GameObject>();
+    
+    // 스킬 마다 다른 이펙트 설정
+    public EffekseerEmitter[] skillEffect;
 
     // 출혈증인지 아닌지 체크할 변수 
     public bool isHurt;
@@ -556,6 +559,7 @@ public class Enemy : MonoBehaviour
             // 지속 시간 끝남
             if (hurtMaintainTime >= _unitSkillManager.hurtStat[0])
             {
+                skillEffect[0].Stop();
                 currentHurtDamageTime = 0;
                 hurtMaintainTime = 0;
                 isHurt = false;
