@@ -7,7 +7,9 @@ public class Temp_WorldMapUI : MonoBehaviour
     /*
     0. 상점
     1. 내 유닛
-    2. 환경 설정    
+    2. 환경 설정
+    temp-2. 재료 가공
+    3. 재료 가공 Plus
     */
 
     public Button[] worldMapBtn;
@@ -18,6 +20,9 @@ public class Temp_WorldMapUI : MonoBehaviour
     3. 상점 - 닫기 버튼
     4. 환경설정 - 닫기 버튼
     5. 환경설정 - 게임종료 버튼
+    temp-6. Building 버튼
+    7. 재료가공 - X 버튼
+    8. 재료가공 - 가공하기 버튼
     */
 
     void Start()
@@ -28,6 +33,9 @@ public class Temp_WorldMapUI : MonoBehaviour
         worldMapBtn[3].onClick.AddListener(() => PopUpOffController(0));
         worldMapBtn[4].onClick.AddListener(() => PopUpOffController(1));
         worldMapBtn[5].onClick.AddListener(ExitPage);
+        worldMapBtn[6].onClick.AddListener(() => PopUpOnController(2));
+        worldMapBtn[7].onClick.AddListener(TempOff);
+        worldMapBtn[8].onClick.AddListener(() => PopUpOnController(3));
     }
 
     public void PopUpOnController(int _int)
@@ -38,6 +46,14 @@ public class Temp_WorldMapUI : MonoBehaviour
     {
         popupUI[_int].SetActive(false);
     }
+    public void TempOff()
+    {
+        for(int i=2;i<=3;i++)
+        {
+            popupUI[i].SetActive(false);
+        }
+    }
+
 
     public void TempMyUnit()
     {
