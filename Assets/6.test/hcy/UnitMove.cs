@@ -87,8 +87,6 @@ public class UnitMove : MonoBehaviour
     
     private int k = 0;
 
-    private Vector3 _enemyPos;
-
     [SerializeField] public Image skillCoolTimeImage;
 
     [SerializeField] private UnitSkillManager _unitSkillManager;
@@ -104,9 +102,70 @@ public class UnitMove : MonoBehaviour
     public int nowDamagePos;
     
     public List<GameObject> damageTexts = new List<GameObject>();
+    
+    [SerializeField] private GameObject attackIcon;
+    
+    [SerializeField] private EffekseerEmitter attackAnim;
+    
+    public EffekseerEmitter[] skillAnim;
+    
+    // 스킬 마다 다른 이펙트 설정
+    public EffekseerEmitter[] skillShowEffect;
+    
+    // 출혈증인지 아닌지 체크할 변수 
+    public bool isHurt;
+    // 출혈 유지 시간
+    public float hurtMaintainTime;
+    // 출혈 동안 몇초나 지났는지 체크할 변수
+    public float currentHurtDamageTime;
+    
+    public bool isTaunt;
+
+    public bool isCheckTaunt;
+    // 도발 유지 시간
+    public float tauntMaintainTime;
+
+    private bool isMoveAttackAnim;
+    private bool axeAttackAnim;
+
+    private float times;
+
+    private Vector3 startPos;
+    private Vector3 endPos;
 
     private void Update()
     {
+        if (isMoveAttackAnim == true)
+        {
+            if (_currentRay.transform.position != null)
+            {
+                times += Time.deltaTime * 3;
+                attackAnim.transform.position = Vector3.Lerp(startPos, _currentRay.transform.position, times);
+
+                if (times >= 1f)
+                {
+                    attackAnim.Stop();
+                    times = 0;
+                    isMoveAttackAnim = false;
+                }
+            }
+        }
+        else if (axeAttackAnim == true)
+        {
+            if (_currentRay.transform.position != null)
+            {
+                times += Time.deltaTime * 4;
+                skillAnim[0].transform.position = Vector3.Lerp(startPos, endPos, times);
+
+                if (times >= 1f)
+                {
+                    skillAnim[0].Stop();
+                    times = 0;
+                    axeAttackAnim = false;
+                }
+            }
+        }
+        
         maxHpStatImage.fillAmount = Mathf.Lerp(maxHpStatImage.fillAmount, nowHpStat / maxHp, Time.deltaTime * 5f);
        
         if (backHpHit == true)
@@ -135,6 +194,8 @@ public class UnitMove : MonoBehaviour
                 
                 CheckObject();
                 CheckAttack();
+                Hurt();
+                Taunt();
             
                 if (_isAttack == true)
                 {
@@ -215,7 +276,7 @@ public class UnitMove : MonoBehaviour
                     attackRange, towerMask);
             }
             // 앞에 몬스터가 있음
-            else
+            else if (isCheckTaunt == false)
             {
                 for (int i = 0; i < rays.Length; i++)
                 {
@@ -256,6 +317,18 @@ public class UnitMove : MonoBehaviour
                         }
                     }
 
+                }
+            }
+            else if (isCheckTaunt == true)
+            {
+                for (int i = 0; i < rays.Length; i++)
+                {
+                    if (rays[i].transform.GetComponent<Enemy>().isTaunt == true)
+                    {
+                        _ray = rays[i];
+
+                        break;
+                    }
                 }
             }
         }
@@ -299,7 +372,6 @@ public class UnitMove : MonoBehaviour
                     }
                 }
             }
-            
         }
     }
 
@@ -335,7 +407,22 @@ public class UnitMove : MonoBehaviour
                 {
                     if (_isSkill == true)
                     {
-                        UseSkill();
+                        if (_currentRay.transform.tag == "Tower")
+                        {
+                            if (unit.type != "Healer")
+                            {
+                                Attack();
+                            }
+                            else
+                            {
+                                Heal();
+                            }
+                        }
+                        else
+                        {
+                            UseSkill();
+                        }
+                        
                     }
                     else
                     {
@@ -406,6 +493,22 @@ public class UnitMove : MonoBehaviour
 
         if (nowHpStat <= 0)
         {
+            // 지속 시간 끝남
+            skillAnim[2].Stop();
+                RaycastHit2D[] rays = Physics2D.BoxCastAll(transform.position, new Vector2(1f, 18), 0, Vector2.right, attackRange, enemyMask);
+                pushResist -= _unitSkillManager.showeringStat[0];
+        
+                for (int i = 0; i < rays.Length; i++)
+                {
+                    Enemy _enemy = rays[i].transform.GetComponent<Enemy>();
+
+                    _enemy.isCheckTaunt = false;
+                }
+                
+                tauntMaintainTime = 0;
+                isTaunt = false;
+            
+            
             isDead = true;
             boxCol.enabled = false;
             if (animator != null)
@@ -560,15 +663,58 @@ public class UnitMove : MonoBehaviour
         _isAttack = true;
         _isSkill = false;
         _firstCheck = false;
+        
         if (skillIndex == 0)
         {
+            // 도끼 던지기 스킬 발동
             ThrowAxe();
         }
+        else if (skillIndex == 1)
+        {
+            // 팅커벨 스킬
+            MagicHeal();
+        }
+        else if (skillIndex == 2)
+        {
+            Showering();
+        }
+    }
+
+    private void HideAttackIcon()
+    {
+        attackIcon.SetActive(false);
     }
 
     private void Attack()
     { 
         _isAttack = true;
+        attackIcon.SetActive(true);
+        Invoke("HideAttackIcon", 0.5f);
+        
+        if (attackAnim != null)
+        {
+            attackAnim.Play();
+
+            if (unit.unitName == "나나")
+            {
+                if (_currentRay.transform.tag == "Enemy")
+                {
+                    if (_currentRay.transform.GetComponent<Enemy>().unit.unitName == "유령")
+                    {
+                        attackAnim.transform.position = _currentRay.transform.position;
+                    }
+                    else
+                    {
+                        attackAnim.transform.position = _currentRay.transform.position - new Vector3(0, 2, 0);
+                    }
+                }
+                else
+                {
+                    attackAnim.transform.position = _currentRay.transform.position - new Vector3(0, 4, 0);
+                }
+            }
+        }
+        
         if (animator != null)
         {
             animator.SetBool("Attack", true);
@@ -584,6 +730,21 @@ public class UnitMove : MonoBehaviour
     private void Heal()
     {
         _isAttack = true;
+        attackIcon.SetActive(true);
+        Invoke("HideAttackIcon", 0.5f);
+        
+        if (attackAnim != null)
+        {
+            attackAnim.Play();
+
+            if (unit.unitName == "팅커벨")
+            {
+                startPos = transform.position + new Vector3(0, 3.5f, 0);
+                isMoveAttackAnim = true;
+                // attackAnim.transform.position = _currentRay.transform.position;
+            }
+        }
+        
         if (animator != null)
         {
             animator.SetBool("Attack", false);
@@ -630,7 +791,6 @@ public class UnitMove : MonoBehaviour
 
         if (r <= criRate)
         {
-            // Debug.Log("유닛이 치명타 ");
             int criticalDamage =
                 Mathf.RoundToInt(attack * (criDamage * 0.01f));
 
@@ -643,31 +803,33 @@ public class UnitMove : MonoBehaviour
             {
                 Enemy _enemy = _currentRay.transform.GetComponent<Enemy>();
 
+                // 출혈중이 아니라면 아래 코드 실행
                 if (_enemy.isHurt == false)
                 {
-                    ShowDamageTxt(_currentRay.transform, criticalDamage.ToString(), true, _enemy.maxHpStatImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                    ShowDamageTxt(_enemy.transform, criticalDamage.ToString(), true, _enemy.maxHpStatImage.transform.position + new Vector3(0, 1f, 0), Color.red);
                 
-                    _enemy.UpdateHpBar(criticalDamage);
+                    _enemy.UpdateHpBar(criticalDamage, true);
                 }
+                // 출혈중이라면 아래 코드 실행
                 else
                 {
                     int hurtDamage = Mathf.RoundToInt(criticalDamage * _unitSkillManager.hurtStat[1] * 0.01f);
                     
-                    _enemy.UpdateHpBar(hurtDamage);
+                    _enemy.UpdateHpBar(hurtDamage + criticalDamage, true);
                 
-                    ShowDamageTxt(_enemy.transform, criticalDamage.ToString(),true, _enemy.maxHpStatImage.transform.position + new Vector3(0, 2, 0), Color.red);
+                    ShowDamageTxt(_enemy.transform, criticalDamage.ToString(),true, _enemy.maxHpStatImage.transform.position + new Vector3(0, 1, 0), Color.red);
                     ShowDamageTxt(_enemy.transform, hurtDamage.ToString(), false, _enemy.maxHpStatImage.transform.position + new Vector3(0, 1, 0), Color.yellow);
                 }
                 
 
                 if (_enemy.pushResist - pushRange < 0)
                 {
-                    _currentRay.transform.position -= new Vector3(_enemy.pushResist - pushRange, 0f, 0f);
+                    _enemy.transform.position -= new Vector3(_enemy.pushResist - pushRange, 0f, 0f);
                 }
 
-                if (_enemyPos.x > 40f)
+                if (_enemy.transform.position.x > 49.5f)
                 {
-                    _currentRay.transform.position = new Vector3(38.75f, 0, 0);
+                    _enemy.transform.position = new Vector3(49.5f, _enemy.transform.position.y, 0);
                 }
 
                 if (_enemy.isStop == false)
@@ -687,17 +849,19 @@ public class UnitMove : MonoBehaviour
             {
                 Enemy _enemy = _currentRay.transform.GetComponent<Enemy>();
 
+                // 출혈중이 아니라면 아래 코드 실행
                 if (_enemy.isHurt == false)
                 {
-                    ShowDamageTxt(_currentRay.transform, attack.ToString(), false, _enemy.maxHpStatImage.transform.position + new Vector3(0, 1f, 0),Color.red);
+                    ShowDamageTxt(_enemy.transform, attack.ToString(), false, _enemy.maxHpStatImage.transform.position + new Vector3(0, 1f, 0),Color.red);
 
-                    _enemy.UpdateHpBar(attack);
+                    _enemy.UpdateHpBar(attack, true);
                 }
+                // 출혈중이라면 아래 코드 실행
                 else
                 {
                     int hurtDamage = Mathf.RoundToInt(attack * _unitSkillManager.hurtStat[1] * 0.01f);
                     
-                    _enemy.UpdateHpBar(hurtDamage);
+                    _enemy.UpdateHpBar(hurtDamage+ attack, true);
                 
                     ShowDamageTxt(_enemy.transform, attack.ToString(),false, _enemy.maxHpStatImage.transform.position + new Vector3(0, 1, 0), Color.red);
                     ShowDamageTxt(_enemy.transform, hurtDamage.ToString(), false, _enemy.maxHpStatImage.transform.position + new Vector3(0, 1, 0), Color.yellow);
@@ -705,9 +869,27 @@ public class UnitMove : MonoBehaviour
             }
         }
         
-        GameObject go = Instantiate(hit_Effect, _currentRay.transform.position, Quaternion.identity);
-        go.GetComponent<EffekseerEmitter>().Play();
-        Destroy(go, 1.5f);
+        if (_currentRay.transform.tag == "Enemy")
+        {
+            if (_currentRay.transform.GetComponent<Enemy>().unit.unitName == "유령")
+            {
+                GameObject go = Instantiate(hit_Effect, _currentRay.transform.position, Quaternion.identity);
+                go.GetComponent<EffekseerEmitter>().Play();
+                Destroy(go, 1.5f);
+            }
+            else
+            {
+                GameObject go = Instantiate(hit_Effect, _currentRay.transform.position - new Vector3(0, 2, 0), Quaternion.identity);
+                go.GetComponent<EffekseerEmitter>().Play();
+                Destroy(go, 1.5f);
+            }
+        }
+        else
+        {
+            GameObject go = Instantiate(hit_Effect, _currentRay.transform.position - new Vector3(0, 4, 0), Quaternion.identity);
+            go.GetComponent<EffekseerEmitter>().Play();
+            Destroy(go, 1.5f);
+        }
     }
 
     private void ShowDamageTxt(Transform go, string damage, bool cirDamage, Vector3 yPos, Color color)
@@ -799,42 +981,205 @@ public class UnitMove : MonoBehaviour
 
     private void ThrowAxe()
     {
-        RaycastHit2D[] rays = Physics2D.BoxCastAll(transform.position, new Vector2(1f, 18), 0, Vector2.right, _unitSkillManager.throwAxeStat[0], enemyMask);
+        RaycastHit2D[] rays = Physics2D.BoxCastAll(transform.position, new Vector2(1f, 18), 0, Vector2.right, attackRange, enemyMask);
 
         for (int i = 0; i < rays.Length; i++)
         {
-            // 동일 선상에 있다면
-            if (transform.position.y == rays[i].transform.position.y || transform.position.y == rays[i].transform.position.y + 1.25f)
+            if (_firstCheck == false)
             {
-                if (_firstCheck == false)
+                first = rays[i].transform.position;
+                _firstCheck = true;
+            }
+            
+            // 동일 선상에 있다면
+            if (first.y == rays[i].transform.position.y || first.y == rays[i].transform.position.y + 1.25f)
+            {
+                rays[i].transform.position = new Vector3(first.x + _unitSkillManager.throwAxeStat[0], first.y, 0);
+
+                Enemy _enemy = rays[i].transform.GetComponent<Enemy>();
+                
+                skillAnim[0].Play();
+
+                axeAttackAnim = true;
+                startPos = transform.position;
+                
+                if (_enemy.transform.position.x > 49.5f)
                 {
-                     first = rays[i].transform.position;
-                    _firstCheck = true;
+                    endPos = new Vector3(49.5f, _enemy.transform.position.y, 0);
+                    _enemy.transform.position = new Vector3(49.5f, _enemy.transform.position.y, 0);
+                }
+                else
+                {
+                    endPos = new Vector3(first.x + _unitSkillManager.throwAxeStat[0], first.y, 0);
                 }
                 
-                rays[i].transform.position = new Vector3(first.x + _unitSkillManager.throwAxeStat[0], first.y, 0);
-                Enemy _enemy = rays[i].transform.GetComponent<Enemy>();
-
                 int damage =
                     Mathf.RoundToInt(_unitSkillManager.throwAxeStat[1] + attack * _unitSkillManager.throwAxeStat[2] * 0.01f);
-                
-                ShowDamageTxt(rays[i].transform ,damage.ToString(), false, _enemy.maxHpStatImage.transform.position + new Vector3(0, 1f, 0), Color.red);
-                
-                _enemy.UpdateHpBar(damage);
 
+                // 출혈중이 아니라면 아래 코드 실행
+                if (_enemy.isHurt == false)
+                {
+                    ShowDamageTxt(_enemy.transform ,damage.ToString(), false, _enemy.maxHpStatImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                
+                    _enemy.UpdateHpBar(damage, true);
+                }
+                // 출혈중이라면 아래 코드 실행
+                else
+                {
+                    int hurtDamage = Mathf.RoundToInt(damage * _unitSkillManager.hurtStat[1] * 0.01f);
+                    
+                    ShowDamageTxt(_enemy.transform ,damage.ToString(), false, _enemy.maxHpStatImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                    ShowDamageTxt(_enemy.transform, hurtDamage.ToString(), false, _enemy.maxHpStatImage.transform.position + new Vector3(0, 1, 0), Color.yellow);
+                
+                    _enemy.UpdateHpBar(damage + hurtDamage, true);
+                }
+                
                 // 스킬 효과가 출혈이라면
                 if (skillEffect == 0)
                 {
-                    _enemy.skillEffect[0].Play();
-                    _enemy.isHurt = true;
-                    _enemy.hurtMaintainTime = 0;
-                    _enemy.currentHurtDamageTime = 0;
+                    SetSkillEffect(0, _enemy);
+                }
+                else if (skillEffect == 1)
+                {
+                    skillShowEffect[1].Play();
+                    _enemy.isCheckTaunt = true;
                 }
                 
                 if (_enemy.isStop == false)
                 {
                     _enemy.StopMove();
                 }
+            }
+        }
+    }
+
+    private void StopHealAnim()
+    {
+        skillAnim[1].Stop();
+    }
+    
+    private void StopShoweringAnim()
+    {
+        skillAnim[2].Stop();
+    }
+    
+    private void SetSkillEffect(int i, Enemy enemy)
+    {
+        enemy.skillShowEffect[i].Play();
+        enemy.isHurt = true;
+        enemy.hurtMaintainTime = i;
+        enemy.currentHurtDamageTime = i;
+
+    }
+
+    // 팅커벨 스킬
+    private void MagicHeal()
+    {
+        skillAnim[1].Play();
+        skillAnim[1].transform.SetParent(_currentRay.transform);
+        skillAnim[1].transform.position = _currentRay.transform.position - new Vector3(0, 2, 0);
+        Invoke("StopHealAnim", _unitSkillManager.magicHealStat[1]);
+        
+        UnitMove _unitMove = _currentRay.transform.GetComponent<UnitMove>();
+
+        if (_unitMove != null)
+        {
+            _unitMove._skillDelay += _unitSkillManager.magicHealStat[0];
+            _unitMove.skillCoolTimeImage.fillAmount = _unitMove._skillDelay / _unitMove.skillCoolTime;
+            ShowDamageTxt(_unitMove.transform, (_unitMove.maxHp - _unitMove.nowHpStat).ToString(), false, _unitMove.hpBackImage.transform.position + new Vector3(0, 1, 0), Color.green);
+            _unitMove.nowHpStat = _unitMove.maxHp;
+            _unitMove.UpdateHpBar(0, false);
+        }
+        
+    }
+
+    /// <summary>
+    /// 나나 스킬
+    /// </summary>
+    private void Showering()
+    {
+        isTaunt = true;
+        skillAnim[2].Play();
+        Invoke("StopShoweringAnim", _unitSkillManager.showeringStat[1]);
+        RaycastHit2D[] rays = Physics2D.BoxCastAll(transform.position, new Vector2(1f, 18), 0, Vector2.right, attackRange, enemyMask);
+        pushResist += _unitSkillManager.showeringStat[0];
+        
+        for (int i = 0; i < rays.Length; i++)
+        {
+            Enemy _enemy = rays[i].transform.GetComponent<Enemy>();
+            
+            if (skillEffect == 0)
+            {
+                SetSkillEffect(0, _enemy);
+            }
+            else if (skillEffect == 1)
+            {
+                skillShowEffect[1].Play();
+                _enemy.isCheckTaunt = true;
+            }
+        }
+    }
+
+    // 후크 선장 스킬 
+    private void SwingSword()
+    {
+        
+    }
+
+    /// <summary>
+    /// 출혈
+    /// </summary>
+    private void Hurt()
+    {
+        if (isHurt == true)
+        {
+            hurtMaintainTime += Time.deltaTime;
+            currentHurtDamageTime += Time.deltaTime;
+            
+            // 일정 지속 시간 지나 지속 대미지를 받음
+            if (currentHurtDamageTime >= _unitSkillManager.hurtStat[2])
+            {
+                UpdateHpBar(_unitSkillManager.hurtStat[3], true);
+                ShowDamageTxt(transform, _unitSkillManager.hurtStat[3].ToString(), false, hpBackImage.transform.position + new Vector3(0, 1, 0), new Color(128f / 255f, 0f / 255f, 255f / 255f));
+                currentHurtDamageTime = 0;
+            }
+
+            // 지속 시간 끝남
+            if (hurtMaintainTime >= _unitSkillManager.hurtStat[0])
+            {
+                skillShowEffect[0].Stop();
+                currentHurtDamageTime = 0;
+                hurtMaintainTime = 0;
+                isHurt = false;
+            }
+        }
+    }
+    
+    /// <summary>
+    /// 도발
+    /// </summary>
+    private void Taunt()
+    {
+        if (isTaunt == true)
+        {
+            tauntMaintainTime += Time.deltaTime;
+        
+            // 지속 시간 끝남
+            if (tauntMaintainTime >= _unitSkillManager.tauntStat[0])
+            {
+                skillShowEffect[1].Stop();
+                RaycastHit2D[] rays = Physics2D.BoxCastAll(transform.position, new Vector2(1f, 18), 0, Vector2.right, attackRange, enemyMask);
+                pushResist -= _unitSkillManager.showeringStat[0];
+        
+                for (int i = 0; i < rays.Length; i++)
+                {
+                    Enemy _enemy = rays[i].transform.GetComponent<Enemy>();
+
+                    _enemy.isCheckTaunt = false;
+                }
+                
+                tauntMaintainTime = 0;
+                isTaunt = false;
             }
         }
     }

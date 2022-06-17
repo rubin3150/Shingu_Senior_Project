@@ -371,29 +371,25 @@ public class SkillManager : MonoBehaviour
                 // 출혈이 아니라면
                 if (_enemy.isHurt == false)
                 {
-                    _enemy.UpdateHpBar(playerSet.addStat[9]);
+                    _enemy.UpdateHpBar(playerSet.addStat[9], true);
                 
                     ShowDamageTxt(_enemy.transform, playerSet.addStat[9].ToString(), _enemy.maxHpStatImage.transform.position + new Vector3(0, 1, 0), Color.red);
                 }
                 // 출혈중이라면
                 else
                 {
-                    Debug.Log("출혈 대미지");
                     int hurtDamage = Mathf.RoundToInt(playerSet.addStat[9] * _unitSkillManager.hurtStat[1] * 0.01f);
                     
-                    _enemy.UpdateHpBar(playerSet.addStat[9] + hurtDamage);
+                    _enemy.UpdateHpBar(playerSet.addStat[9] + hurtDamage, true);
                 
                     ShowDamageTxt(_enemy.transform, playerSet.addStat[9].ToString(), _enemy.maxHpStatImage.transform.position + new Vector3(0, 1, 0), Color.red);
                     ShowDamageTxt(_enemy.transform, hurtDamage.ToString(), _enemy.maxHpStatImage.transform.position + new Vector3(0, 1, 0), Color.yellow);
                 }
-                
-                
+
                 if (_enemy.isStop == false)
                 {
                     _enemy.StopMove();
                 }
-               
-                
             }
         }
 

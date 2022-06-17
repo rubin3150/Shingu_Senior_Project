@@ -15,13 +15,13 @@ MonoBehaviour:
   unitName: "\uD0C0\uC774\uAC70 \uB9B4\uB9AC"
   unitImage: {fileID: 21300000, guid: 6aa8db697306169498ebf8dcdd5e0a57, type: 3}
   unitPrefab: {fileID: 1609125915385617593, guid: cadfc4567f7bae04c8af4aeb8a511cd9, type: 3}
-  moonEnergy: 10
-  spawnCoolTime: 6
-  attackStat: 40
+  moonEnergy: 25
+  spawnCoolTime: 18
+  attackStat: 30
   healStat: 0
-  donMoveDistance: 3.5
-  donTowerMoveDistance: 6
-  attackRangeStat: 2
+  donMoveDistance: 5.5
+  donTowerMoveDistance: 5.5
+  attackRangeStat: 6
   criRate: 15
   criDamage: 120
   pushRange: 5

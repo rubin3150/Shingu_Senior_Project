@@ -15,24 +15,24 @@ MonoBehaviour:
   unitName: "\uB098\uB098"
   unitImage: {fileID: 21300000, guid: f3583179b07a5d240a2cd8f0491e0fe3, type: 3}
   unitPrefab: {fileID: 1609125915385617593, guid: 36ce3848356bcd74fa0eca62cdec33bb, type: 3}
-  moonEnergy: 30
-  spawnCoolTime: 6
-  attackStat: 40
+  moonEnergy: 15
+  spawnCoolTime: 12
+  attackStat: 20
   healStat: 0
-  donMoveDistance: 5.5
-  donTowerMoveDistance: 8
+  donMoveDistance: 4.5
+  donTowerMoveDistance: 5
   attackRangeStat: 4
-  criRate: 15
+  criRate: 10
   criDamage: 120
-  pushRange: 5
-  pushResist: 3
-  attackDelayStat: 3
+  pushRange: 3
+  pushResist: 4
+  attackDelayStat: 4
   speedStat: 5
-  hpStat: 100
+  hpStat: 120
   type: Tanker
   mpGet: 0
   attackType: "\uADFC\uC811"
   bossType: 
   skillCoolTime: 6
-  skillIndex: 0
-  skillEffect: 0
+  skillIndex: 2
+  skillEffect: 1

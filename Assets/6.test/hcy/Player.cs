@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using  Effekseer;
 
 public class Player : MonoBehaviour
 {
@@ -49,13 +50,24 @@ public class Player : MonoBehaviour
 
     [SerializeField] private Image hpTxtImage;
 
+    [SerializeField] private UnitSkillManager _unitSkillManager;
+
     private bool backHpHit;
-    
-    public GameObject damageText;
-    
+
     public int nowDamagePos;
     
     public List<GameObject> damageTexts = new List<GameObject>();
+
+    [SerializeField] private GameObject damageText;
+    
+    public EffekseerEmitter[] skillShowEffect;
+    
+    // 출혈증인지 아닌지 체크할 변수 
+    public bool isHurt;
+    // 출혈 유지 시간
+    public float hurtMaintainTime;
+    // 출혈 동안 몇초나 지났는지 체크할 변수
+    public float currentHurtDamageTime;
 
     #endregion
     
@@ -110,6 +122,7 @@ public class Player : MonoBehaviour
             
             // 함수 호출
             CheckObject();
+            Hurt();
         }
     }
 
@@ -222,5 +235,70 @@ public class Player : MonoBehaviour
     private void ResetImageAlpha()
     {
         stagePlayerImage.color = new Color(255f / 255f, 255f / 255f, 255f / 255f, 255f / 255f);
+    }
+    
+    private void Hurt()
+    {
+        if (isHurt == true)
+        {
+            hurtMaintainTime += Time.deltaTime;
+            currentHurtDamageTime += Time.deltaTime;
+            
+            // 일정 지속 시간 지나 지속 대미지를 받음
+            if (currentHurtDamageTime >= _unitSkillManager.hurtStat[2])
+            {
+                UpdateHpBar(_unitSkillManager.hurtStat[3]);
+                ShowDamageTxt(transform, _unitSkillManager.hurtStat[3].ToString(), false, hpImage.transform.position + new Vector3(0, 1, 0), new Color(128f / 255f, 0f / 255f, 255f / 255f));
+                currentHurtDamageTime = 0;
+            }
+
+            // 지속 시간 끝남
+            if (hurtMaintainTime >= _unitSkillManager.hurtStat[0])
+            {
+                skillShowEffect[0].Stop();
+                currentHurtDamageTime = 0;
+                hurtMaintainTime = 0;
+                isHurt = false;
+            }
+        }
+    }
+    
+    private void ShowDamageTxt(Transform go, string damage, bool cirDamage, Vector3 yPos, Color color)
+    {
+        GameObject damageGo = Instantiate(damageText);
+        damageGo.transform.SetParent(go);
+        damageGo.GetComponent<DamageText>().parent = go.gameObject;
+        
+        if (go.tag == "Player")
+        {
+            Player _player = go.GetComponent<Player>();
+            
+            _player.damageTexts.Add(damageGo); 
+            _player.nowDamagePos += 1;
+
+            int currentDamagePos = _player.nowDamagePos;
+            
+            for (int i = 0; i < _player.damageTexts.Count; i++)
+            {
+                if (_player.damageTexts[i] != null)
+                {
+                    currentDamagePos -= 1;
+                    _player.damageTexts[i].transform.position = yPos + new Vector3(0, currentDamagePos);
+                }
+            }
+        }
+
+        damageGo.GetComponent<DamageText>().damage = damage;
+        damageGo.GetComponent<DamageText>().text.color = color;
+        
+        if (cirDamage == true)
+        {
+            // 알파 값 조절
+            damageGo.GetComponent<DamageText>().isCri = true;
+        }
+        else
+        {
+            damageGo.GetComponent<DamageText>().isCri = false;
+        }
     }
 }

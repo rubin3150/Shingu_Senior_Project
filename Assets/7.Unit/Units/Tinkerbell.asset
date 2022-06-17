@@ -15,24 +15,24 @@ MonoBehaviour:
   unitName: "\uD305\uCEE4\uBCA8"
   unitImage: {fileID: 21300000, guid: 46d84216598193e40bcdd160eeb1a8bb, type: 3}
   unitPrefab: {fileID: 456347407088691645, guid: 8b97cd36f00160143a60a8a7748aa401, type: 3}
-  moonEnergy: 20
-  spawnCoolTime: 6
+  moonEnergy: 30
+  spawnCoolTime: 30
   attackStat: 0
-  healStat: 20
-  donMoveDistance: 7
-  donTowerMoveDistance: 7
-  attackRangeStat: 3
+  healStat: 30
+  donMoveDistance: 7.5
+  donTowerMoveDistance: 7.5
+  attackRangeStat: 10
   criRate: 0
   criDamage: 0
   pushRange: 5
   pushResist: 3
   attackDelayStat: 3
   speedStat: 5
-  hpStat: 100
+  hpStat: 80
   type: Healer
   mpGet: 0
   attackType: X
   bossType: 
   skillCoolTime: 6
-  skillIndex: 0
-  skillEffect: 0
+  skillIndex: 1
+  skillEffect: 4

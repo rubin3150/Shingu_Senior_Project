@@ -15,24 +15,24 @@ MonoBehaviour:
   unitName: "\uD6C4\uD06C\uC120\uC7A5"
   unitImage: {fileID: 21300000, guid: 641d6665d60a9ed4eb5adb4c8a7d3b60, type: 3}
   unitPrefab: {fileID: 1609125915385617593, guid: b4978d8bb13e67146a8a723d173eb926, type: 3}
-  moonEnergy: 40
-  spawnCoolTime: 6
-  attackStat: 40
+  moonEnergy: 35
+  spawnCoolTime: 30
+  attackStat: 50
   healStat: 0
   donMoveDistance: 6
-  donTowerMoveDistance: 8
-  attackRangeStat: 4
-  criRate: 15
+  donTowerMoveDistance: 6
+  attackRangeStat: 6.5
+  criRate: 20
   criDamage: 120
-  pushRange: 5
-  pushResist: 3
-  attackDelayStat: 3
+  pushRange: 6
+  pushResist: 2
+  attackDelayStat: 4
   speedStat: 5
-  hpStat: 100
+  hpStat: 130
   type: Bruiser
   mpGet: 0
   attackType: "\uADFC\uC811"
   bossType: 
   skillCoolTime: 6
-  skillIndex: 0
-  skillEffect: 0
+  skillIndex: 10
+  skillEffect: 10
