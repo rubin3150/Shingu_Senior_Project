@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIController : Singleton<UIController>
 {
@@ -7,6 +8,13 @@ public class UIController : Singleton<UIController>
 
     public Animator animator;
     private int levelToLoad;
+
+    public GameObject stage;
+    
+    private void Start()
+    {
+        DontDestroyOnLoad(stage);    
+    }
 
     private void offAllPage()
     {
@@ -21,16 +29,26 @@ public class UIController : Singleton<UIController>
     }
 
     
-
     public void FadeToLevel(int levelIndex)
     {
         levelToLoad = levelIndex;
         animator.SetTrigger("FadeOut");
     }
 
+    public void FadeToLevelSceneChange(int levelIndex)
+    {
+        levelToLoad = levelIndex;
+        animator.SetTrigger("FadeOutSceneChange");
+    }
+
     public void OnFadeComplete()
     {
         NextPage(levelToLoad);
         animator.SetTrigger("FadeIn");
+    }
+
+    public void OnFadeCompleteSceneChange()
+    {
+        SceneManager.LoadScene(levelToLoad);
     }
 }
