@@ -20,14 +20,7 @@ public class UIController : Singleton<UIController>
         pagePrefab[_int -1].gameObject.SetActive(true);
     }
 
-    public void ExitPage()
-    {
-        #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
-    }
+    
 
     public void FadeToLevel(int levelIndex)
     {
