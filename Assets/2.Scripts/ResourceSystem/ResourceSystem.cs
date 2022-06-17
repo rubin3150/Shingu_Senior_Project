@@ -33,7 +33,23 @@ public class ResourceSystem : Singleton<ResourceSystem>
     public void GetResource(ResourceType _resourceType, int _int)
     {
         resourceElements[(int)_resourceType].resourceValue += _int;
-        
+
+        InsertResource();
+    }
+
+    public void PayResource(int _cost1, int _cost2, int _cost3, int _cost4, int _cost5)
+    {
+        resourceElements[0].resourceValue -= _cost1;
+        resourceElements[5].resourceValue -= _cost2;
+        resourceElements[6].resourceValue -= _cost3;
+        resourceElements[7].resourceValue -= _cost4;
+        resourceElements[8].resourceValue -= _cost5;
+
+        InsertResource();
+    }
+
+    public void InsertResource()
+    {
         for (int i = 0; i < resourceElements.Count; i++) //InsertResource
         {
             if(resourceElements[i].resourceText == null)

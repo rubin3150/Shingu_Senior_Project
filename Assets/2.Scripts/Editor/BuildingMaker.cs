@@ -18,7 +18,12 @@ public class BuildingMaker : EditorWindow
 
     public BuildingType buildingType = BuildingType.None;
     public ResourceType buildingResourceType = ResourceType.None;
-    public int cost;
+    public string buildingName;
+    public int cost1;
+    public int cost2;
+    public int cost3;
+    public int cost4;
+    public int cost5;
     public float buildTime;
     public int maxResource;
     public Sprite buildingImg;
@@ -38,11 +43,19 @@ public class BuildingMaker : EditorWindow
 
         GUILayout.Space(20);
 
-        buildingImg = (Sprite)EditorGUILayout.ObjectField("유닛 이미지", buildingImg, typeof(Sprite));
+        GUILayout.Label("빌딩의 한글 이름을 적어주세요", EditorStyles.label);
+
+        buildingName = EditorGUILayout.TextField(buildingName);
+
+        buildingImg = (Sprite)EditorGUILayout.ObjectField("건물 이미지", buildingImg, typeof(Sprite));
 
         GUILayout.Space(10);
 
-        cost = EditorGUILayout.IntField("비용", cost);
+        cost1 = EditorGUILayout.IntField("동심에너지 비용", cost1);
+        cost2 = EditorGUILayout.IntField("판자 비용", cost2);
+        cost3 = EditorGUILayout.IntField("철 비용", cost3);
+        cost4 = EditorGUILayout.IntField("꿀 비용", cost4);
+        cost5 = EditorGUILayout.IntField("스튜 비용", cost5);
 
         buildTime = EditorGUILayout.FloatField("건물 건설 시간", buildTime);
 
@@ -61,8 +74,13 @@ public class BuildingMaker : EditorWindow
             }
 
             buildingData = new BuildingData();
+            buildingData.buildingName = buildingName;
             buildingData.buildingImg = buildingImg;
-            buildingData.cost = cost;
+            buildingData.cost1 = cost1;
+            buildingData.cost2 = cost2;
+            buildingData.cost3 = cost3;
+            buildingData.cost4 = cost4;
+            buildingData.cost5 = cost5;
             buildingData.buildTime = buildTime;
             buildingData.maxResource = maxResource;
             buildingData.buildingType = buildingType;

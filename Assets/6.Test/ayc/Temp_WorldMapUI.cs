@@ -24,9 +24,9 @@ public class Temp_WorldMapUI : MonoBehaviour
     {
         worldMapBtn[0].onClick.AddListener(() => PopUpOnController(0));
         worldMapBtn[1].onClick.AddListener(TempMyUnit);
-        worldMapBtn[2].onClick.AddListener(() => PopUpOnController(2));
+        worldMapBtn[2].onClick.AddListener(() => PopUpOnController(1));
         worldMapBtn[3].onClick.AddListener(() => PopUpOffController(0));
-        worldMapBtn[4].onClick.AddListener(() => PopUpOffController(2));
+        worldMapBtn[4].onClick.AddListener(() => PopUpOffController(1));
         worldMapBtn[5].onClick.AddListener(ExitPage);
     }
 

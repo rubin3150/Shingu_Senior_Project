@@ -7,7 +7,12 @@ public class BuildingData : ScriptableObject
 {
     public BuildingType buildingType = BuildingType.None;
     public ResourceType BuildingResourceType = ResourceType.None;
-    public int cost;
+    public string buildingName;
+    public int cost1; // childlikeEnergy cost
+    public int cost2; // board cost
+    public int cost3; // iron cost
+    public int cost4; // honey cost
+    public int cost5; // stew cost
     public float buildTime;
     public int maxResource;
     public Sprite buildingImg;

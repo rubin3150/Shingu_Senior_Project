@@ -11,7 +11,11 @@ public class Building : MonoBehaviour
     
     public int resource;
 
-    private int cost;
+    private int cost1;
+    private int cost2;
+    private int cost3;
+    private int cost4;
+    private int cost5;
     private float buildTime;
     private int maxResource;
     private string description;
@@ -25,7 +29,12 @@ public class Building : MonoBehaviour
 
     private void OnEnable() 
     {
-        cost = buildingData.cost;
+        cost1 = buildingData.cost1;
+        cost2 = buildingData.cost2;
+        cost3 = buildingData.cost3;
+        cost4 = buildingData.cost4;
+        cost5 = buildingData.cost5;
+
         buildTime = buildingData.buildTime;
         maxResource = buildingData.maxResource;
         description = buildingData.description;

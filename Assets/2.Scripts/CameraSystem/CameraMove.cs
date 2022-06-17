@@ -21,8 +21,10 @@ public class CameraMove : Singleton<CameraMove>
     private void Update()
     {
         if (isMove)
+        {
             CamMove();
-        Zoom();
+            Zoom();
+        }
     }
 
     public void Zoom()

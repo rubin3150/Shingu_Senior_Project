@@ -12,9 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 399eefd85942a5546bf6fc09b4a1d951, type: 3}
   m_Name: wood_house
   m_EditorClassIdentifier: 
-  buildings: 6
+  buildingType: 10
   BuildingResourceType: 9
-  cost: 0
+  buildingName: "\uBAA9\uC7AC\uC18C"
+  cost1: 700
+  cost2: 7
+  cost3: 5
+  cost4: 3
+  cost5: 1
   buildTime: 30
   maxResource: 0
   buildingImg: {fileID: 21300000, guid: 6c5c27c6b68e1174581404c06dc022f8, type: 3}
