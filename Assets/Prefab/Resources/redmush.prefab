@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3607045942152451681}
   - component: {fileID: 6213269096358866384}
   - component: {fileID: -4387526454374569262}
-  - component: {fileID: -747668349154528616}
   m_Layer: 0
   m_Name: redmush
   m_TagString: Building
@@ -99,16 +98,3 @@ MonoBehaviour:
   buildingData: {fileID: 11400000, guid: 03fb1b0bd082c714b90120e649e3b37e, type: 2}
   buildingType: 10
   resourceType: 4
---- !u!65 &-747668349154528616
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 832117024563412277}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.84059113, y: 1.4571126, z: 1.4646738}
-  m_Center: {x: 0, y: 7.4941786e-30, z: -0.0000022649763}

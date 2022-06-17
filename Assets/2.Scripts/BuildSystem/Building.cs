@@ -101,6 +101,7 @@ public class Building : MonoBehaviour
         }
     }
 
+    [System.Obsolete]
     public void buildBuilding(GameObject _model, GameObject _effect)
     {
         for (int i = 0; i < transform.GetChildCount(); i++)
@@ -125,6 +126,7 @@ public class Building : MonoBehaviour
         StartCoroutine(Create(2, 1f));
     }
 
+    [System.Obsolete]
     private IEnumerator DestroyEffect(GameObject _model, GameObject _effect, float _time)
     {
         yield return new WaitForSeconds(_time);

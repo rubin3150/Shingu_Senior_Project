@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4728233647385387141}
   - component: {fileID: 5678811672818543029}
   - component: {fileID: 3040704274939759332}
-  - component: {fileID: 4790489792369834928}
   m_Layer: 0
   m_Name: mushroom3
   m_TagString: Building
@@ -100,16 +99,3 @@ MonoBehaviour:
   buildingData: {fileID: 11400000, guid: 03fb1b0bd082c714b90120e649e3b37e, type: 2}
   buildingType: 10
   resourceType: 4
---- !u!65 &4790489792369834928
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7594196869764265574}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.9792697, y: 0.7573511, z: 1.099097}
-  m_Center: {x: 0, y: 0.37866864, z: 0}
