@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8822455034895077143}
   - component: {fileID: 5039612754482931581}
   - component: {fileID: -7675182385749582184}
-  - component: {fileID: -5456562205865103459}
   m_Layer: 0
   m_Name: wood02
   m_TagString: Building
@@ -99,16 +98,3 @@ MonoBehaviour:
   buildingData: {fileID: 11400000, guid: d2490d57bbd48ed4d9ff5c36199a81dd, type: 2}
   buildingType: 10
   resourceType: 1
---- !u!65 &-5456562205865103459
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2234402296818536349}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 4.5900726, y: 8.77287, z: 4.8843756}
-  m_Center: {x: -0.13311684, y: 4.386435, z: -0.08537161}

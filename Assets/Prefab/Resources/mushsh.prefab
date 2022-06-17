@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8194289736431297121}
   - component: {fileID: 8954576024975762318}
   - component: {fileID: 6291804073688439849}
-  - component: {fileID: 788309994533766540}
   m_Layer: 0
   m_Name: mushsh
   m_TagString: Building
@@ -100,16 +99,3 @@ MonoBehaviour:
   buildingData: {fileID: 11400000, guid: 03fb1b0bd082c714b90120e649e3b37e, type: 2}
   buildingType: 10
   resourceType: 4
---- !u!65 &788309994533766540
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6598578270899981764}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.85424554, y: 1.2933724, z: 0.82782066}
-  m_Center: {x: -0.0068272203, y: 0.007186681, z: 0}

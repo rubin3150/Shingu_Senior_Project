@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 3551006857761898236}
   - component: {fileID: 4634747797272258209}
   - component: {fileID: -4999026683359257918}
-  - component: {fileID: -432179697723500490}
   m_Layer: 0
   m_Name: flower
   m_TagString: Building
@@ -101,16 +100,3 @@ MonoBehaviour:
   buildingData: {fileID: 11400000, guid: 312d941666f0b0146a7050996521a842, type: 2}
   buildingType: 10
   resourceType: 2
---- !u!65 &-432179697723500490
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4416454312283572743}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.2633821, y: 1.6700436, z: 1.427079}
-  m_Center: {x: 0, y: 0.8350218, z: 0}

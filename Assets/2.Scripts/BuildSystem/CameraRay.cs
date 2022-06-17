@@ -44,6 +44,7 @@ public class CameraRay : Singleton<CameraRay>
                     isTrue[i, j] = true;
     }
 
+    [System.Obsolete]
     private void Update()
     {
         if(Input.GetMouseButtonDown(0))
@@ -140,6 +141,7 @@ public class CameraRay : Singleton<CameraRay>
         }
     }
 
+    [System.Obsolete]
     private void OnDrag()
     {
         if (pickObject == null) return;
