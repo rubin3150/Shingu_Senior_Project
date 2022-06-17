@@ -91,8 +91,11 @@ public class CameraRay : Singleton<CameraRay>
                 if (hit.transform.CompareTag("Unit"))
                 {
                     Building go = hit.transform.gameObject.GetComponent<Building>();
+                    if (go.isCollect == false) return;
                     go.GetBuildingResource(go);
+                    //if (go.resource >= 150) go.StartCoroutine(go.Create(2, 1f));
                     go.resource = 0;
+                    go.isCollect = false;
                 }
             }
         }

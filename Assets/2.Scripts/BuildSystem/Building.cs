@@ -10,6 +10,7 @@ public class Building : MonoBehaviour
     public ResourceType resourceType = ResourceType.None;
     
     public int resource;
+    public bool isCollect;
 
     private int cost1;
     private int cost2;
@@ -18,8 +19,8 @@ public class Building : MonoBehaviour
     private int cost5;
     private float buildTime;
     private int maxResource;
-    private string description;
-    private bool isCollect;
+    //private string description;
+
     private Collider _collider;
     private MeshRenderer _mesh;
 
@@ -37,50 +38,58 @@ public class Building : MonoBehaviour
 
         buildTime = buildingData.buildTime;
         maxResource = buildingData.maxResource;
-        description = buildingData.description;
+        //description = buildingData.description;e 
         _collider = this.GetComponent<Collider>();
         _mesh = this.GetComponent<MeshRenderer>();
         CreateReosource();
     }
 
-    public void ThisType()
+    private void Update()
     {
-        switch (buildingType)
-        {
-            case BuildingType.None:
-                return;
-            case BuildingType.music_box:
-
-            break;
-            case BuildingType.windmil:
-
-            break;
-            case BuildingType.candlestick:
-
-                break;
-            case BuildingType.fountain:
-
-                break;
-            case BuildingType.gazebo:
-
-                break;
-            case BuildingType.Tower:
-
-                break;
-            case BuildingType.wood_house:
-
-                break;
-            case BuildingType.blacksmith_shop:
-
-                break;
-            case BuildingType.bee:
-
-                break;
-            case BuildingType.mushroom_house:
-
-                break;
-        }
+        if (resource >= 150)
+            isCollect = true;
+        if (resource >= 300)
+            resource = 300;
     }
+
+    //public void ThisType()
+    //{
+    //    switch (buildingType)
+    //    {
+    //        case BuildingType.None:
+    //            return;
+    //        case BuildingType.music_box:
+
+    //        break;
+    //        case BuildingType.windmil:
+
+    //        break;
+    //        case BuildingType.candlestick:
+
+    //            break;
+    //        case BuildingType.fountain:
+
+    //            break;
+    //        case BuildingType.gazebo:
+
+    //            break;
+    //        case BuildingType.Tower:
+
+    //            break;
+    //        case BuildingType.wood_house:
+
+    //            break;
+    //        case BuildingType.blacksmith_shop:
+
+    //            break;
+    //        case BuildingType.bee:
+
+    //            break;
+    //        case BuildingType.mushroom_house:
+
+    //            break;
+    //    }
+    //}
     
     public void CreateReosource()
     {
@@ -89,7 +98,7 @@ public class Building : MonoBehaviour
             case ResourceType.None:
                 return;
             case ResourceType.childlikeEnergy:
-                StartCoroutine(Create(2, 1f));
+                thisCoroutine = StartCoroutine(Create(2, 1f));
                 return;
             case ResourceType.log:
                 resource = maxResource;
@@ -162,9 +171,8 @@ public class Building : MonoBehaviour
     {
         if(_gameObject.resourceType == ResourceType.childlikeEnergy)
         {
-            //if (isCollect == false) return;
             ResourceSystem.Instance.GetResource(resourceType, resource);
-            this.resource = 0;
+            //StartCoroutine(Create(2, 1f));
         }
     }
 }
