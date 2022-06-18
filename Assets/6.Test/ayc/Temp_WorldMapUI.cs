@@ -30,10 +30,10 @@ public class Temp_WorldMapUI : MonoBehaviour
         Data.Instance.audio.clip = Data.Instance.worldmapClip;
         Data.Instance.audio.Play();
 
-        worldMapBtn[0].onClick.AddListener(() => PopUpOnController(0));
+        worldMapBtn[0].onClick.AddListener(() => PopUpOnController(0, false));
         worldMapBtn[1].onClick.AddListener(TempMyUnit);
         worldMapBtn[2].onClick.AddListener(() => PopUpOnController(1));
-        worldMapBtn[3].onClick.AddListener(() => PopUpOffController(0));
+        worldMapBtn[3].onClick.AddListener(() => PopUpOffController(0, true));
         worldMapBtn[4].onClick.AddListener(() => PopUpOffController(1));
         worldMapBtn[5].onClick.AddListener(ExitPage);
         worldMapBtn[6].onClick.AddListener(() => PopUpOnController(2));
@@ -48,11 +48,27 @@ public class Temp_WorldMapUI : MonoBehaviour
 
         popupUI[_int].SetActive(true);
     }
+    public void PopUpOnController(int _int, bool _bool)
+    {
+        Data.Instance.sfx.clip = Data.Instance.btnClip;
+        Data.Instance.sfx.Play();
+
+        CameraMove.Instance.isMove = _bool;
+        popupUI[_int].SetActive(true);
+    }
     public void PopUpOffController(int _int)
     {
         Data.Instance.sfx.clip = Data.Instance.btnClip;
         Data.Instance.sfx.Play();
 
+        popupUI[_int].SetActive(false);
+    }
+    public void PopUpOffController(int _int, bool _bool)
+    {
+        Data.Instance.sfx.clip = Data.Instance.btnClip;
+        Data.Instance.sfx.Play();
+
+        CameraMove.Instance.isMove = _bool;
         popupUI[_int].SetActive(false);
     }
     public void TempOff()

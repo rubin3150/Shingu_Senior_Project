@@ -29,7 +29,7 @@ public class CameraRay : Singleton<CameraRay>
 
     public bool isEditing;
     public bool IsEditing { set { isEditing = value; } }
-    public bool isMoving;
+    public bool isObjectMoving;
     public Text statusText;
     public GameObject constructionModel;
     public GameObject constructionEffect;
@@ -47,20 +47,24 @@ public class CameraRay : Singleton<CameraRay>
     [System.Obsolete]
     private void Update()
     {
+        if(isEditing)
+            statusText.text = "수정중";
+        else
+            statusText.text = "수정아님";
+
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            if(!isEditing)
+                isEditing = true;
+            else
+                isEditing = false;
+        }
+
         if(Input.GetMouseButtonDown(0))
             OnClick();
 
         if(isEditing)
-        {
             OnDrag();
-            CameraMove.Instance.isMove = false;
-            statusText.text = "수정중입니다.";
-        }
-        else
-        {
-            CameraMove.Instance.isMove = true;
-            statusText.text = "수정중이 아닙니다.";
-        }
     }
 
     private void OnClick()
@@ -77,7 +81,7 @@ public class CameraRay : Singleton<CameraRay>
             {
                 pickObject.transform.GetChild(1).GetComponent<MeshRenderer>().enabled = true;
                 Destroy(hit.transform.parent.gameObject);
-                isMoving = true;
+                isObjectMoving = true;
             }
             if(!isEditing)
             {
@@ -85,7 +89,6 @@ public class CameraRay : Singleton<CameraRay>
                 {
                     Building go = hit.transform.gameObject.GetComponent<Building>();
                     go.StartCoroutine(go.GetResource(300f));
-                    //go.GetResource(go.resourceType, hit.transform.gameObject, 300f);
                 }
 
                 if (hit.transform.CompareTag("Unit"))
@@ -93,7 +96,6 @@ public class CameraRay : Singleton<CameraRay>
                     Building go = hit.transform.gameObject.GetComponent<Building>();
                     if (go.isCollect == false) return;
                     go.GetBuildingResource(go);
-                    //if (go.resource >= 150) go.StartCoroutine(go.Create(2, 1f));
                     go.resource = 0;
                     go.isCollect = false;
                 }
@@ -121,7 +123,7 @@ public class CameraRay : Singleton<CameraRay>
 
                 Vector3 _position = hit.transform.position - new Vector3(0, -2.5f, 1);
                 option.transform.localScale = new Vector3(1,1,1);
-                Vector3 _option = new Vector3(option.transform.localScale.x / pickScaleX, 1, option.transform.localScale.z / pickScaleX);
+                Vector3 _option = new Vector3(option.transform.localScale.x / pickScaleX, 1, option.transform.localScale.x / pickScaleX);
                 option.transform.localScale = _option;
                 Instantiate(option, _position, option.transform.localRotation, hit.transform);
             }
@@ -140,7 +142,7 @@ public class CameraRay : Singleton<CameraRay>
             dummyGameObject.transform.position += new Vector3(0, 100, 0);
             dummyGameObject.transform.GetChild(1).GetComponent<MeshRenderer>().enabled = true;
             pickObject = dummyGameObject.transform;
-            isMoving = true;
+            isObjectMoving = true;
         }
     }
 
@@ -159,7 +161,7 @@ public class CameraRay : Singleton<CameraRay>
         if (Physics.Raycast(ray, out hit, float.MaxValue, wallLayerMask))
         {
             if (CheckBool(int.Parse(hit.transform.name), pickScaleX, pickScaleZ)) return;
-            if (!isMoving) return;
+            if (!isObjectMoving) return;
 
             pickObject.SetParent(hit.transform);
             pickObject.localPosition = new Vector3(-(pickScaleX - 1) * 0.5f, 1, (pickScaleZ - 1) * 0.5f);
@@ -169,17 +171,19 @@ public class CameraRay : Singleton<CameraRay>
         {
             if (pickObject != null)
             {
-                isMoving = false;
+                isObjectMoving = false;
                 IsBool(int.Parse(pickObject.transform.parent.name), true, pickScaleX, pickScaleZ);
                 pickObject.transform.GetChild(1).GetComponent<MeshRenderer>().enabled = false;
                 ResetBuildingsPosition();
                 if(buildings.Contains(pickObject.gameObject))
                 {
+                    isEditing = false;
                     pickObject = null;
                     return;
                 }
                 else
                 {
+                    isEditing = false;
                     pickObject.GetComponent<Building>().buildBuilding(constructionModel, constructionEffect);
                     buildings.Add(pickObject.gameObject);
                     ResetBuildingsPosition();
@@ -241,6 +245,7 @@ public class CameraRay : Singleton<CameraRay>
 
     public void SellBuilding(GameObject go)
     {
+        ResourceSystem.Instance.GetResource(ResourceType.childlikeEnergy, go.GetComponent<Building>().cost1 / 2);
         buildings.Remove(go);
         pickObject = null;
         Destroy(go);

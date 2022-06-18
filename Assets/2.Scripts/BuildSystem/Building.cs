@@ -12,7 +12,7 @@ public class Building : MonoBehaviour
     public int resource;
     public bool isCollect;
 
-    private int cost1;
+    [HideInInspector] public int cost1;
     private int cost2;
     private int cost3;
     private int cost4;

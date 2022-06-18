@@ -109,9 +109,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11ad0dae021e5469b9d73f9671acd5fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingData: {fileID: 0}
-  buildingType: 10
+  buildingData: {fileID: 11400000, guid: a41225fb618a53c4b81e0cfcd061d31c, type: 2}
+  buildingType: 1
   resourceType: 9
+  resource: 0
+  isCollect: 0
+  cost1: 0
 --- !u!1 &6768450061179217557
 GameObject:
   m_ObjectHideFlags: 0

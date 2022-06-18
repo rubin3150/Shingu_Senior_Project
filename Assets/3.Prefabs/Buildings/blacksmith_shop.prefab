@@ -278,4 +278,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingData: {fileID: 11400000, guid: 21b4032abba33814a8f050d5abd67eea, type: 2}
   buildingType: 7
-  resourceType: 9
+  resourceType: 7
+  resource: 0
+  isCollect: 0
+  cost1: 0

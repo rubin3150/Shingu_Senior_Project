@@ -200,8 +200,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingData: {fileID: 11400000, guid: f0928b772c20baf4daab92c063505929, type: 2}
-  buildingType: 10
-  resourceType: 9
+  buildingType: 8
+  resourceType: 6
+  resource: 0
+  isCollect: 0
+  cost1: 0
 --- !u!1 &6529729034749750765
 GameObject:
   m_ObjectHideFlags: 0

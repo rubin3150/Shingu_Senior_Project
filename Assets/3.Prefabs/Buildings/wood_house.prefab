@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 4053173269659841847}
   - component: {fileID: 8170901109243514232}
   - component: {fileID: 863137897322799962}
+  - component: {fileID: -6230447095856326550}
   m_Layer: 7
   m_Name: wood_house
   m_TagString: Unit
@@ -186,6 +187,24 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-6230447095856326550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6378743642312466952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11ad0dae021e5469b9d73f9671acd5fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingData: {fileID: 11400000, guid: 285800a109474c94488fb3c92fff531f, type: 2}
+  buildingType: 6
+  resourceType: 5
+  resource: 0
+  isCollect: 0
+  cost1: 0
 --- !u!1 &8907044787023239487
 GameObject:
   m_ObjectHideFlags: 0

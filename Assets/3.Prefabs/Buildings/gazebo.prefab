@@ -177,6 +177,7 @@ GameObject:
   - component: {fileID: 3873170168464333275}
   - component: {fileID: 8978875173878112660}
   - component: {fileID: 434029441736265654}
+  - component: {fileID: -1625473553389064466}
   m_Layer: 7
   m_Name: gazebo
   m_TagString: Unit
@@ -262,3 +263,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-1625473553389064466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6159334025108049636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11ad0dae021e5469b9d73f9671acd5fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingData: {fileID: 11400000, guid: fc38fae458837df48aee8090388c9b18, type: 2}
+  buildingType: 4
+  resourceType: 9
+  resource: 0
+  isCollect: 0
+  cost1: 0

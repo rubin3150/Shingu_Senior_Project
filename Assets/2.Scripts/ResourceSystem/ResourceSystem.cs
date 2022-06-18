@@ -14,6 +14,7 @@ public class ResourceDict
 
 public class ResourceSystem : Singleton<ResourceSystem>
 {
+    public GameObject destroyText;
     public List<ResourceDict> resourceElements = new List<ResourceDict>();
 
     private void Start()
@@ -26,6 +27,19 @@ public class ResourceSystem : Singleton<ResourceSystem>
         GetResource(ResourceType.childlikeEnergy, 1000);
     }
 
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.X))
+        {
+            for (int i = 0; i < resourceElements.Count; i++)
+            {
+                resourceElements[i].resourceValue = 1000;
+            }
+            GetResource(ResourceType.childlikeEnergy, 100000);
+            InsertResource();
+        }
+    }
+
     public void GetResource(ResourceType _resourceType, int _int)
     {
         resourceElements[(int)_resourceType].resourceValue += _int;
@@ -36,11 +50,27 @@ public class ResourceSystem : Singleton<ResourceSystem>
     public void PayResource(int _cost1, int _cost2, int _cost3, int _cost4, int _cost5)
     {
         // 코스트가 오버 될 경우 return;
-        resourceElements[0].resourceValue -= _cost1;
-        resourceElements[5].resourceValue -= _cost2;
-        resourceElements[6].resourceValue -= _cost3;
-        resourceElements[7].resourceValue -= _cost4;
-        resourceElements[8].resourceValue -= _cost5;
+        if (
+        resourceElements[0].resourceValue < _cost1 ||
+        resourceElements[5].resourceValue < _cost2 ||
+        resourceElements[6].resourceValue < _cost3 ||
+        resourceElements[7].resourceValue < _cost4 ||
+        resourceElements[8].resourceValue < _cost5 )
+        {
+            destroyText.SetActive(true);
+            CameraRay.Instance.isEditing = false;
+            return;
+        }
+        else
+        {
+            resourceElements[0].resourceValue -= _cost1;
+            resourceElements[5].resourceValue -= _cost2;
+            resourceElements[6].resourceValue -= _cost3;
+            resourceElements[7].resourceValue -= _cost4;
+            resourceElements[8].resourceValue -= _cost5;
+            CameraRay.Instance.isEditing = true;
+            CameraRay.Instance.BringObject();
+        }
 
         InsertResource();
     }

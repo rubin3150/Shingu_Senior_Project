@@ -8,6 +8,7 @@ public class CameraMove : Singleton<CameraMove>
     public float moveSpeed = 5f;
     public float zoomSpeed = 5f;
     public bool isMove = true;
+    public bool IsMove{set {isMove = value;}}
     public bool isLeft;
     public bool isRight;
     public bool isTop;

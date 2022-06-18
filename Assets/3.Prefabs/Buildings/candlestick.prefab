@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 4996449774797373832}
   - component: {fileID: 868605665877178823}
   - component: {fileID: 8544256876237576165}
+  - component: {fileID: -3130167152352412292}
   m_Layer: 7
   m_Name: candlestick
   m_TagString: Unit
@@ -182,6 +183,24 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-3130167152352412292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2732821375254189751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11ad0dae021e5469b9d73f9671acd5fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingData: {fileID: 11400000, guid: 51684572ecb59134c90ce9b77a4b8fdf, type: 2}
+  buildingType: 2
+  resourceType: 9
+  resource: 0
+  isCollect: 0
+  cost1: 0
 --- !u!1 &5401797725961821114
 GameObject:
   m_ObjectHideFlags: 0
