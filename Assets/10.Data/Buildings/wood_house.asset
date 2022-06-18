@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 399eefd85942a5546bf6fc09b4a1d951, type: 3}
   m_Name: wood_house
   m_EditorClassIdentifier: 
+  storePage: 0
   buildingType: 6
   BuildingResourceType: 5
   buildingName: "\uBAA9\uC7AC\uC18C"

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 399eefd85942a5546bf6fc09b4a1d951, type: 3}
   m_Name: candlestick
   m_EditorClassIdentifier: 
+  storePage: 1
   buildingType: 2
   BuildingResourceType: 9
   buildingName: "\uCD1B\uB300"

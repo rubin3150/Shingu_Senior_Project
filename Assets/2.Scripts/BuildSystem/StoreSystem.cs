@@ -11,9 +11,13 @@ public class StoreSystem : MonoBehaviour
     public Transform target;
     public GameObject child;
     public List<BuildingData> buildingData = new List<BuildingData>();
+    public List<GameObject> buildingPages = new List<GameObject>();
 
     public int buildingDataNum;
     public int BuildingDataNum { set {buildingDataNum = value;} }
+
+    public int pageNum;
+    public int PageNum{set {pageNum = value;}}
 
     private void OnEnable()
     {
@@ -27,6 +31,39 @@ public class StoreSystem : MonoBehaviour
             //                                                                 buildingData[i].cost3 + " " +
             //                                                                 buildingData[i].cost4 + " " +
             //                                                                 buildingData[i].cost5;
+        }
+    }
+
+    public void SortPage()
+    {
+        if(pageNum == 0)
+        {
+            for (int i = 0; i < buildingPages.Count; i++)
+            {
+                buildingPages[i].SetActive(true);
+            }
+        }
+
+        if(pageNum == 1)
+        {
+            for (int i = 0; i < buildingPages.Count; i++)
+            {
+                if(buildingData[i].storePage == StorePage.Manufacture)
+                    buildingPages[i].SetActive(true);
+                else
+                    buildingPages[i].SetActive(false);
+            }
+        }
+
+        if(pageNum == 2)
+        {
+            for (int i = 0; i < buildingPages.Count; i++)
+            {
+                if(buildingData[i].storePage == StorePage.Enhance)
+                    buildingPages[i].SetActive(true);
+                else
+                    buildingPages[i].SetActive(false);
+            }
         }
     }
 

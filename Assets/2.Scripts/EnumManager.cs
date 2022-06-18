@@ -35,3 +35,11 @@ public enum BuildingType
 
     None
 }
+
+public enum StorePage
+{
+    Manufacture,
+    Enhance,
+
+    None
+}

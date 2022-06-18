@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Building", menuName = "New Building/building")]
 public class BuildingData : ScriptableObject
 {
+    public StorePage storePage = StorePage.None;
     public BuildingType buildingType = BuildingType.None;
     public ResourceType BuildingResourceType = ResourceType.None;
     public string buildingName;
