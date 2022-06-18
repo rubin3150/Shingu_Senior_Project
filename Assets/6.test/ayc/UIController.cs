@@ -33,12 +33,18 @@ public class UIController : Singleton<UIController>
     {
         levelToLoad = levelIndex;
         animator.SetTrigger("FadeOut");
+
+        Data.Instance.sfx.clip = Data.Instance.scenechangeClip;
+        Data.Instance.sfx.Play();
     }
 
     public void FadeToLevelSceneChange(int levelIndex)
     {
         levelToLoad = levelIndex;
         animator.SetTrigger("FadeOutSceneChange");
+
+        Data.Instance.sfx.clip = Data.Instance.scenechangeClip;
+        Data.Instance.sfx.Play();
     }
 
     public void OnFadeComplete()

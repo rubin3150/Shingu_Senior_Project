@@ -13,6 +13,9 @@ public class Temp_TitleUI : MonoBehaviour
 
     void Start()
     {
+        Data.Instance.audio.clip = Data.Instance.titleClip;
+        Data.Instance.audio.Play();
+
         titleBtn[0].onClick.AddListener(() => PopUpController(true));
         titleBtn[1].onClick.AddListener(TempSetting);
         titleBtn[2].onClick.AddListener(() => PopUpController(false));
@@ -21,10 +24,16 @@ public class Temp_TitleUI : MonoBehaviour
     public void PopUpController(bool _bool)
     {
         popupUI.SetActive(_bool);
+
+        Data.Instance.sfx.clip = Data.Instance.btnClip;
+        Data.Instance.sfx.Play();
     }
     
     public void TempSetting()
     {
+        Data.Instance.sfx.clip = Data.Instance.btnClip;
+        Data.Instance.sfx.Play();
+        
         Debug.Log("설정창이 켜졌습니다.");
     }
 }

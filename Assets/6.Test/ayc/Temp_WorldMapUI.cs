@@ -27,6 +27,9 @@ public class Temp_WorldMapUI : MonoBehaviour
 
     void Start()
     {
+        Data.Instance.audio.clip = Data.Instance.worldmapClip;
+        Data.Instance.audio.Play();
+
         worldMapBtn[0].onClick.AddListener(() => PopUpOnController(0));
         worldMapBtn[1].onClick.AddListener(TempMyUnit);
         worldMapBtn[2].onClick.AddListener(() => PopUpOnController(1));
@@ -40,14 +43,23 @@ public class Temp_WorldMapUI : MonoBehaviour
 
     public void PopUpOnController(int _int)
     {
+        Data.Instance.sfx.clip = Data.Instance.btnClip;
+        Data.Instance.sfx.Play();
+
         popupUI[_int].SetActive(true);
     }
     public void PopUpOffController(int _int)
     {
+        Data.Instance.sfx.clip = Data.Instance.btnClip;
+        Data.Instance.sfx.Play();
+
         popupUI[_int].SetActive(false);
     }
     public void TempOff()
     {
+        Data.Instance.sfx.clip = Data.Instance.btnClip;
+        Data.Instance.sfx.Play();
+        
         for(int i=2;i<=3;i++)
         {
             popupUI[i].SetActive(false);
@@ -57,11 +69,17 @@ public class Temp_WorldMapUI : MonoBehaviour
 
     public void TempMyUnit()
     {
+        Data.Instance.sfx.clip = Data.Instance.btnClip;
+        Data.Instance.sfx.Play();
+
         Debug.Log("내 유닛 창으로 이동했습니다.");
     }
 
     public void ExitPage()
     {
+        Data.Instance.sfx.clip = Data.Instance.btnClip;
+        Data.Instance.sfx.Play();
+
         #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else

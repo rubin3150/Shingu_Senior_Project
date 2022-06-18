@@ -9,6 +9,20 @@ public class Data : Singleton<Data>
     public TextMeshProUGUI nicknamefield; //유저입력
     public TextMeshProUGUI nicknameshow; //보여줄거
 
+    public AudioSource audio;
+    public AudioSource sfx;
+
+    public AudioClip titleClip;
+    public AudioClip worldmapClip;
+    public AudioClip selectunitClip;
+    public AudioClip defenseClip;
+    public AudioClip storeClip;
+    public AudioClip gameclearClip;
+    public AudioClip gameoverClip;
+
+    public AudioClip btnClip;
+    public AudioClip scenechangeClip;
+
     public void SaveNicknameData()
     {
         nicknameBasket = nicknamefield.text;

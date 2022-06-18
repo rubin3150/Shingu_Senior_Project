@@ -1091,7 +1091,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4521109424757951737, guid: 267e6fcf10034564a8c47d937522ea75, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4623901285954055087, guid: 267e6fcf10034564a8c47d937522ea75, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1428,13 +1428,57 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5793879329099022277, guid: dda327df8f27e87428ce068a3da1b37b, type: 3}
+      propertyPath: sfx
+      value: 
+      objectReference: {fileID: 5793879328893439181}
+    - target: {fileID: 5793879329099022277, guid: dda327df8f27e87428ce068a3da1b37b, type: 3}
+      propertyPath: audio
+      value: 
+      objectReference: {fileID: 5793879328893439180}
+    - target: {fileID: 5793879329099022277, guid: dda327df8f27e87428ce068a3da1b37b, type: 3}
+      propertyPath: btnClip
+      value: 
+      objectReference: {fileID: 8300000, guid: bdcf04bc45e5b77449db496bb1bac81a, type: 3}
+    - target: {fileID: 5793879329099022277, guid: dda327df8f27e87428ce068a3da1b37b, type: 3}
+      propertyPath: storeClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 2f17fe58ddb9fd14782e2438a34a9453, type: 3}
+    - target: {fileID: 5793879329099022277, guid: dda327df8f27e87428ce068a3da1b37b, type: 3}
+      propertyPath: titleClip
+      value: 
+      objectReference: {fileID: 8300000, guid: c16394b7ae701804a9d862b5beab6d85, type: 3}
+    - target: {fileID: 5793879329099022277, guid: dda327df8f27e87428ce068a3da1b37b, type: 3}
+      propertyPath: defenseClip
+      value: 
+      objectReference: {fileID: 8300000, guid: b7ab45ce8f5428045a0ab92ae43b541a, type: 3}
+    - target: {fileID: 5793879329099022277, guid: dda327df8f27e87428ce068a3da1b37b, type: 3}
+      propertyPath: gameoverClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 457effa9cf2311f418035173d2195d64, type: 3}
+    - target: {fileID: 5793879329099022277, guid: dda327df8f27e87428ce068a3da1b37b, type: 3}
       propertyPath: nicknameshow
       value: 
       objectReference: {fileID: 246116943}
     - target: {fileID: 5793879329099022277, guid: dda327df8f27e87428ce068a3da1b37b, type: 3}
+      propertyPath: worldmapClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 1db49d9b1403e2943acbec07324ee7bb, type: 3}
+    - target: {fileID: 5793879329099022277, guid: dda327df8f27e87428ce068a3da1b37b, type: 3}
+      propertyPath: gameclearClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 150f4d2e2664a304f8040b3da3ac0b18, type: 3}
+    - target: {fileID: 5793879329099022277, guid: dda327df8f27e87428ce068a3da1b37b, type: 3}
       propertyPath: nicknamefield
       value: 
       objectReference: {fileID: 497907382}
+    - target: {fileID: 5793879329099022277, guid: dda327df8f27e87428ce068a3da1b37b, type: 3}
+      propertyPath: selectunitClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 27b43028cff4d714b93c6cf6604cdcb1, type: 3}
+    - target: {fileID: 5793879329099022277, guid: dda327df8f27e87428ce068a3da1b37b, type: 3}
+      propertyPath: scenechangeClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 152ae11d25e28fa4da139e790b13c2fd, type: 3}
     - target: {fileID: 5793879329099022278, guid: dda327df8f27e87428ce068a3da1b37b, type: 3}
       propertyPath: m_Name
       value: Stage
@@ -1444,5 +1488,15 @@ PrefabInstance:
 --- !u!1 &5793879328893439179 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5793879329099022278, guid: dda327df8f27e87428ce068a3da1b37b, type: 3}
+  m_PrefabInstance: {fileID: 5793879328893439178}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &5793879328893439180 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 5246150295616814211, guid: dda327df8f27e87428ce068a3da1b37b, type: 3}
+  m_PrefabInstance: {fileID: 5793879328893439178}
+  m_PrefabAsset: {fileID: 0}
+--- !u!82 &5793879328893439181 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 664293735540692020, guid: dda327df8f27e87428ce068a3da1b37b, type: 3}
   m_PrefabInstance: {fileID: 5793879328893439178}
   m_PrefabAsset: {fileID: 0}
