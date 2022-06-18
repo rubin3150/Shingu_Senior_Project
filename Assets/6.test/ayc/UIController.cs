@@ -1,8 +1,12 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class UIController : Singleton<UIController>
+public class UIController : MonoBehaviour
 {
+    /* 
+    타이틀에서 확인버튼 누를 때 - NextPage + Fade
+    디펜스로 이동할만한 버튼 누를 때 - Fade
+     */
     public GameObject[] pagePrefab;
 
     public Animator animator;
@@ -24,7 +28,7 @@ public class UIController : Singleton<UIController>
             pagePrefab[i].gameObject.SetActive(false);
         }
 
-        pagePrefab[_int -1].gameObject.SetActive(true);
+        pagePrefab[_int].gameObject.SetActive(true);
     }
 
     
