@@ -4,7 +4,6 @@ using UnityEngine.SceneManagement;
 public class UIController : Singleton<UIController>
 {
     public GameObject[] pagePrefab;
-    public int maxPage;
 
     public Animator animator;
     private int levelToLoad;
@@ -13,18 +12,18 @@ public class UIController : Singleton<UIController>
     
     private void Start()
     {
+        // titleBtn[0].onClick.AddListener(() => PopUpController(true));
+        // titleBtn[1].onClick.AddListener(TempSetting);
+        // titleBtn[2].onClick.AddListener(() => PopUpController(false));
         DontDestroyOnLoad(stage);    
-    }
-
-    private void offAllPage()
-    {
-        for(int i=0; i<maxPage; i++)
-            pagePrefab[i].gameObject.SetActive(false);
     }
 
     public void NextPage(int _int)
     {   
-        offAllPage();
+        for(int i=0; i<pagePrefab.Length; i++) {
+            pagePrefab[i].gameObject.SetActive(false);
+        }
+
         pagePrefab[_int -1].gameObject.SetActive(true);
     }
 

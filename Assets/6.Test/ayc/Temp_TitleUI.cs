@@ -3,6 +3,7 @@ using UnityEngine.UI;
 public class Temp_TitleUI : MonoBehaviour
 {
     public GameObject popupUI;
+    public GameObject set;
 
     public Button[] titleBtn;
     /*
@@ -34,6 +35,6 @@ public class Temp_TitleUI : MonoBehaviour
         Data.Instance.sfx.clip = Data.Instance.btnClip;
         Data.Instance.sfx.Play();
         
-        Debug.Log("설정창이 켜졌습니다.");
+        set.SetActive(true);
     }
 }
