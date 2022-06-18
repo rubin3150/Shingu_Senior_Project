@@ -14,10 +14,6 @@ public class ResourceDict
 
 public class ResourceSystem : Singleton<ResourceSystem>
 {
-    // public List<GameObject> logSpawner = new List<GameObject>();
-    // public List<GameObject> flowerSpawner = new List<GameObject>();
-    // public List<GameObject> oreSpawner = new List<GameObject>();
-    // public List<GameObject> mushroomSpawner = new List<GameObject>();
     public List<ResourceDict> resourceElements = new List<ResourceDict>();
 
     private void Start()
@@ -39,6 +35,7 @@ public class ResourceSystem : Singleton<ResourceSystem>
 
     public void PayResource(int _cost1, int _cost2, int _cost3, int _cost4, int _cost5)
     {
+        // 코스트가 오버 될 경우 return;
         resourceElements[0].resourceValue -= _cost1;
         resourceElements[5].resourceValue -= _cost2;
         resourceElements[6].resourceValue -= _cost3;

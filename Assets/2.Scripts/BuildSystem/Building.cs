@@ -98,7 +98,7 @@ public class Building : MonoBehaviour
             case ResourceType.None:
                 return;
             case ResourceType.childlikeEnergy:
-                thisCoroutine = StartCoroutine(Create(2, 1f));
+                Invoke(nameof(DealyFunc), buildTime);
                 return;
             case ResourceType.log:
                 resource = maxResource;
@@ -117,6 +117,11 @@ public class Building : MonoBehaviour
                 
                 return;
         }
+    }
+
+    public void DealyFunc()
+    {
+        thisCoroutine = StartCoroutine(Create(2, 1f));
     }
 
     [System.Obsolete]
@@ -140,7 +145,7 @@ public class Building : MonoBehaviour
     {
         yield return new WaitForSeconds(_time);
         resource += _int;
-        Debug.Log("´Şºû¿¡³ÊÁö »ı»êÁß");
+        Debug.Log("ë‹¬ë¹› ì—ë„ˆì§€ë¥¼ ìƒì‚° ì¤‘ì…ë‹ˆë‹¤");
         StartCoroutine(Create(2, 1f));
     }
 

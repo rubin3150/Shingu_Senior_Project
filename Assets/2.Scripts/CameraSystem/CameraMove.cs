@@ -59,26 +59,10 @@ public class CameraMove : Singleton<CameraMove>
         {
             cam.transform.parent.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
         }
-        //if(Input.mousePosition.x < 100 && Input.mousePosition.y < 100)
-        //{
-        //    cam.transform.parent.Translate(new Vector3(-1, 0, -1).normalized * moveSpeed * Time.deltaTime);
-        //}
 
-
-        cam.transform.parent.position = new Vector3(Mathf.Clamp(cam.transform.parent.position.x, MinX, MaxX), cam.transform.parent.position.y, Mathf.Clamp(cam.transform.parent.position.z, MinY, MaxY));
-
-        //if (Input.GetMouseButtonDown(0))
-        //{
-        //    m_Input.x = cam.transform.position.x;
-        //    m_Input.y = cam.transform.position.z;
-        //}
-
-        //if (Input.GetMouseButton(0))
-        //{
-        //    m_Input.x += -Input.GetAxis("Mouse X") * moveSpeed;
-        //    m_Input.y += -Input.GetAxis("Mouse Y") * moveSpeed;
-
-        //    cam.transform.position = new Vector3(Mathf.Clamp(m_Input.x, MinX, MaxX), cam.transform.position.y, Mathf.Clamp(m_Input.y, MinY, MaxY));
-        //}
+        cam.transform.parent.position = new Vector3(
+            Mathf.Clamp(cam.transform.parent.position.x, MinX, MaxX), 
+            cam.transform.parent.position.y, 
+            Mathf.Clamp(cam.transform.parent.position.z, MinY, MaxY));
     }
 }
