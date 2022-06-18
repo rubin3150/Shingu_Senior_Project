@@ -69,6 +69,9 @@ public class Player : MonoBehaviour
     // 출혈 동안 몇초나 지났는지 체크할 변수
     public float currentHurtDamageTime;
 
+    public bool isBlind;
+    public float blindMaintainTime;
+
     #endregion
     
     /// <summary>
@@ -123,6 +126,7 @@ public class Player : MonoBehaviour
             // 함수 호출
             CheckObject();
             Hurt();
+            Blind();
         }
     }
 
@@ -259,6 +263,21 @@ public class Player : MonoBehaviour
                 currentHurtDamageTime = 0;
                 hurtMaintainTime = 0;
                 isHurt = false;
+            }
+        }
+    }
+    
+    private void Blind()
+    {
+        if (isBlind == true)
+        {
+            blindMaintainTime += Time.deltaTime;
+            
+            if (blindMaintainTime >= _unitSkillManager.blindStat[0])
+            {
+                skillShowEffect[2].Stop();
+                blindMaintainTime = 0;
+                isBlind = false;
             }
         }
     }

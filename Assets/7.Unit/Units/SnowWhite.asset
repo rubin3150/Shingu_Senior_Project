@@ -33,6 +33,6 @@ MonoBehaviour:
   mpGet: 0
   attackType: X
   bossType: 
-  skillCoolTime: 6
-  skillIndex: 10
-  skillEffect: 10
+  skillCoolTime: 12
+  skillIndex: 5
+  skillEffect: 4

@@ -16,7 +16,7 @@ MonoBehaviour:
   unitImage: {fileID: 0}
   unitPrefab: {fileID: 1609125915385617593, guid: 08b28957e60d0a04dbe92703c1d7a9ae, type: 3}
   moonEnergy: 0
-  spawnCoolTime: 25
+  spawnCoolTime: 10
   attackStat: 30
   healStat: 0
   donMoveDistance: 5.5

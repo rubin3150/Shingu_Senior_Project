@@ -34,5 +34,5 @@ MonoBehaviour:
   attackType: "\uADFC\uC811"
   bossType: 
   skillCoolTime: 6
-  skillIndex: 10
-  skillEffect: 10
+  skillIndex: 4
+  skillEffect: 2
