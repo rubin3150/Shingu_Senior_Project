@@ -86,6 +86,10 @@ public class Enemy : MonoBehaviour
 
     public List<GameObject> damageTexts = new List<GameObject>();
     
+    [SerializeField] private GameObject attackIcon;
+    
+    [SerializeField] private EffekseerEmitter attackAnim;
+    
     public EffekseerEmitter[] skillAnim;
     
     // 스킬 마다 다른 이펙트 설정
@@ -112,6 +116,11 @@ public class Enemy : MonoBehaviour
 
     public bool isStun;
     public float stunMaintainTime;
+
+    private int countRan;
+
+    private bool isUpgrade;
+    private float upgradeMaintainTime;
 
     private void SetHpStat(int i)
     {
@@ -216,6 +225,7 @@ public class Enemy : MonoBehaviour
                 Taunt();
                 Blind();
                 Stun();
+                UpGrade();
                     
                 if (_isAttack == true)
                 {
@@ -372,18 +382,73 @@ public class Enemy : MonoBehaviour
                 // 달팽이 스킬
                 Butt();
             }
+            else if (skillIndex == 8)
+            {
+                // 슬라임 스킬
+                SlimeSkill();
+            }
+            else if (skillIndex == 9)
+            {
+                UpGradeAttack();
+            }
         }
     }
     
+    private void HideAttackIcon()
+    {
+        attackIcon.SetActive(false);
+    }
+
     private void Attack()
     {
         _isAttack = true;
-        
+        attackIcon.SetActive(true);
+        Invoke("HideAttackIcon", 0.5f);
+
+        if (attackAnim != null)
+        {
+            attackAnim.Play();
+
+            if (unit.unitName != "유령")
+            {
+                if (_currentRay.transform.tag == "Unit")
+                {
+                    if (_currentRay.transform.GetComponent<UnitMove>().unit.unitName == "팅커벨")
+                    {
+                        attackAnim.transform.position = _currentRay.transform.position + new Vector3(0, 3.5f, 0);
+                    }
+                    else if (_currentRay.transform.GetComponent<UnitMove>().unit.unitName == "나나")
+                    {
+                        attackAnim.transform.position = _currentRay.transform.position - new Vector3(0, 2, 0);
+                    }
+                    else
+                    {
+                        attackAnim.transform.position = _currentRay.transform.position;
+                    }
+                }
+                else
+                {
+                    attackAnim.transform.position = _currentRay.transform.position;
+                }
+            }
+            else
+            {
+                if (isUpgrade == false)
+                {
+                    attackAnim.Play();
+                }
+                else
+                {
+                    skillAnim[9].Play();
+                }
+            }
+        }
+
         if (isBlind == false || isStun == false)
         {
             AttackDelay();
         }
-        else
+        else if (isBlind == true)
         {
             if (_currentRay.transform.tag == "Player")
             {
@@ -409,7 +474,14 @@ public class Enemy : MonoBehaviour
         
         if (r <= criRate)
         {
-            // Debug.Log("적이 치명타 공격함");
+            if (isUpgrade == true)
+            {
+                attack = Mathf.RoundToInt(_unitSkillManager.upgradeAttackStat[0] + (attack * _unitSkillManager.upgradeAttackStat[1 ]* 0.01f));
+            }
+            else
+            {
+                attack = unit.attackStat;
+            }
             int criticalDamage = Mathf.RoundToInt(attack * (criDamage * 0.01f));
 
             if (_currentRay.transform.tag == "Player")
@@ -434,6 +506,11 @@ public class Enemy : MonoBehaviour
                     
                     ShowDamageTxt(_player.transform, criticalDamage.ToString(), true, _currentRay.transform.GetComponent<Player>().hpImage.transform.position + new Vector3(0, 1, 0), Color.red);
                     ShowDamageTxt(_player.transform, hurtDamage.ToString(), false, _currentRay.transform.GetComponent<Player>().hpImage.transform.position + new Vector3(0, 1, 0), Color.yellow);
+                }
+                
+                if (isUpgrade == true)
+                {
+                    SetSkillEffect(null, _player, false);
                 }
             }
             else if (_currentRay.transform.tag == "Unit")
@@ -468,6 +545,11 @@ public class Enemy : MonoBehaviour
                     ShowDamageTxt(_unitMove.transform, hurtDamage.ToString(), false, _unitMove.maxHpStatImage.transform.position + new Vector3(0, 1, 0), Color.yellow);
                 }
                 
+                if (isUpgrade == true)
+                {
+                    SetSkillEffect(_unitMove, null, true);
+                }
+                
                 if (_unitMove.pushResist - pushRange < 0)
                 {
                     _unitMove.transform.position += new Vector3(_unitMove.pushResist - pushRange, 0f, 0f);
@@ -486,6 +568,15 @@ public class Enemy : MonoBehaviour
         }
         else
         {
+            if (isUpgrade == true)
+            {
+                attack = Mathf.RoundToInt(_unitSkillManager.upgradeAttackStat[0] + (attack * _unitSkillManager.upgradeAttackStat[1 ]* 0.01f));
+            }
+            else
+            {
+                attack = unit.attackStat;
+            }
+            
             if (_currentRay.transform.tag == "Player")
             {
                 Player _player = _currentRay.transform.GetComponent<Player>();
@@ -512,6 +603,11 @@ public class Enemy : MonoBehaviour
                     ShowDamageTxt(_player.transform, damage.ToString(), false, _currentRay.transform.GetComponent<Player>().hpImage.transform.position + new Vector3(0, 1, 0), Color.red);
 
                     ShowDamageTxt(_player.transform, hurtDamage.ToString(), false, _currentRay.transform.GetComponent<Player>().hpImage.transform.position + new Vector3(0, 1, 0), Color.yellow);
+                }
+                
+                if (isUpgrade == true)
+                {
+                    SetSkillEffect(null, _player, false);
                 }
             }
             else if (_currentRay.transform.tag == "Unit")
@@ -540,13 +636,43 @@ public class Enemy : MonoBehaviour
                     ShowDamageTxt(_unitMove.transform, damage.ToString(),false, _unitMove.maxHpStatImage.transform.position + new Vector3(0, 1, 0), Color.red);
                     ShowDamageTxt(_unitMove.transform, hurtDamage.ToString(), false, _unitMove.maxHpStatImage.transform.position + new Vector3(0, 1, 0), Color.yellow);
                 }
+                
+                if (isUpgrade == true)
+                {
+                    SetSkillEffect(_unitMove, null, true);
+                }
             }
         }
 
-        GameObject go = Instantiate(hit_Effect, _currentRay.transform.position, Quaternion.identity);
-        go.GetComponent<EffekseerEmitter>().Play();
-        
-        Destroy(go, 1.5f);
+        if (_currentRay.transform.tag == "Unit")
+        {
+            if (_currentRay.transform.GetComponent<UnitMove>().unit.unitName == "팅커벨")
+            {
+                GameObject go = Instantiate(hit_Effect, _currentRay.transform.position + new Vector3(0, 3.5f, 0),
+                    Quaternion.identity);
+                go.GetComponent<EffekseerEmitter>().Play();
+                Destroy(go, 1.5f);
+            }
+            else if (_currentRay.transform.GetComponent<UnitMove>().unit.unitName == "나나")
+            {
+                GameObject go = Instantiate(hit_Effect, _currentRay.transform.position - new Vector3(0, 2f, 0),
+                    Quaternion.identity);
+                go.GetComponent<EffekseerEmitter>().Play();
+                Destroy(go, 1.5f);
+            }
+            else
+            {
+                GameObject go = Instantiate(hit_Effect, _currentRay.transform.position, Quaternion.identity);
+                go.GetComponent<EffekseerEmitter>().Play();
+                Destroy(go, 1.5f);
+            }
+        }
+        else
+        {
+            GameObject go = Instantiate(hit_Effect, _currentRay.transform.position, Quaternion.identity);
+            go.GetComponent<EffekseerEmitter>().Play();
+            Destroy(go, 1.5f);
+        }
     }
 
     private void ShowDamageTxt(Transform go, string damage, bool cirDamage, Vector3 yPos, Color color)
@@ -741,6 +867,7 @@ public class Enemy : MonoBehaviour
     private void Butt()
     {
         skillAnim[7].Play();
+        skillAnim[7].transform.position = _currentRay.transform.position;
         Invoke("StopButtAnim", _unitSkillManager.buttStat[3]);
         
         int damage =
@@ -818,6 +945,404 @@ public class Enemy : MonoBehaviour
         }
 
     }
+
+    private void SlimeSkill()
+    {
+        skillAnim[8].Play();
+        
+        RaycastHit2D[] rays = Physics2D.BoxCastAll(transform.position, new Vector2(1f, 18), 0, Vector2.left, attackRange, layerMask);
+
+        for (int i = 0; i < rays.Length; i++)
+        {
+            countRan = Random.Range(1, 216);
+
+            if (rays[i].transform.tag == "Unit")
+            {
+                UnitMove _unitMove = rays[i].transform.GetComponent<UnitMove>();
+                
+                int damage =
+                    Mathf.RoundToInt(_unitSkillManager.slimeStat[0] + attack * _unitSkillManager.slimeStat[1] * 0.01f);
+                
+                // 10회 공격
+                if (countRan <= _unitSkillManager.slimeStat[7])
+                {
+                    if (_unitMove.isBlind == true)
+                    {
+                        damage = Mathf.RoundToInt(damage + (damage * _unitSkillManager.blindStat[1] * 0.01f));
+                    }
+            
+                    if (_unitMove.isHurt == false)
+                    {
+                        for (int roopNum = 0; roopNum < 10; roopNum++)
+                        {
+                            ShowDamageTxt(_unitMove.transform ,damage.ToString(), false, _unitMove.maxHpStatImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                        }
+                        
+                        _unitMove.UpdateHpBar(damage * 10, true);
+                    }
+                    else
+                    {
+                        int hurtDamage = Mathf.RoundToInt(damage * _unitSkillManager.hurtStat[1] * 0.01f);
+                    
+                        for (int roopNum = 0; roopNum < 10; roopNum++)
+                        {
+                            ShowDamageTxt(_unitMove.transform ,damage.ToString(), false, _unitMove.maxHpStatImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                            ShowDamageTxt(_unitMove.transform, hurtDamage.ToString(), false, _unitMove.maxHpStatImage.transform.position + new Vector3(0, 1, 0), Color.yellow);
+                        }
+
+                        _unitMove.UpdateHpBar((damage + hurtDamage) * 10, true);
+                    }
+                }
+                // 9회 공격
+                else if (countRan <= _unitSkillManager.slimeStat[6])
+                {
+                    if (_unitMove.isBlind == true)
+                    {
+                        damage = Mathf.RoundToInt(damage + (damage * _unitSkillManager.blindStat[1] * 0.01f));
+                    }
+            
+                    if (_unitMove.isHurt == false)
+                    {
+                        for (int roopNum = 0; roopNum < 9; roopNum++)
+                        {
+                            ShowDamageTxt(_unitMove.transform ,damage.ToString(), false, _unitMove.maxHpStatImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                        }
+                        
+                        _unitMove.UpdateHpBar(damage * 9, true);
+                    }
+                    else
+                    {
+                        int hurtDamage = Mathf.RoundToInt(damage * _unitSkillManager.hurtStat[1] * 0.01f);
+                    
+                        for (int roopNum = 0; roopNum < 9; roopNum++)
+                        {
+                            ShowDamageTxt(_unitMove.transform ,damage.ToString(), false, _unitMove.maxHpStatImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                            ShowDamageTxt(_unitMove.transform, hurtDamage.ToString(), false, _unitMove.maxHpStatImage.transform.position + new Vector3(0, 1, 0), Color.yellow);
+                        }
+
+                        _unitMove.UpdateHpBar((damage + hurtDamage) * 9, true);
+                    }
+                }
+                // 8회 공격
+                else if (countRan <= _unitSkillManager.slimeStat[5])
+                {
+                    if (_unitMove.isBlind == true)
+                    {
+                        damage = Mathf.RoundToInt(damage + (damage * _unitSkillManager.blindStat[1] * 0.01f));
+                    }
+            
+                    if (_unitMove.isHurt == false)
+                    {
+                        for (int roopNum = 0; roopNum < 8; roopNum++)
+                        {
+                            ShowDamageTxt(_unitMove.transform ,damage.ToString(), false, _unitMove.maxHpStatImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                        }
+                        
+                        _unitMove.UpdateHpBar(damage * 8, true);
+                    }
+                    else
+                    {
+                        int hurtDamage = Mathf.RoundToInt(damage * _unitSkillManager.hurtStat[1] * 0.01f);
+                    
+                        for (int roopNum = 0; roopNum < 8; roopNum++)
+                        {
+                            ShowDamageTxt(_unitMove.transform ,damage.ToString(), false, _unitMove.maxHpStatImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                            ShowDamageTxt(_unitMove.transform, hurtDamage.ToString(), false, _unitMove.maxHpStatImage.transform.position + new Vector3(0, 1, 0), Color.yellow);
+                        }
+
+                        _unitMove.UpdateHpBar((damage + hurtDamage) * 8, true);
+                    }
+                }
+                // 7회 공격
+                else if (countRan <= _unitSkillManager.slimeStat[4])
+                {
+                    if (_unitMove.isBlind == true)
+                    {
+                        damage = Mathf.RoundToInt(damage + (damage * _unitSkillManager.blindStat[1] * 0.01f));
+                    }
+            
+                    if (_unitMove.isHurt == false)
+                    {
+                        for (int roopNum = 0; roopNum < 7; roopNum++)
+                        {
+                            ShowDamageTxt(_unitMove.transform ,damage.ToString(), false, _unitMove.maxHpStatImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                        }
+                        
+                        _unitMove.UpdateHpBar(damage * 7, true);
+                    }
+                    else
+                    {
+                        int hurtDamage = Mathf.RoundToInt(damage * _unitSkillManager.hurtStat[1] * 0.01f);
+                    
+                        for (int roopNum = 0; roopNum < 7; roopNum++)
+                        {
+                            ShowDamageTxt(_unitMove.transform ,damage.ToString(), false, _unitMove.maxHpStatImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                            ShowDamageTxt(_unitMove.transform, hurtDamage.ToString(), false, _unitMove.maxHpStatImage.transform.position + new Vector3(0, 1, 0), Color.yellow);
+                        }
+
+                        _unitMove.UpdateHpBar((damage + hurtDamage) * 7, true);
+                    }
+                }
+                // 6회 공격
+                else if (countRan <= _unitSkillManager.slimeStat[3])
+                {
+                    if (_unitMove.isBlind == true)
+                    {
+                        damage = Mathf.RoundToInt(damage + (damage * _unitSkillManager.blindStat[1] * 0.01f));
+                    }
+            
+                    if (_unitMove.isHurt == false)
+                    {
+                        for (int roopNum = 0; roopNum < 6; roopNum++)
+                        {
+                            ShowDamageTxt(_unitMove.transform ,damage.ToString(), false, _unitMove.maxHpStatImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                        }
+                        
+                        _unitMove.UpdateHpBar(damage * 6, true);
+                    }
+                    else
+                    {
+                        int hurtDamage = Mathf.RoundToInt(damage * _unitSkillManager.hurtStat[1] * 0.01f);
+                    
+                        for (int roopNum = 0; roopNum < 6; roopNum++)
+                        {
+                            ShowDamageTxt(_unitMove.transform ,damage.ToString(), false, _unitMove.maxHpStatImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                            ShowDamageTxt(_unitMove.transform, hurtDamage.ToString(), false, _unitMove.maxHpStatImage.transform.position + new Vector3(0, 1, 0), Color.yellow);
+                        }
+
+                        _unitMove.UpdateHpBar((damage + hurtDamage) * 6, true);
+                    }
+                }
+                // 5회 공격
+                else if (countRan <= _unitSkillManager.slimeStat[2])
+                {
+                    if (_unitMove.isBlind == true)
+                    {
+                        damage = Mathf.RoundToInt(damage + (damage * _unitSkillManager.blindStat[1] * 0.01f));
+                    }
+            
+                    if (_unitMove.isHurt == false)
+                    {
+                        for (int roopNum = 0; roopNum < 5; roopNum++)
+                        {
+                            ShowDamageTxt(_unitMove.transform ,damage.ToString(), false, _unitMove.maxHpStatImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                        }
+                        
+                        _unitMove.UpdateHpBar(damage * 5, true);
+                    }
+                    else
+                    {
+                        int hurtDamage = Mathf.RoundToInt(damage * _unitSkillManager.hurtStat[1] * 0.01f);
+                    
+                        for (int roopNum = 0; roopNum < 5; roopNum++)
+                        {
+                            ShowDamageTxt(_unitMove.transform ,damage.ToString(), false, _unitMove.maxHpStatImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                            ShowDamageTxt(_unitMove.transform, hurtDamage.ToString(), false, _unitMove.maxHpStatImage.transform.position + new Vector3(0, 1, 0), Color.yellow);
+                        }
+
+                        _unitMove.UpdateHpBar((damage + hurtDamage) * 5, true);
+                    }
+                }
+                
+                SetSkillEffect(_unitMove, null, true);
+            }
+            else
+            {
+                Player _player = rays[i].transform.GetComponent<Player>();
+                
+                int damage =
+                    Mathf.RoundToInt(_unitSkillManager.slimeStat[0] + attack * _unitSkillManager.slimeStat[1] * 0.01f);
+                
+                // 10회 공격
+                if (countRan <= _unitSkillManager.slimeStat[7])
+                {
+                    if (_player.isBlind == true)
+                    {
+                        damage = Mathf.RoundToInt(damage + (damage * _unitSkillManager.blindStat[1] * 0.01f));
+                    }
+            
+                    if (_player.isHurt == false)
+                    {
+                        for (int roopNum = 0; roopNum < 10; roopNum++)
+                        {
+                            ShowDamageTxt(_player.transform ,damage.ToString(), false, _player.hpImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                        }
+                        
+                        _player.UpdateHpBar(damage * 10);
+                    }
+                    else
+                    {
+                        int hurtDamage = Mathf.RoundToInt(damage * _unitSkillManager.hurtStat[1] * 0.01f);
+                    
+                        for (int roopNum = 0; roopNum < 10; roopNum++)
+                        {
+                            ShowDamageTxt(_player.transform ,damage.ToString(), false, _player.hpImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                            ShowDamageTxt(_player.transform, hurtDamage.ToString(), false, _player.hpImage.transform.position + new Vector3(0, 1, 0), Color.yellow);
+                        }
+
+                        _player.UpdateHpBar((damage + hurtDamage) * 10);
+                    }
+                }
+                // 9회 공격
+                else if (countRan <= _unitSkillManager.slimeStat[6])
+                {
+                    if (_player.isBlind == true)
+                    {
+                        damage = Mathf.RoundToInt(damage + (damage * _unitSkillManager.blindStat[1] * 0.01f));
+                    }
+            
+                    if (_player.isHurt == false)
+                    {
+                        for (int roopNum = 0; roopNum < 9; roopNum++)
+                        {
+                            ShowDamageTxt(_player.transform ,damage.ToString(), false, _player.hpImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                        }
+                        
+                        _player.UpdateHpBar(damage * 9);
+                    }
+                    else
+                    {
+                        int hurtDamage = Mathf.RoundToInt(damage * _unitSkillManager.hurtStat[1] * 0.01f);
+                    
+                        for (int roopNum = 0; roopNum < 9; roopNum++)
+                        {
+                            ShowDamageTxt(_player.transform ,damage.ToString(), false, _player.hpImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                            ShowDamageTxt(_player.transform, hurtDamage.ToString(), false, _player.hpImage.transform.position + new Vector3(0, 1, 0), Color.yellow);
+                        }
+
+                        _player.UpdateHpBar((damage + hurtDamage) * 9);
+                    }
+                }
+                // 8회 공격
+                else if (countRan <= _unitSkillManager.slimeStat[5])
+                {
+                    if (_player.isBlind == true)
+                    {
+                        damage = Mathf.RoundToInt(damage + (damage * _unitSkillManager.blindStat[1] * 0.01f));
+                    }
+            
+                    if (_player.isHurt == false)
+                    {
+                        for (int roopNum = 0; roopNum < 8; roopNum++)
+                        {
+                            ShowDamageTxt(_player.transform ,damage.ToString(), false, _player.hpImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                        }
+                        
+                        _player.UpdateHpBar(damage * 8);
+                    }
+                    else
+                    {
+                        int hurtDamage = Mathf.RoundToInt(damage * _unitSkillManager.hurtStat[1] * 0.01f);
+                    
+                        for (int roopNum = 0; roopNum < 8; roopNum++)
+                        {
+                            ShowDamageTxt(_player.transform ,damage.ToString(), false, _player.hpImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                            ShowDamageTxt(_player.transform, hurtDamage.ToString(), false, _player.hpImage.transform.position + new Vector3(0, 1, 0), Color.yellow);
+                        }
+
+                        _player.UpdateHpBar((damage + hurtDamage) * 8);
+                    }
+                }
+                // 7회 공격
+                else if (countRan <= _unitSkillManager.slimeStat[4])
+                {
+                    if (_player.isBlind == true)
+                    {
+                        damage = Mathf.RoundToInt(damage + (damage * _unitSkillManager.blindStat[1] * 0.01f));
+                    }
+            
+                    if (_player.isHurt == false)
+                    {
+                        for (int roopNum = 0; roopNum < 7; roopNum++)
+                        {
+                            ShowDamageTxt(_player.transform ,damage.ToString(), false, _player.hpImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                        }
+                        
+                        _player.UpdateHpBar(damage * 7);
+                    }
+                    else
+                    {
+                        int hurtDamage = Mathf.RoundToInt(damage * _unitSkillManager.hurtStat[1] * 0.01f);
+                    
+                        for (int roopNum = 0; roopNum < 7; roopNum++)
+                        {
+                            ShowDamageTxt(_player.transform ,damage.ToString(), false, _player.hpImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                            ShowDamageTxt(_player.transform, hurtDamage.ToString(), false, _player.hpImage.transform.position + new Vector3(0, 1, 0), Color.yellow);
+                        }
+
+                        _player.UpdateHpBar((damage + hurtDamage) * 7);
+                    }
+                }
+                // 6회 공격
+                else if (countRan <= _unitSkillManager.slimeStat[3])
+                {
+                    if (_player.isBlind == true)
+                    {
+                        damage = Mathf.RoundToInt(damage + (damage * _unitSkillManager.blindStat[1] * 0.01f));
+                    }
+            
+                    if (_player.isHurt == false)
+                    {
+                        for (int roopNum = 0; roopNum < 6; roopNum++)
+                        {
+                            ShowDamageTxt(_player.transform ,damage.ToString(), false, _player.hpImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                        }
+                        
+                        _player.UpdateHpBar(damage * 6);
+                    }
+                    else
+                    {
+                        int hurtDamage = Mathf.RoundToInt(damage * _unitSkillManager.hurtStat[1] * 0.01f);
+                    
+                        for (int roopNum = 0; roopNum < 6; roopNum++)
+                        {
+                            ShowDamageTxt(_player.transform ,damage.ToString(), false, _player.hpImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                            ShowDamageTxt(_player.transform, hurtDamage.ToString(), false, _player.hpImage.transform.position + new Vector3(0, 1, 0), Color.yellow);
+                        }
+
+                        _player.UpdateHpBar((damage + hurtDamage) * 6);
+                    }
+                }
+                // 5회 공격
+                else if (countRan <= _unitSkillManager.slimeStat[2])
+                {
+                    if (_player.isBlind == true)
+                    {
+                        damage = Mathf.RoundToInt(damage + (damage * _unitSkillManager.blindStat[1] * 0.01f));
+                    }
+            
+                    if (_player.isHurt == false)
+                    {
+                        for (int roopNum = 0; roopNum < 5; roopNum++)
+                        {
+                            ShowDamageTxt(_player.transform ,damage.ToString(), false, _player.hpImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                        }
+                        
+                        _player.UpdateHpBar(damage * 5);
+                    }
+                    else
+                    {
+                        int hurtDamage = Mathf.RoundToInt(damage * _unitSkillManager.hurtStat[1] * 0.01f);
+                    
+                        for (int roopNum = 0; roopNum < 5; roopNum++)
+                        {
+                            ShowDamageTxt(_player.transform ,damage.ToString(), false, _player.hpImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                            ShowDamageTxt(_player.transform, hurtDamage.ToString(), false, _player.hpImage.transform.position + new Vector3(0, 1, 0), Color.yellow);
+                        }
+
+                        _player.UpdateHpBar((damage + hurtDamage) * 5);
+                    }
+                }
+                
+                SetSkillEffect(null, _player, false);
+            }
+        }
+    }
+
+    private void UpGradeAttack()
+    {
+        isUpgrade = true;
+    }
     
     private void SetSkillEffect(UnitMove unitMove, Player player, bool isUnit)
     {
@@ -861,7 +1386,21 @@ public class Enemy : MonoBehaviour
             }
         }
     }
-    
+
+    private void UpGrade()
+    {
+        if (isUpgrade == true)
+        {
+            upgradeMaintainTime += Time.deltaTime;
+            
+            if (upgradeMaintainTime >= _unitSkillManager.upgradeAttackStat[2])
+            {
+                upgradeMaintainTime = 0;
+                isUpgrade = false;
+            }
+        }
+    }
+
     private void Hurt()
     {
         if (isHurt == true)

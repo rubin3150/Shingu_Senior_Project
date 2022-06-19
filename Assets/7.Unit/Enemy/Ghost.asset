@@ -33,6 +33,6 @@ MonoBehaviour:
   mpGet: 15
   attackType: "\uC57D\uC810"
   bossType: None
-  skillCoolTime: 6
-  skillIndex: 10
-  skillEffect: 10
+  skillCoolTime: 16
+  skillIndex: 9
+  skillEffect: 2

@@ -51,7 +51,7 @@ public class Unit : ScriptableObject
 
     [Tooltip("유닛의 스킬 쿨타임")] public float skillCoolTime;
     
-    [Tooltip("유닛의 스킬 인덱스\n0은 도끼 던지기\n1은 팅커벨의 힐스킬\n2는 나나의 샤우팅\n3은 후크 선장의 칼 휘두르기\n4는 벨의 꽃잎 날리기\n5는 백설의 사과 박스\n6은 앨리스의 고슴도치 던지기\n7은 달팽이의 박치기")] public int skillIndex;
+    [Tooltip("유닛의 스킬 인덱스\n0은 도끼 던지기\n1은 팅커벨의 힐스킬\n2는 나나의 샤우팅\n3은 후크 선장의 칼 휘두르기\n4는 벨의 꽃잎 날리기\n5는 백설의 사과 박스\n6은 앨리스의 고슴도치 던지기\n7은 달팽이의 박치기\n8은 슬라임의 마구찌르기")] public int skillIndex;
     
     [Tooltip("유닛의 스킬 사용후 상태이상\n0은 출혈\n1은 도발\n2는 실명\n3은 기절")] public int skillEffect;
 }

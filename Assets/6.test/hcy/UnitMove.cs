@@ -158,6 +158,9 @@ public class UnitMove : MonoBehaviour
     public bool isAppleBuff;
 
     private int buffNum;
+    
+    public bool isStun;
+    public float stunMaintainTime;
 
     private void Update()
     {
@@ -270,6 +273,7 @@ public class UnitMove : MonoBehaviour
                 Hurt();
                 Taunt();
                 Blind();
+                Stun();
                 CountAppleBox();
 
                 if (_isAttack == true)
@@ -495,7 +499,17 @@ public class UnitMove : MonoBehaviour
                         }
                         else
                         {
-                            UseSkill();
+                            if (unit.type != "Healer")
+                            {
+                                UseSkill();
+                            }
+                            else
+                            {
+                                if (_currentRay.transform.tag == "Unit")
+                                {
+                                    UseSkill();
+                                }
+                            }
                         }
                         
                     }
@@ -568,6 +582,7 @@ public class UnitMove : MonoBehaviour
 
         if (nowHpStat <= 0)
         {
+            skillAnim[5].Stop();
             // 지속 시간 끝남
             skillAnim[2].Stop();
                 RaycastHit2D[] rays = Physics2D.BoxCastAll(transform.position, new Vector2(1f, 18), 0, Vector2.right, attackRange, enemyMask);
@@ -737,41 +752,44 @@ public class UnitMove : MonoBehaviour
         _isAttack = true;
         _isSkill = false;
         _firstCheck = false;
-        
-        if (skillIndex == 0)
+
+        if (isStun == false)
         {
-            // 도끼 던지기 스킬 발동
-            ThrowAxe();
-        }
-        else if (skillIndex == 1)
-        {
-            // 팅커벨 스킬
-            MagicHeal();
-        }
-        else if (skillIndex == 2)
-        {
-            // 나나 스킬
-            Showering();
-        }
-        else if (skillIndex == 3)
-        {
-            // 후크 선장 스킬
-             SwingSword();
-        }
-        else if (skillIndex == 4)
-        {
-            // 벨 스킬
-            WindRose();
-        }
-        else if (skillIndex == 5)
-        {
-            // 백설 스킬
-            AppleBox();
-        }
-        else if (skillIndex == 6)
-        {
-            // 앨리스 스킬
-            ThrowHedgehog();
+            if (skillIndex == 0)
+            {
+                // 도끼 던지기 스킬 발동
+                ThrowAxe();
+            }
+            else if (skillIndex == 1)
+            {
+                // 팅커벨 스킬
+                MagicHeal();
+            }
+            else if (skillIndex == 2)
+            {
+                // 나나 스킬
+                Showering();
+            }
+            else if (skillIndex == 3)
+            {
+                // 후크 선장 스킬
+                SwingSword();
+            }
+            else if (skillIndex == 4)
+            {
+                // 벨 스킬
+                WindRose();
+            }
+            else if (skillIndex == 5)
+            {
+                // 백설 스킬
+                AppleBox();
+            }
+            else if (skillIndex == 6)
+            {
+                // 앨리스 스킬
+                ThrowHedgehog();
+            }
         }
     }
 
@@ -831,11 +849,11 @@ public class UnitMove : MonoBehaviour
             }
         }
 
-        if (isBlind == false)
+        if (isBlind == false || isStun == false)
         {
             AttackDelay();
         }
-        else
+        else if (isBlind == true)
         {
             if (_currentRay.transform.tag == "Tower")
             {
@@ -1570,7 +1588,7 @@ public class UnitMove : MonoBehaviour
                         }
                     }
                 }
-                k = 0;
+                buffNum = 0;
                 appleTimes = 0;
                 skillAnim[5].Stop();
                 currentAppleBoxTime = 0;
@@ -1607,7 +1625,6 @@ public class UnitMove : MonoBehaviour
         
     }
     
-
     /// <summary>
     /// 출혈
     /// </summary>
@@ -1681,6 +1698,25 @@ public class UnitMove : MonoBehaviour
                 skillShowEffect[2].Stop();
                 blindMaintainTime = 0;
                 isBlind = false;
+            }
+        }
+    }
+    
+    /// <summary>
+    /// 기절
+    /// </summary>
+    private void Stun()
+    {
+        if (isStun == true)
+        {
+            stunMaintainTime += Time.deltaTime;
+            
+            if (stunMaintainTime >= _unitSkillManager.stunStat[0])
+            {
+                pushResist += _unitSkillManager.stunStat[1];
+                skillShowEffect[3].Stop();
+                stunMaintainTime = 0;
+                isStun = false;
             }
         }
     }

@@ -16,7 +16,13 @@ public class UnitSkillManager : MonoBehaviour
     
     [Tooltip("백설 사과 박스의 스텟\n0은 지속 힐을 주는 시간\n1은 회복하는 체력\n2는 증가할 넉백 수치\n3은 감소할 넉백 저항 수치\n4는 지속 시간")] public float[] appleBoxStat;
 
-    [Tooltip("달팽이의 박치기 스탯\n0은 기본 대미지\n1은 대미지 퍼센트\n2는 체력 회복량\n3은 힐 이펙트가 사라지는 시간")] public float[] buttStat;
+    [Tooltip("달팽이 박치기의 스탯\n0은 기본 대미지\n1은 대미지 퍼센트\n2는 체력 회복량\n3은 힐 이펙트가 사라지는 시간")] public float[] buttStat;
+
+    [Tooltip("슬라임 마구찌르기의 스탯\n0은 기본 대미지\n1은 대미지 퍼센트\n2는 5회 공격할 확률\n3은 6회 공격할 확률\n4는 7회 공격할 확률\n5는 8회 공격할 확률\n6은 9회 공격할 확률\n7은 10회 공격할 확률")]
+    public float[] slimeStat;
+    
+    [Tooltip("유령 일반공격 강화의 스탯\n0은 기본 대미지\n1은 대미지 퍼센트\n2는 지속 시간")]
+    public float[] upgradeAttackStat;
 
     [Tooltip("출혈의 스탯\n0은 지속 시간\n1은 추가 대미지 퍼센트\n2는 지속 대미지를 주는 시간\n3은 지속 대미지")] public float[] hurtStat;
     
