@@ -1,7 +1,10 @@
 fileFormatVersion: 2
-guid: bc98b58d55ae39047b04ae81d02f910f
+guid: 9ed53cc4ffb6b4a41903803cdb1ee841
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: -3347167150779718014
+    second: "\uCCA0_0"
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -41,7 +44,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -89,11 +92,32 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: "\uCCA0_0"
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 32
+        width: 291
+        height: 213
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2862bedd5397c81d0800000000000000
+      internalID: -3347167150779718014
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 0bea47dd6ec9e684bb02503b303f0bb6
     internalID: 0
     vertices: []
     indices: 
