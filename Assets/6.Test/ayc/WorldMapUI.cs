@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class WorldMapUI : MonoBehaviour
 {
+    public Image blur;
     public GameObject[] popup;
     /*
     0. 상점
@@ -25,57 +26,28 @@ public class WorldMapUI : MonoBehaviour
 
         worldMapBtn[0].onClick.AddListener(() => PopUpOnController(0, false));
         worldMapBtn[1].onClick.AddListener(() => PopUpOnController(1, true));
-        worldMapBtn[2].onClick.AddListener(() => PopUpOnController(2));
+        worldMapBtn[2].onClick.AddListener(() => PopUpOnController(2, false));
         worldMapBtn[3].onClick.AddListener(() => PopUpOffController(0, true));
     }
 
-    public void PopUpOnController(int _int)
-    {
-        Data.Instance.sfx.clip = Data.Instance.btnClip;
-        Data.Instance.sfx.Play();
-
-        popup[_int].SetActive(true);
-    }
     public void PopUpOnController(int _int, bool _bool)
     {
         Data.Instance.sfx.clip = Data.Instance.btnClip;
         Data.Instance.sfx.Play();
 
+        blur.enabled = true;
+
         CameraMove.Instance.isMove = _bool;
         popup[_int].SetActive(true);
-    }
-    public void PopUpOffController(int _int)
-    {
-        Data.Instance.sfx.clip = Data.Instance.btnClip;
-        Data.Instance.sfx.Play();
-
-        popup[_int].SetActive(false);
     }
     public void PopUpOffController(int _int, bool _bool)
     {
         Data.Instance.sfx.clip = Data.Instance.btnClip;
         Data.Instance.sfx.Play();
 
+        blur.enabled = false;
+
         CameraMove.Instance.isMove = _bool;
         popup[_int].SetActive(false);
-    }
-    public void TempOff()
-    {
-        Data.Instance.sfx.clip = Data.Instance.btnClip;
-        Data.Instance.sfx.Play();
-        
-        for(int i=2;i<=3;i++)
-        {
-            popup[i].SetActive(false);
-        }
-    }
-
-
-    public void TempMyUnit()
-    {
-        Data.Instance.sfx.clip = Data.Instance.btnClip;
-        Data.Instance.sfx.Play();
-
-        Debug.Log("내 유닛 창으로 이동했습니다.");
     }
 }

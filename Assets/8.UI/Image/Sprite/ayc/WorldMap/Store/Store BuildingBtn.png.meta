@@ -1,13 +1,10 @@
 fileFormatVersion: 2
-guid: d0eb631ba329fbf40ab3a9f92e840e0d
+guid: 7a6d5e52b454d8c479c8303f984d9a42
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1236383041426892156
-    second: Shop_BuildingBtn_0
-  - first:
-      213: 1060071852861717524
-    second: Store BuildingBtn_0
+      213: 3046817259674528574
+    second: store_0
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -97,11 +94,11 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Store BuildingBtn_0
+      name: store_0
       rect:
         serializedVersion: 2
-        x: 313
-        y: 57
+        x: 792
+        y: 328
         width: 335
         height: 425
       alignment: 0
@@ -111,8 +108,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 41c7632dbb126be00800000000000000
-      internalID: 1060071852861717524
+      spriteID: e3bed6aa728784a20800000000000000
+      internalID: 3046817259674528574
       vertices: []
       indices: 
       edges: []
@@ -120,7 +117,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 23834e8be02f4324d9f4b70b1e8a6847
     internalID: 0
     vertices: []
     indices: 

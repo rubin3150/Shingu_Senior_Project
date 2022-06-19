@@ -6,6 +6,7 @@ public class UIController : MonoBehaviour
 {
     public GameObject[] page;
     
+    public Image blur;
     public GameObject set;
     
     public Button[] btn;
@@ -13,6 +14,8 @@ public class UIController : MonoBehaviour
     0. Set - esc
     1. Set - exit
     2. Create Pop-Up - Y Btn;
+    3. 타이틀 SETTING
+    4. 월드맵 set
     */
     
     public Animator animator;
@@ -26,6 +29,8 @@ public class UIController : MonoBehaviour
         btn[1].onClick.AddListener(Exit);
         btn[2].onClick.AddListener(Data.Instance.SaveNicknameData);
         btn[2].onClick.AddListener(() => FadeToLevel(1));
+        btn[3].onClick.AddListener(() => SetController(true));
+        btn[4].onClick.AddListener(() => SetController(true));
 
         DontDestroyOnLoad(stage);
     }
@@ -77,6 +82,7 @@ public class UIController : MonoBehaviour
         Data.Instance.sfx.Play();
         
         set.SetActive(_bool);
+        blur.enabled = _bool;
     }
 
     public void Exit()
