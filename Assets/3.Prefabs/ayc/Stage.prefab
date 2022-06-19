@@ -62,9 +62,9 @@ MonoBehaviour:
   IsSingelton: 1
   IsPersistant: 0
   nicknameBasket: 
-  nicknamefield: {fileID: 0}
-  nicknameshow: {fileID: 0}
-  audio: {fileID: 5246150295616814211}
+  nicknameField: {fileID: 0}
+  nicknameShow: {fileID: 0}
+  mainAudio: {fileID: 5246150295616814211}
   sfx: {fileID: 664293735540692020}
   titleClip: {fileID: 8300000, guid: c16394b7ae701804a9d862b5beab6d85, type: 3}
   worldmapClip: {fileID: 8300000, guid: 1db49d9b1403e2943acbec07324ee7bb, type: 3}

@@ -1,37 +1,36 @@
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
-    /* 
-    타이틀에서 확인버튼 누를 때 - NextPage + Fade
-    디펜스로 이동할만한 버튼 누를 때 - Fade
-     */
-    public GameObject[] pagePrefab;
-
+    public GameObject[] page;
+    
+    public GameObject set;
+    
+    public Button[] btn;
+    /*
+    0. Set - esc
+    1. Set - exit
+    2. Create Pop-Up - Y Btn;
+    */
+    
     public Animator animator;
     private int levelToLoad;
 
     public GameObject stage;
     
-    private void Start()
+    void Start()
     {
-        // titleBtn[0].onClick.AddListener(() => PopUpController(true));
-        // titleBtn[1].onClick.AddListener(TempSetting);
-        // titleBtn[2].onClick.AddListener(() => PopUpController(false));
-        DontDestroyOnLoad(stage);    
+        btn[0].onClick.AddListener(() => SetController(false));
+        btn[1].onClick.AddListener(Exit);
+        btn[2].onClick.AddListener(Data.Instance.SaveNicknameData);
+        btn[2].onClick.AddListener(() => FadeToLevel(1));
+
+        DontDestroyOnLoad(stage);
     }
 
-    public void NextPage(int _int)
-    {   
-        for(int i=0; i<pagePrefab.Length; i++) {
-            pagePrefab[i].gameObject.SetActive(false);
-        }
-
-        pagePrefab[_int].gameObject.SetActive(true);
-    }
-
-    
+    // Fade
     public void FadeToLevel(int levelIndex)
     {
         levelToLoad = levelIndex;
@@ -40,6 +39,21 @@ public class UIController : MonoBehaviour
         Data.Instance.sfx.clip = Data.Instance.scenechangeClip;
         Data.Instance.sfx.Play();
     }
+
+    public void OnFadeComplete(int _int)
+    {
+        _int = levelToLoad;
+        
+        for(int i=0; i<page.Length; i++)
+        {
+            page[i].gameObject.SetActive(false);
+        }
+        page[_int].gameObject.SetActive(true);
+        
+        animator.SetTrigger("FadeIn");
+    }
+
+    // _______________________________________________________
 
     public void FadeToLevelSceneChange(int levelIndex)
     {
@@ -50,14 +64,30 @@ public class UIController : MonoBehaviour
         Data.Instance.sfx.Play();
     }
 
-    public void OnFadeComplete()
-    {
-        NextPage(levelToLoad);
-        animator.SetTrigger("FadeIn");
-    }
-
     public void OnFadeCompleteSceneChange()
     {
         SceneManager.LoadScene(levelToLoad);
+    }
+
+    // ________________________________________________________
+
+    public void SetController(bool _bool)
+    {
+        Data.Instance.sfx.clip = Data.Instance.btnClip;
+        Data.Instance.sfx.Play();
+        
+        set.SetActive(_bool);
+    }
+
+    public void Exit()
+    {
+        Data.Instance.sfx.clip = Data.Instance.btnClip;
+        Data.Instance.sfx.Play();
+
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 }

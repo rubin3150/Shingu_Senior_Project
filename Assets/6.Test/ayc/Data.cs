@@ -6,11 +6,11 @@ using TMPro;
 
 public class Data : Singleton<Data>
 {
-    public string nicknameBasket; //바구니
-    public Text nicknamefield; //유저입력
-    public TextMeshProUGUI nicknameshow; //보여줄거
+    public string nicknameBasket;
+    public Text nicknameField;
+    public TextMeshProUGUI nicknameShow;
 
-    public AudioSource audio;
+    public AudioSource mainAudio;
     public AudioSource sfx;
 
     // audio
@@ -28,8 +28,8 @@ public class Data : Singleton<Data>
 
     public void SaveNicknameData()
     {
-        nicknameBasket = nicknamefield.text;
+        nicknameBasket = nicknameField.text;
 
-        nicknameshow.text = nicknameBasket;
+        nicknameShow.text = nicknameBasket;
     }
 }
