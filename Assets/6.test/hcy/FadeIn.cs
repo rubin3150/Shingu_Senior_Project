@@ -100,6 +100,9 @@ public class FadeIn : MonoBehaviour
 
         // 0.1초 까지 대기 
         yield return new WaitForSeconds(0.1f);
+        
+        Data.Instance.mainAudio.clip = Data.Instance.defenseClip;
+        Data.Instance.mainAudio.Play();
 
         // 임시 변수 값이 0보다 큰 동안 아래 코드 실행 (fadeImage의 알파 값이 255보다 크다면)
         while (alpha.a > 0f)
@@ -203,7 +206,7 @@ public class FadeIn : MonoBehaviour
         }
         // fadeImage를 비활성화 시킴
         fadeImage.gameObject.SetActive(false);
-        
+
         // 변수에 참이라는 값을 넣음 (전투 스테이지 진입)
         stageManager.inStage = true;
 

@@ -58,6 +58,11 @@ public class StageManager : MonoBehaviour
     [SerializeField] private Transform playerTf;
 
     [SerializeField] private SkillManager _skillManager;
+    
+    private void Start() {
+        Data.Instance.mainAudio.clip = Data.Instance.selectunitClip;
+        Data.Instance.mainAudio.Play();
+    }
 
     public void SetActiveUnitText()
     {
