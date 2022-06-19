@@ -43,20 +43,20 @@ public class CameraMove : Singleton<CameraMove>
 
     public void CamMove()
     {
-        if(Input.mousePosition.x < 100)
+        if(Input.mousePosition.x < 50)
         {
             cam.transform.parent.Translate(Vector3.left * moveSpeed * Time.deltaTime);
         }
-        if (1820 < Input.mousePosition.x)
+        if (1870 < Input.mousePosition.x)
         {
             cam.transform.parent.Translate(Vector3.right * moveSpeed * Time.deltaTime);
         }
 
-        if (Input.mousePosition.y < 100)
+        if (Input.mousePosition.y < 50)
         {
             cam.transform.parent.Translate(Vector3.back * moveSpeed * Time.deltaTime);
         }
-        if (980 < Input.mousePosition.y)
+        if (1030 < Input.mousePosition.y)
         {
             cam.transform.parent.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class DestroySelf : MonoBehaviour
+public class ShowText : MonoBehaviour
 {
     public TextMeshProUGUI text;
     public int destroyTime;

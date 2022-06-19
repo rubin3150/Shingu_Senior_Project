@@ -5,35 +5,45 @@ using UnityEngine.UI;
 
 public class CameraRay : Singleton<CameraRay>
 {
+    // 기본세팅 건드리지 말것
     private GameObject prefab;
     public const int w = 13;
     public const int h = 13;
     public bool[,] isTrue = new bool[w, h];
-
     public int pickScaleX;
     public int pickScaleZ;
-
     public GameObject Prefab { set { prefab = value; } }
     public int PickScaleX { set { pickScaleX = value; } }
     public int PickScaleZ { set { pickScaleZ = value; } }
-
     private int index;
     private Transform pickObject;
     private GameObject dummyGameObject;
+
+    // 레이어 및 레이 세팅
     private int wallLayerMask = 1 << 6;
     private int unitLayerMask = 1 << 7;
     private int IgnoreLayerMask = 1 << 11;
-
     private Ray ray;
     private RaycastHit hit;
 
+    // 조건 세팅
     public bool isEditing;
     public bool IsEditing { set { isEditing = value; } }
     public bool isObjectMoving;
+
+    // 상태 표시 텍스트
     public Text statusText;
+
+    // 빌딩 옵션 및 재료가공 페이지 세팅
     public GameObject constructionModel;
     public GameObject constructionEffect;
     public GameObject option;
+
+    // 공터 메테리얼 세팅
+    public Material aa;
+    public Material bb;
+
+    // 건설된 건물들을 저장할 리스트
     public List<GameObject> buildings = new List<GameObject>();
 
     private void Start()
@@ -47,10 +57,21 @@ public class CameraRay : Singleton<CameraRay>
     [System.Obsolete]
     private void Update()
     {
+        Color alpha; alpha.a = 0.2f;
+        Color alphaZero; alphaZero.a = 0f;
+
         if(isEditing)
+        {
             statusText.text = "수정중";
+            aa.color = new Color(aa.color.r, aa.color.g, aa.color.b, alpha.a);
+            bb.color = new Color(bb.color.r, bb.color.g, bb.color.b, alpha.a);
+        }
         else
+        {
             statusText.text = "수정아님";
+            aa.color = new Color(aa.color.r, aa.color.g, aa.color.b, alphaZero.a);
+            bb.color = new Color(bb.color.r, bb.color.g, bb.color.b, alphaZero.a);
+        }
 
         if(Input.GetKeyDown(KeyCode.E))
         {
@@ -87,17 +108,22 @@ public class CameraRay : Singleton<CameraRay>
             {
                 if (hit.transform.CompareTag("Resource"))
                 {
-                    Building go = hit.transform.gameObject.GetComponent<Building>();
-                    go.StartCoroutine(go.GetResource(300f));
+                    Building building = hit.transform.gameObject.GetComponent<Building>();
+                    building.StartCoroutine(building.GetResource(1f));
                 }
 
                 if (hit.transform.CompareTag("Unit"))
                 {
-                    Building go = hit.transform.gameObject.GetComponent<Building>();
-                    if (go.isCollect == false) return;
-                    go.GetBuildingResource(go);
-                    go.resource = 0;
-                    go.isCollect = false;
+                    Building building = hit.transform.gameObject.GetComponent<Building>();
+                    if (building.isCollect == false) return;
+                    building.GetBuildingResource(building);
+                    building.resource = 0;
+                    building.isCollect = false;
+                }
+
+                if(hit.transform.CompareTag("Manufacture"))
+                {
+
                 }
             }
         }
@@ -243,12 +269,12 @@ public class CameraRay : Singleton<CameraRay>
         }
     }
 
-    public void SellBuilding(GameObject go)
+    public void SellBuilding(GameObject building)
     {
-        ResourceSystem.Instance.GetResource(ResourceType.childlikeEnergy, go.GetComponent<Building>().cost1 / 2);
-        buildings.Remove(go);
+        ResourceSystem.Instance.GetResource(ResourceType.childlikeEnergy, building.GetComponent<Building>().cost1 / 2);
+        buildings.Remove(building);
         pickObject = null;
-        Destroy(go);
+        Destroy(building);
     }
 
     public void ResetBuildingsPosition()

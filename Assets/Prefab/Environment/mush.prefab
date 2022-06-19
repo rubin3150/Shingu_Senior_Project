@@ -98,3 +98,6 @@ MonoBehaviour:
   buildingData: {fileID: 11400000, guid: 03fb1b0bd082c714b90120e649e3b37e, type: 2}
   buildingType: 10
   resourceType: 4
+  resource: 0
+  isCollect: 0
+  cost1: 0

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-//[ExecuteAlways]
+// [ExecuteAlways]
 public class StoreSystem : MonoBehaviour
 {
     public Transform target;
@@ -23,13 +23,14 @@ public class StoreSystem : MonoBehaviour
     {
         for (int i = 0; i < buildingData.Count; i++)
         {
+            // Store Page Creator
             // GameObject obj = Instantiate(child, target);
             // obj.transform.GetChild(0).GetComponent<Image>().sprite = buildingData[i].buildingImg;
             // obj.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = buildingData[i].buildingName;
-            //obj.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = buildingData[i].cost1 + " " +
-            //                                                                 buildingData[i].cost2 + " " +
-            //                                                                 buildingData[i].cost3 + " " +
-            //                                                                 buildingData[i].cost4 + " " +
+            // obj.transform.GetChild(4).GetComponent<TextMeshProUGUI>().text = buildingData[i].cost1 + "               " +
+            //                                                                 buildingData[i].cost2 + "                      " +
+            //                                                                 buildingData[i].cost3 + "                    " +
+            //                                                                 buildingData[i].cost4 + "                   " +
             //                                                                 buildingData[i].cost5;
         }
     }
@@ -69,6 +70,12 @@ public class StoreSystem : MonoBehaviour
 
     public void buyBuilding()
     {
+        Debug.Log(
+            " 첫째 " +buildingData[buildingDataNum].cost1 + " " +
+            " 둘째 " +buildingData[buildingDataNum].cost2 + " " +
+            " 셋째 " +buildingData[buildingDataNum].cost3 + " " +
+            " 넷째 " +buildingData[buildingDataNum].cost4 + " " +
+            " 다섯째 " +buildingData[buildingDataNum].cost5);
         ResourceSystem.Instance.PayResource(
             buildingData[buildingDataNum].cost1,
             buildingData[buildingDataNum].cost2,

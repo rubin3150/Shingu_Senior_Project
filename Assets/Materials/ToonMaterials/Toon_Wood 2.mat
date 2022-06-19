@@ -129,7 +129,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _1st2nd_Shades_Feather: 0.0001
-    - _1st_ShadeColor_Feather: 0.7
+    - _1st_ShadeColor_Feather: 0.0001
     - _1st_ShadeColor_Step: 0.7
     - _2nd_ShadeColor_Feather: 0.0001
     - _2nd_ShadeColor_Step: 0

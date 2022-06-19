@@ -179,8 +179,8 @@ GameObject:
   - component: {fileID: 836356473559529650}
   - component: {fileID: -7447844399279269591}
   m_Layer: 7
-  m_Name: Fountain
-  m_TagString: Unit
+  m_Name: fountain
+  m_TagString: Manufacture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -278,3 +278,6 @@ MonoBehaviour:
   buildingData: {fileID: 11400000, guid: 8069bd9d45e12d447a84b27a3612a552, type: 2}
   buildingType: 3
   resourceType: 9
+  resource: 0
+  isCollect: 0
+  cost1: 0

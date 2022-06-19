@@ -46,50 +46,18 @@ public class Building : MonoBehaviour
 
     private void Update()
     {
-        if (resource >= 150)
-            isCollect = true;
-        if (resource >= 300)
-            resource = 300;
+        switch (buildingType)
+       {
+           case BuildingType.None:
+               return;
+           case BuildingType.music_box:
+                if (resource >= 150)
+                isCollect = true;
+                if (resource >= 300)
+                resource = 300;
+           break;
+        }
     }
-
-    //public void ThisType()
-    //{
-    //    switch (buildingType)
-    //    {
-    //        case BuildingType.None:
-    //            return;
-    //        case BuildingType.music_box:
-
-    //        break;
-    //        case BuildingType.windmil:
-
-    //        break;
-    //        case BuildingType.candlestick:
-
-    //            break;
-    //        case BuildingType.fountain:
-
-    //            break;
-    //        case BuildingType.gazebo:
-
-    //            break;
-    //        case BuildingType.Tower:
-
-    //            break;
-    //        case BuildingType.wood_house:
-
-    //            break;
-    //        case BuildingType.blacksmith_shop:
-
-    //            break;
-    //        case BuildingType.bee:
-
-    //            break;
-    //        case BuildingType.mushroom_house:
-
-    //            break;
-    //    }
-    //}
     
     public void CreateReosource()
     {

@@ -21,7 +21,7 @@ MonoBehaviour:
   cost3: 7
   cost4: 5
   cost5: 3
-  buildTime: 30
+  buildTime: 1
   maxResource: 0
   buildingImg: {fileID: 21300000, guid: 8bc5b4ad803711141a19acc33ab9fe55, type: 3}
   description: "\uD53C\uD130\uD32C \uAD00\uB828 \uC720\uB2DB\uC744 \uAC15\uD654\uD558\uB294

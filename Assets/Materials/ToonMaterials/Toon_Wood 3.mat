@@ -232,7 +232,7 @@ Material:
     - _Use_BaseAs1st: 0
     - _ZWrite: 1
     - _simpleUI: 0
-    - _utsTechnique: 1
+    - _utsTechnique: 0
     - _utsVersion: 2.08
     m_Colors:
     - _1st_ShadeColor: {r: 0.24528301, g: 0.21597247, b: 0.17933428, a: 1}

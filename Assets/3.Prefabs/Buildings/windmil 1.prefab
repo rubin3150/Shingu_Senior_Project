@@ -276,7 +276,7 @@ GameObject:
   - component: {fileID: 3540603968369495437}
   m_Layer: 7
   m_Name: windmil 1
-  m_TagString: Unit
+  m_TagString: Manufacture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

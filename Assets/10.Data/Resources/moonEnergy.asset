@@ -12,11 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 399eefd85942a5546bf6fc09b4a1d951, type: 3}
   m_Name: moonEnergy
   m_EditorClassIdentifier: 
-  buildings: 10
+  storePage: 2
+  buildingType: 10
   BuildingResourceType: 0
-  cost: 0
+  buildingName: 
+  cost1: 0
+  cost2: 0
+  cost3: 0
+  cost4: 0
+  cost5: 0
   buildTime: 0
   maxResource: 5
-  buildingImg: {fileID: 21300000, guid: 6c5c27c6b68e1174581404c06dc022f8, type: 3}
-  description: "\uD1B5\uB098\uBB34\uB97C \uD310\uC790\uB85C \uAC00\uACF5\uD558\uB294
-    \uAC00\uACF5\uAC74\uBB3C"
+  buildingImg: {fileID: 0}
+  description: 

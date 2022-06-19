@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: -8836644526104403705}
   m_Layer: 7
   m_Name: mushroom_house
-  m_TagString: Unit
+  m_TagString: Manufacture
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

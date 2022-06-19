@@ -15,7 +15,7 @@ public class BuildingMaker : EditorWindow
         window.titleContent = new GUIContent("BuildingMaker");
         window.Show();
     }
-
+    public StorePage storePage = StorePage.None;
     public BuildingType buildingType = BuildingType.None;
     public ResourceType buildingResourceType = ResourceType.None;
     public string buildingName;
@@ -35,15 +35,16 @@ public class BuildingMaker : EditorWindow
         EditorGUILayout.Space(15);
         EditorGUILayout.LabelField("******빌딩 생성 툴******");
         EditorGUILayout.Space(15);
-
         GUILayout.Label("빌딩 이름과 리소스 생성 타입을 선택해주세요", EditorStyles.label);
+        EditorGUILayout.Space(15);
 
-        buildingType = (BuildingType)EditorGUILayout.EnumPopup("빌딩 종류", buildingType);
+        storePage = (StorePage)EditorGUILayout.EnumPopup("빌딩 종류", storePage);
+        buildingType = (BuildingType)EditorGUILayout.EnumPopup("빌딩 이름", buildingType);
         buildingResourceType = (ResourceType)EditorGUILayout.EnumPopup("재료 생산 타입", buildingResourceType);
 
         GUILayout.Space(20);
-
         GUILayout.Label("빌딩의 한글 이름을 적어주세요", EditorStyles.label);
+        GUILayout.Space(20);
 
         buildingName = EditorGUILayout.TextField(buildingName);
 
@@ -83,6 +84,7 @@ public class BuildingMaker : EditorWindow
             buildingData.cost5 = cost5;
             buildingData.buildTime = buildTime;
             buildingData.maxResource = maxResource;
+            buildingData.storePage = storePage;
             buildingData.buildingType = buildingType;
             buildingData.BuildingResourceType = buildingResourceType;
             buildingData.description = description;
