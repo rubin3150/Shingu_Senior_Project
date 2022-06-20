@@ -51,6 +51,8 @@ public class SelectUnitBase : MonoBehaviour
     [SerializeField] private Unit[] maxUnit;
 
     [SerializeField] private PlayerSet playerSet;
+
+    [SerializeField] private Animator _animator;
     
     /// <summary>
     /// 씬 시작시 처음 호출 되는 함수
@@ -162,6 +164,9 @@ public class SelectUnitBase : MonoBehaviour
         // 변수 값이 참이라면 아래 코드 실행 (유닛이 하나라도 선택되었다면)
         if (startFlag == true)
         {
+            Data.Instance.sfx.clip = Data.Instance.btnClip;
+            Data.Instance.sfx.Play();
+            
             // 유닛 세팅을 하는 씬의 알파값 이미지 오브젝트를 활성화 시킴
             unitBaseAlpha.SetActive(true);
 
@@ -178,7 +183,7 @@ public class SelectUnitBase : MonoBehaviour
                 else
                 {
                     // 텍스트에 설정한 텍스트를 삽입함
-                    confirmationTxt.text = "유닛을 다 선택하지 않았습니다. 이대로 시작하겠습니까?";
+                    confirmationTxt.text = "유닛 5개가 선택되지 않았습니다.\n그래도 진행하시겠습니까?";
                     
                     // 해당 함수를 끝낸다
                     return;
@@ -339,6 +344,8 @@ public class SelectUnitBase : MonoBehaviour
     {
         if (_page < maxUnit.Length / (maxUnit.Length / 2))
         {
+            Data.Instance.sfx.clip = Data.Instance.btnClip;
+            Data.Instance.sfx.Play();
             _page++;
             pageText.text = _page + "/" + maxUnit.Length / (maxUnit.Length / 2);
             rightArrow.color = new Color(100f / 255f, 100f / 255f, 100f / 255f, 155f / 255f);
@@ -352,6 +359,8 @@ public class SelectUnitBase : MonoBehaviour
     {
         if (_page > 1)
         {
+            Data.Instance.sfx.clip = Data.Instance.btnClip;
+            Data.Instance.sfx.Play();
             _page--;
             pageText.text = _page + "/" + maxUnit.Length / (maxUnit.Length / 2);
             rightArrow.color = new Color(255f / 255f, 255f / 255f, 255f / 255f, 255f / 255f);
@@ -366,9 +375,13 @@ public class SelectUnitBase : MonoBehaviour
     /// </summary>
     public void StartBattleBtnClick()
     {
+        Data.Instance.sfx.clip = Data.Instance.btnClip;
+        Data.Instance.sfx.Play();
+        
         // 함수 호출
         fadeIn.Fade();
         // 함수 호출
+        // _animator.SetTrigger("StartStage");
     }
 
     /// <summary>
@@ -376,6 +389,9 @@ public class SelectUnitBase : MonoBehaviour
     /// </summary>
     public void CancelBtnClick()
     {
+        Data.Instance.sfx.clip = Data.Instance.btnClip;
+        Data.Instance.sfx.Play();
+        
         // 유닛 세팅을 하는 씬의 알파값 이미지 오브젝트를 비활성화 시킴
         unitBaseAlpha.SetActive(false);
     }

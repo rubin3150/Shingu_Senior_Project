@@ -16,7 +16,7 @@ MonoBehaviour:
   unitImage: {fileID: 0}
   unitPrefab: {fileID: 1609125915385617593, guid: 2b2b673dd7939634f912696d8befb959, type: 3}
   moonEnergy: 0
-  spawnCoolTime: 10
+  spawnCoolTime: 25
   attackStat: 35
   healStat: 0
   donMoveDistance: 5.5
@@ -34,5 +34,6 @@ MonoBehaviour:
   attackType: "\uADFC\uC811"
   bossType: None
   skillCoolTime: 6
+  skillTxt: 
   skillIndex: 8
   skillEffect: 0

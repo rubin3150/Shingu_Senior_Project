@@ -161,6 +161,8 @@ public class UnitMove : MonoBehaviour
     
     public bool isStun;
     public float stunMaintainTime;
+    
+    [SerializeField] private Collider2D[] collider2Ds;
 
     private void Update()
     {
@@ -281,11 +283,13 @@ public class UnitMove : MonoBehaviour
                     // animator.SetBool("Attack", false);
                     _currentDelay += Time.deltaTime;
 
+                    skillCoolTimeImage.fillAmount = _skillDelay / skillCoolTime;
+                    
                     if (isBlind == false)
                     {
                         _skillDelay += Time.deltaTime;
 
-                        skillCoolTimeImage.fillAmount = _skillDelay / skillCoolTime;
+                        
                     
                         if (_skillDelay >= skillCoolTime)
                         {
@@ -553,6 +557,7 @@ public class UnitMove : MonoBehaviour
             if (animator != null)
             {
                 animator.SetBool("Attack", false);
+                animator.SetBool("Move", false);
             }
         }
     }
@@ -849,11 +854,7 @@ public class UnitMove : MonoBehaviour
             }
         }
 
-        if (isBlind == false || isStun == false)
-        {
-            AttackDelay();
-        }
-        else if (isBlind == true)
+        if (isBlind == true)
         {
             if (_currentRay.transform.tag == "Tower")
             {
@@ -870,6 +871,10 @@ public class UnitMove : MonoBehaviour
                 
                 ShowDamageTxt(_enemy.transform, "0", false, _enemy.maxHpStatImage.transform.position + new Vector3(0, 1f, 0), Color.red);
             }
+        }
+        else if (isBlind == false || isStun == false)
+        {
+            AttackDelay();
         }
     }
 
@@ -1001,21 +1006,23 @@ public class UnitMove : MonoBehaviour
                     ShowDamageTxt(_enemy.transform, criticalDamage.ToString(),true, _enemy.maxHpStatImage.transform.position + new Vector3(0, 1, 0), Color.red);
                     ShowDamageTxt(_enemy.transform, hurtDamage.ToString(), false, _enemy.maxHpStatImage.transform.position + new Vector3(0, 1, 0), Color.yellow);
                 }
-                
 
-                if (_enemy.pushResist - pushRange < 0)
+                if (_enemy.transform.GetComponent<Enemy>().bossType != "Boss")
                 {
-                    _enemy.transform.position -= new Vector3(_enemy.pushResist - pushRange, 0f, 0f);
-                }
+                    if (_enemy.pushResist - pushRange < 0)
+                    {
+                        _enemy.transform.position -= new Vector3(_enemy.pushResist - pushRange, 0f, 0f);
+                    }
 
-                if (_enemy.transform.position.x > 49.5f)
-                {
-                    _enemy.transform.position = new Vector3(49.5f, _enemy.transform.position.y, 0);
-                }
+                    if (_enemy.transform.position.x > 49.5f)
+                    {
+                        _enemy.transform.position = new Vector3(49.5f, _enemy.transform.position.y, 0);
+                    }
 
-                if (_enemy.isStop == false)
-                {
-                    _enemy.StopMove();
+                    if (_enemy.isStop == false)
+                    {
+                        _enemy.StopMove();
+                    }
                 }
             }
         }
@@ -1331,10 +1338,21 @@ public class UnitMove : MonoBehaviour
 
             if (deadRan <= _unitSkillManager.swingSwordStat[2])
             {
-                ShowDamageTxt(_enemy.transform, "999", false,
-                    _enemy.maxHpStatImage.transform.position + new Vector3(0, 1f, 0), Color.red);
-                
-                _enemy.UpdateHpBar(999, true);
+                if (_enemy.transform.GetComponent<Enemy>().bossType != "Boss")
+                {
+                    ShowDamageTxt(_enemy.transform, "999", false,
+                        _enemy.maxHpStatImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+
+                    _enemy.UpdateHpBar(999, true);
+                }
+                else
+                {
+                    
+                    ShowDamageTxt(_enemy.transform, (_enemy.nowHpStat * 0.2f).ToString(), false,
+                        _enemy.maxHpStatImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+
+                    _enemy.UpdateHpBar(_enemy.nowHpStat * 0.2f, true);
+                }
             }
             else
             {
@@ -1451,7 +1469,7 @@ public class UnitMove : MonoBehaviour
             }
 
 
-            Collider2D[] collider2Ds = Physics2D.OverlapCircleAll(skillAnim[5].transform.position, 5, unitEnemyMask);
+            collider2Ds = Physics2D.OverlapCircleAll(skillAnim[5].transform.position, 5, unitEnemyMask);
 
             for (int i = 0; i < collider2Ds.Length; i++)
             {
@@ -1467,7 +1485,7 @@ public class UnitMove : MonoBehaviour
                         buffNum++;
                         _unitMove.isAppleBuff = true;
                         _unitMove.pushRange += _unitSkillManager.appleBoxStat[2];
-                        _unitMove = null;
+                        // _unitMove = null;
                     }
                 }
                 else if (_targetTf.transform.tag == "Enemy")
@@ -1479,8 +1497,8 @@ public class UnitMove : MonoBehaviour
                         setUnits[buffNum] = _enemy.gameObject;
                         buffNum++;
                         _enemy.isAppleBuff = true;
-                        _enemy.pushResist += _unitSkillManager.appleBoxStat[3];
-                        _enemy = null;
+                        _enemy.pushResist -= _unitSkillManager.appleBoxStat[3];
+                        // _enemy = null;
                     }
                 }
             }
@@ -1498,7 +1516,7 @@ public class UnitMove : MonoBehaviour
                         {
                             float dis = Vector2.Distance(new Vector2(skillAnim[5].transform.position.x, 0), new Vector2(_unitMove.transform.position.x, 0));
 
-                            if (dis >= 7f)
+                            if (dis >= 8f)
                             {
                                 _unitMove.isAppleBuff = false;
                                 _unitMove.pushRange -= _unitSkillManager.appleBoxStat[2];
@@ -1514,18 +1532,17 @@ public class UnitMove : MonoBehaviour
                         {
                             float dis = Vector2.Distance(new Vector2(skillAnim[5].transform.position.x, 0), new Vector2(_enemy.transform.position.x, 0));
 
-                            if (dis >= 7f)
+                            if (dis >= 8f)
                             {
                                 _enemy.isAppleBuff = false;
-                                _enemy.pushResist -= _unitSkillManager.appleBoxStat[3];
+                                _enemy.pushResist += _unitSkillManager.appleBoxStat[3];
                                 setUnits[z] = null;
                             }
                         }
                     }
                 }
             }
-
-
+            
             // 일정 지속 시간 지나 힐 받음
             if (currentAppleBoxTime >= _unitSkillManager.appleBoxStat[0])
             {
@@ -1582,7 +1599,7 @@ public class UnitMove : MonoBehaviour
                             if (_enemy.isAppleBuff == true)
                             {
                                 _enemy.isAppleBuff = false;
-                                _enemy.pushResist -= _unitSkillManager.appleBoxStat[3];
+                                _enemy.pushResist += _unitSkillManager.appleBoxStat[3];
                                 setUnits[i] = null;
                             }
                         }

@@ -28,6 +28,29 @@ public class TestUnitAdd : MonoBehaviour
     {
         if (stageManager.inStage == false)
         {
+            if (Data.Instance.isStage[0] == true)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    if (Units[i] != null)
+                    {
+                        theBase.AddMaxUnit(Units[i].GetComponent<UnitPickUp>().unit);
+                        Units[i] = null;
+                    }
+                }
+            }
+            else if (Data.Instance.isStage[1] == true)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    if (Units[i] != null)
+                    {
+                        theBase.AddMaxUnit(Units[i].GetComponent<UnitPickUp>().unit);
+                        Units[i] = null;
+                    }
+                }
+            }
+
             if (Input.GetKeyDown(KeyCode.V))
             {
                 for (int i = 0; i < Units.Length; i++)

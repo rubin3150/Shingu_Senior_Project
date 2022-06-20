@@ -22,6 +22,8 @@ public class Data : Singleton<Data>
     public AudioClip gameclearClip;
     public AudioClip gameoverClip;
 
+    public bool[] isStage;
+
     // sfx
     public AudioClip btnClip;
     public AudioClip scenechangeClip;

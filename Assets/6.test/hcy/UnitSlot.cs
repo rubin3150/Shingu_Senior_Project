@@ -95,6 +95,9 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         // 변수에 참이라는 값을 넣음 (전투 시작 버튼을 누를 수 있음)
         selectUnitBase.startFlag = true;
         
+        Data.Instance.sfx.clip = Data.Instance.btnClip;
+        Data.Instance.sfx.Play();
+        
         // 함수 호출
         SetColor(0.5f);
         
@@ -160,11 +163,14 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     public void QuickSlotBtnClick(int Num) // int
     {
         // 변수 값이 거짓이라면 아래 코드 실행 (전투 스테이지가 아니라면)
-        if (stageManager.inStage == false)
+        if (stageManager.inStages == false)
         {
             // 유닛의 정보가 없지 않다면 아래 코드 실행
             if (unit != null)
             {
+                Data.Instance.sfx.clip = Data.Instance.btnClip;
+                Data.Instance.sfx.Play();
+                
                 unitToolTip.HideToolTip();
                 
                 // 함수 호출
@@ -180,6 +186,8 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
         // 변수 값이 참이라면 아래 코드 실행 (전투 스테이지라면)
         else
         {
+            Data.Instance.sfx.clip = Data.Instance.btnClip;
+            Data.Instance.sfx.Play();
             SpawnUnit(Num);
         }
     }
@@ -239,7 +247,7 @@ public class UnitSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         if (unit != null)
         {
-            unitToolTip.ShowToolTip(unit, isQuickSlot, transform.position, keyBord);
+            unitToolTip.ShowToolTip(unit, transform.position, isQuickSlot);
         }
     }
     

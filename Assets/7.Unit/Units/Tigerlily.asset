@@ -34,5 +34,7 @@ MonoBehaviour:
   attackType: "\uADFC\uC811"
   bossType: 
   skillCoolTime: 6
+  skillTxt: "\uC801\uC5D0\uAC8C \uB3C4\uB07C\uB97C \uB358\uC838 \uC801\uB4E4\uC744
+    \uB109\uBC31\uC2DC\uD0A4\uACE0 \uCD9C\uD608\uC0C1\uD0DC\uB85C \uB9CC\uB4E0\uB2E4"
   skillIndex: 0
   skillEffect: 0

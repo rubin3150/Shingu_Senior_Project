@@ -28,11 +28,13 @@ MonoBehaviour:
   pushResist: 3
   attackDelayStat: 3
   speedStat: 5
-  hpStat: 80
+  hpStat: 100
   type: Healer
   mpGet: 0
   attackType: X
   bossType: 
   skillCoolTime: 6
+  skillTxt: "Hp\uAC00 \uAC00\uC7A5 \uB0AE\uC740 \uC720\uB2DB\uC744 \uCD5C\uB300 \uCD5C\uB825\uB9CC\uD07C
+    \uD68C\uBCF5\uC2DC\uD0A4\uACE0 \uC2A4\uD0AC \uCFE8\uD0C0\uC784\uC744 \uC904\uC5EC\uC900\uB2E4"
   skillIndex: 1
   skillEffect: 4

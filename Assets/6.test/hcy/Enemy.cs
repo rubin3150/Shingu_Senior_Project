@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
 using Effekseer;
+using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
@@ -122,6 +123,15 @@ public class Enemy : MonoBehaviour
     private bool isUpgrade;
     private float upgradeMaintainTime;
 
+    private bool isAttackAnim;
+
+    private float currentAttackAnim;
+    private Vector3 endPos;
+    
+    private Vector3 startPos;
+    private bool roseWindAttackAnim;
+    private float times;
+
     private void SetHpStat(int i)
     {
         if (unit.unitName == "유령")
@@ -198,6 +208,52 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isAttackAnim == true)
+        {
+            if (_currentRay.transform.position != null)
+            {
+                currentAttackAnim += Time.deltaTime * 3;
+                
+                if (isUpgrade == false)
+                {
+                    attackAnim.transform.position = Vector3.Lerp(transform.position, endPos, currentAttackAnim);
+                }
+                else
+                {
+                    skillAnim[9].transform.position = Vector3.Lerp(transform.position, endPos, currentAttackAnim);
+                }
+                
+                if (currentAttackAnim >= 1f)
+                {
+                    
+                    attackAnim.Stop();
+
+                    if (unit.unitName == "유령")
+                    {
+                        skillAnim[9].Stop();
+                    }
+                    
+                    currentAttackAnim = 0;
+                    isAttackAnim = false;
+                }
+            }
+        }
+        else if (roseWindAttackAnim == true)
+        {
+            if (_currentRay.transform.position != null)
+            {
+                times += Time.deltaTime * 2;
+                skillAnim[4].transform.position = Vector3.Lerp(startPos, _currentRay.transform.position, times);
+
+                if (times >= 1f)
+                {
+                    skillAnim[4].Stop();
+                    times = 0;
+                    roseWindAttackAnim = false;
+                }
+            }
+        }
+
         maxHpStatImage.fillAmount = Mathf.Lerp(maxHpStatImage.fillAmount, nowHpStat / maxHpStat, Time.deltaTime * 5f);
        
         if (backHpHit == true)
@@ -231,12 +287,14 @@ public class Enemy : MonoBehaviour
                 {
                     _currentDelay += Time.deltaTime;
                     
+                    skillCoolTimeImage.fillAmount = _skillDelay / skillCoolTime;
+
+                    
                     if (isBlind == false)
                     {
                         _skillDelay += Time.deltaTime;
 
-                        skillCoolTimeImage.fillAmount = _skillDelay / skillCoolTime;
-
+                        
                         if (_skillDelay >= skillCoolTime)
                         {
                             _isSkill = true;
@@ -377,7 +435,15 @@ public class Enemy : MonoBehaviour
 
         if (isStun == false)
         {
-            if (skillIndex == 7)
+            if (skillIndex == 3)
+            {
+                SwingSword();
+            }
+            else if (skillIndex == 4)
+            {
+                WindRose();
+            }
+            else if (skillIndex == 7)
             {
                 // 달팽이 스킬
                 Butt();
@@ -407,10 +473,10 @@ public class Enemy : MonoBehaviour
 
         if (attackAnim != null)
         {
-            attackAnim.Play();
-
             if (unit.unitName != "유령")
             {
+                attackAnim.Play();
+                
                 if (_currentRay.transform.tag == "Unit")
                 {
                     if (_currentRay.transform.GetComponent<UnitMove>().unit.unitName == "팅커벨")
@@ -433,22 +499,39 @@ public class Enemy : MonoBehaviour
             }
             else
             {
-                if (isUpgrade == false)
-                {
-                    attackAnim.Play();
-                }
-                else
-                {
-                    skillAnim[9].Play();
-                }
+                // if (_currentRay.transform.tag == "Unit")
+                // {
+                //     if (_currentRay.transform.GetComponent<UnitMove>().unit.unitName == "팅커벨")
+                //     {
+                //         endPos = _currentRay.transform.position + new Vector3(0, 3.5f, 0);
+                //     }
+                //     else if (_currentRay.transform.GetComponent<UnitMove>().unit.unitName == "나나")
+                //     {
+                //         endPos = _currentRay.transform.position - new Vector3(0, 2, 0);
+                //     }
+                //     else
+                //     {
+                //         endPos = _currentRay.transform.position;
+                //     }
+                // }
+                // else
+                // {
+                //     endPos = _currentRay.transform.position;
+                // }
+                //
+                // if (isUpgrade == false)
+                // {
+                //     attackAnim.Play();
+                // }
+                // else
+                // {
+                //     skillAnim[9].Play();
+                // }
+                // isAttackAnim = true;
             }
         }
-
-        if (isBlind == false || isStun == false)
-        {
-            AttackDelay();
-        }
-        else if (isBlind == true)
+        
+        if (isBlind == true)
         {
             if (_currentRay.transform.tag == "Player")
             {
@@ -465,6 +548,10 @@ public class Enemy : MonoBehaviour
                 
                 ShowDamageTxt(_unitMove.transform, "0", false, _unitMove.hpBackImage.transform.position + new Vector3(0, 1f, 0), Color.red);
             }
+        }
+        else if (isBlind == false || isStun == false)
+        {
+            AttackDelay();
         }
     }
 
@@ -565,6 +652,41 @@ public class Enemy : MonoBehaviour
                     _unitMove.StopMove();
                 }
             }
+            
+            if (_currentRay.transform.tag == "Unit")
+            {
+                if (_currentRay.transform.GetComponent<UnitMove>().unit.unitName == "팅커벨")
+                {
+                    endPos = _currentRay.transform.position + new Vector3(0, 3.5f, 0);
+                }
+                else if (_currentRay.transform.GetComponent<UnitMove>().unit.unitName == "나나")
+                {
+                    endPos = _currentRay.transform.position - new Vector3(0, 2, 0);
+                }
+                else
+                {
+                    endPos = _currentRay.transform.position;
+                }
+            }
+            else
+            {
+                endPos = _currentRay.transform.position;
+            }
+                
+            if (isUpgrade == false)
+            {
+                attackAnim.Play();
+            }
+            else
+            {
+                skillAnim[9].Play();
+            }
+
+            if (unit.unitName == "유령" || unit.unitName == "벨")
+            {
+                isAttackAnim = true;
+            }
+            
         }
         else
         {
@@ -641,6 +763,39 @@ public class Enemy : MonoBehaviour
                 {
                     SetSkillEffect(_unitMove, null, true);
                 }
+            }
+            
+            if (_currentRay.transform.tag == "Unit")
+            {
+                if (_currentRay.transform.GetComponent<UnitMove>().unit.unitName == "팅커벨")
+                {
+                    endPos = _currentRay.transform.position + new Vector3(0, 3.5f, 0);
+                }
+                else if (_currentRay.transform.GetComponent<UnitMove>().unit.unitName == "나나")
+                {
+                    endPos = _currentRay.transform.position - new Vector3(0, 2, 0);
+                }
+                else
+                {
+                    endPos = _currentRay.transform.position;
+                }
+            }
+            else
+            {
+                endPos = _currentRay.transform.position;
+            }
+                
+            if (isUpgrade == false)
+            {
+                attackAnim.Play();
+            }
+            else
+            {
+                skillAnim[9].Play();
+            }
+            if (unit.unitName == "유령" || unit.unitName == "벨")
+            {
+                isAttackAnim = true;
             }
         }
 
@@ -1339,6 +1494,203 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    private int deadRan;
+    
+    private void SwingSword()
+    {
+        RaycastHit2D[] rays = Physics2D.BoxCastAll(transform.position, new Vector2(1f, 18), 0, Vector2.left, attackRange, layerMask);
+
+        for (int i = 0; i < rays.Length; i++)
+        {
+            deadRan = Random.Range(1, 101);
+            skillAnim[3].Play();
+
+            if (rays[i].transform.tag == "Unit")
+            {
+                UnitMove _unitMove = rays[i].transform.GetComponent<UnitMove>();
+
+                if (deadRan <= _unitSkillManager.swingSwordStat[2])
+                {
+                    ShowDamageTxt(_unitMove.transform, "999", false,
+                        _unitMove.maxHpStatImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+
+                    _unitMove.UpdateHpBar(999, true);
+                }
+                else
+                {
+                    int damage =
+                        Mathf.RoundToInt(_unitSkillManager.swingSwordStat[0] +
+                                         attack * _unitSkillManager.swingSwordStat[1] * 0.01f);
+            
+                    if (_unitMove.isBlind == true)
+                    {
+                        damage = Mathf.RoundToInt(damage + (damage * _unitSkillManager.blindStat[1] * 0.01f));
+                    }
+                
+                    // 출혈중이 아니라면 아래 코드 실행
+                    if (_unitMove.isHurt == false)
+                    {
+                        ShowDamageTxt(_unitMove.transform, damage.ToString(), false,
+                            _unitMove.maxHpStatImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+            
+                        _unitMove.UpdateHpBar(damage, true);
+                    }
+                    // 출혈중이라면 아래 코드 실행
+                    else
+                    {
+                        int hurtDamage = Mathf.RoundToInt(damage * _unitSkillManager.hurtStat[1] * 0.01f);
+            
+                        ShowDamageTxt(_unitMove.transform, damage.ToString(), false,
+                            _unitMove.maxHpStatImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                        ShowDamageTxt(_unitMove.transform, hurtDamage.ToString(), false,
+                            _unitMove.maxHpStatImage.transform.position + new Vector3(0, 1, 0), Color.yellow);
+            
+                        _unitMove.UpdateHpBar(damage + hurtDamage, true);
+                    }
+                }
+
+                SetSkillEffect(_unitMove, null, true);
+            }
+            else
+            {
+                Player _player = rays[i].transform.GetComponent<Player>();
+
+                if (deadRan <= _unitSkillManager.swingSwordStat[2])
+                {
+                    ShowDamageTxt(_player.transform, (_player.hpStat * 0.2f).ToString(), false,
+                        _player.hpImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+
+                    _player.UpdateHpBar(_player.hpStat * 0.2f);
+                }
+                else
+                {
+                    int damage =
+                        Mathf.RoundToInt(_unitSkillManager.swingSwordStat[0] +
+                                         attack * _unitSkillManager.swingSwordStat[1] * 0.01f);
+            
+                    if (_player.isBlind == true)
+                    {
+                        damage = Mathf.RoundToInt(damage + (damage * _unitSkillManager.blindStat[1] * 0.01f));
+                    }
+                
+                    // 출혈중이 아니라면 아래 코드 실행
+                    if (_player.isHurt == false)
+                    {
+                        ShowDamageTxt(_player.transform, damage.ToString(), false,
+                            _player.hpImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+            
+                        _player.UpdateHpBar(damage);
+                    }
+                    // 출혈중이라면 아래 코드 실행
+                    else
+                    {
+                        int hurtDamage = Mathf.RoundToInt(damage * _unitSkillManager.hurtStat[1] * 0.01f);
+            
+                        ShowDamageTxt(_player.transform, damage.ToString(), false,
+                            _player.hpImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                        ShowDamageTxt(_player.transform, hurtDamage.ToString(), false,
+                            _player.hpImage.transform.position + new Vector3(0, 1, 0), Color.yellow);
+            
+                        _player.UpdateHpBar(damage + hurtDamage);
+                    }
+                }
+
+                SetSkillEffect(null, _player, false);
+            }
+        }
+    }
+    
+    private void WindRose()
+    {
+        RaycastHit2D[] rays = Physics2D.BoxCastAll(transform.position, new Vector2(1f, 18), 0, Vector2.left, attackRange, layerMask);
+
+        for (int i = 0; i < rays.Length; i++)
+        {
+            if (_firstCheck == false)
+            {
+                first = rays[0].transform.position;
+                _firstCheck = true;
+            }
+            
+            // 동일 선상에 있다면
+            if (first.y == rays[i].transform.position.y || first.y == rays[i].transform.position.y + 1.25f)
+            {
+                if (rays[i].transform.tag == "Unit")
+                {
+                    UnitMove _unitMove = rays[i].transform.GetComponent<UnitMove>();
+                
+                    skillAnim[4].Play();
+                
+                    roseWindAttackAnim = true;
+                    startPos = transform.position;
+
+                    int damage = Mathf.RoundToInt(_unitSkillManager.windRoseStat[0] + attack * _unitSkillManager.windRoseStat[1] * 0.01f);
+
+                    if (_unitMove.isBlind == true)
+                    {
+                        damage = Mathf.RoundToInt(damage + (damage * _unitSkillManager.blindStat[1] * 0.01f));
+                    }
+                
+                    // 출혈중이 아니라면 아래 코드 실행
+                    if (_unitMove.isHurt == false)
+                    {
+                        ShowDamageTxt(_unitMove.transform ,damage.ToString(), false, _unitMove.maxHpStatImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                
+                        _unitMove.UpdateHpBar(damage, true);
+                    }
+                    // 출혈중이라면 아래 코드 실행
+                    else
+                    {
+                        int hurtDamage = Mathf.RoundToInt(damage * _unitSkillManager.hurtStat[1] * 0.01f);
+                    
+                        ShowDamageTxt(_unitMove.transform ,damage.ToString(), false, _unitMove.maxHpStatImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                        ShowDamageTxt(_unitMove.transform, hurtDamage.ToString(), false, _unitMove.maxHpStatImage.transform.position + new Vector3(0, 1, 0), Color.yellow);
+                
+                        _unitMove.UpdateHpBar(damage + hurtDamage, true);
+                    }
+                
+                    SetSkillEffect(_unitMove, null, true);
+                }
+                else if (rays[i].transform.tag == "Player")
+                {
+                    Player _player = rays[i].transform.GetComponent<Player>();
+                
+                    skillAnim[4].Play();
+                
+                    roseWindAttackAnim = true;
+                    startPos = transform.position;
+
+                    int damage = Mathf.RoundToInt(_unitSkillManager.windRoseStat[0] + attack * _unitSkillManager.windRoseStat[1] * 0.01f);
+
+                    if (_player.isBlind == true)
+                    {
+                        damage = Mathf.RoundToInt(damage + (damage * _unitSkillManager.blindStat[1] * 0.01f));
+                    }
+                
+                    // 출혈중이 아니라면 아래 코드 실행
+                    if (_player.isHurt == false)
+                    {
+                        ShowDamageTxt(_player.transform ,damage.ToString(), false, _player.hpImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                
+                        _player.UpdateHpBar(damage);
+                    }
+                    // 출혈중이라면 아래 코드 실행
+                    else
+                    {
+                        int hurtDamage = Mathf.RoundToInt(damage * _unitSkillManager.hurtStat[1] * 0.01f);
+                    
+                        ShowDamageTxt(_player.transform ,damage.ToString(), false, _player.hpImage.transform.position + new Vector3(0, 1f, 0), Color.red);
+                        ShowDamageTxt(_player.transform, hurtDamage.ToString(), false, _player.hpImage.transform.position + new Vector3(0, 1, 0), Color.yellow);
+                
+                        _player.UpdateHpBar(damage + hurtDamage);
+                    }
+                
+                    SetSkillEffect(null, _player, false);
+                }
+            }
+        }
+    }
+
     private void UpGradeAttack()
     {
         isUpgrade = true;
@@ -1380,7 +1732,7 @@ public class Enemy : MonoBehaviour
             }
             else if (skillEffect == 2)
             {
-                player.skillShowEffect[2].Play();
+                player.skillShowEffect[1].Play();
                 player.isBlind = true;
                 player.blindMaintainTime = 0;
             }
@@ -1435,21 +1787,12 @@ public class Enemy : MonoBehaviour
             
             RaycastHit2D[] rays = Physics2D.BoxCastAll(transform.position, new Vector2(1f, 18), 0, Vector2.left, attackRange, layerMask);
 
-            for (int i = 0; i < rays.Length; i++)
-            {
-                if (rays[i].transform.tag != "Player")
-                {
-                    UnitMove _unitMove = rays[i].transform.GetComponent<UnitMove>();
 
-                    _unitMove.isTaunt = true;
-                }
-            }
-        
             // 지속 시간 끝남
             if (tauntMaintainTime >= _unitSkillManager.tauntStat[0])
             {
                 skillShowEffect[1].Stop();
-                pushResist -= _unitSkillManager.showeringStat[0];
+                // pushResist -= _unitSkillManager.showeringStat[0];
                 tauntMaintainTime = 0;
                 isTaunt = false;
             }

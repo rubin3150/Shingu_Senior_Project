@@ -28,11 +28,13 @@ MonoBehaviour:
   pushResist: 1
   attackDelayStat: 3
   speedStat: 5
-  hpStat: 80
+  hpStat: 100
   type: Melee
   mpGet: 0
   attackType: "\uC57D\uC810"
   bossType: 
   skillCoolTime: 6
+  skillTxt: "\uC801\uC5D0\uAC8C \uACE0\uC2B4\uB3C4\uCE58\uB97C \uB358\uC9C4 \uD6C4
+    \uC801\uB4E4\uC744 \uAE30\uC808 \uC2DC\uD0A8\uB2E4"
   skillIndex: 6
   skillEffect: 3

@@ -72,6 +72,8 @@ public class Player : MonoBehaviour
     public bool isBlind;
     public float blindMaintainTime;
 
+    [SerializeField] private DataManager _dataManager;
+
     #endregion
     
     /// <summary>
@@ -178,6 +180,7 @@ public class Player : MonoBehaviour
 
         if (hpStat <= 0)
         {
+            _dataManager.Fade();
             isDead = true;
             boxCol.enabled = false;
             StartCoroutine(FadeUnit());
@@ -275,7 +278,7 @@ public class Player : MonoBehaviour
             
             if (blindMaintainTime >= _unitSkillManager.blindStat[0])
             {
-                skillShowEffect[2].Stop();
+                skillShowEffect[1].Stop();
                 blindMaintainTime = 0;
                 isBlind = false;
             }

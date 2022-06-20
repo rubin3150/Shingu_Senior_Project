@@ -6,48 +6,65 @@ using UnityEngine.UI;
 
 public class UnitToolTip : MonoBehaviour
 {
-    [SerializeField] private GameObject goBase;
+    [SerializeField] private GameObject[] goBase;
         
-    [SerializeField] private TextMeshProUGUI txtUnitName;
-    [SerializeField] private TextMeshProUGUI txtUnitDesc;
-    [SerializeField] private TextMeshProUGUI txtUnitHowToUsed;
-
-    public StageManager stageManager;
+    [SerializeField] private TextMeshProUGUI[] txtUnitInfo;
     
-    public void ShowToolTip(Unit unit, bool isQuickSlot, Vector3 pos, string keyBord)
+    public StageManager stageManager;
+
+    private int num;
+    
+    public void ShowToolTip(Unit unit, Vector3 pos, bool isQuickSlot)
     {
-        goBase.SetActive(true);
-
-        if (stageManager.inStage == true)
+        if (isQuickSlot == false)
         {
-            pos += new Vector3(goBase.GetComponent<RectTransform>().rect.width * 0.5f, goBase.GetComponent<RectTransform>().rect.height * 0.5f, 0f);
-        }
-        else
-        {
-            pos += new Vector3(goBase.GetComponent<RectTransform>().rect.width * 0.5f, -goBase.GetComponent<RectTransform>().rect.height * 0.5f, 0f);
-        }
+            if (unit.type == "Healer")
+            {
+                num = 0;
+                txtUnitInfo[0].text = unit.unitName;
+                txtUnitInfo[1].text = unit.healStat.ToString();
+                txtUnitInfo[2].text = unit.hpStat.ToString();
+                txtUnitInfo[3].text = unit.criRate + "%";
+                txtUnitInfo[4].text = unit.criDamage + "%";
+                txtUnitInfo[5].text = unit.speedStat.ToString();
+                txtUnitInfo[6].text = unit.pushRange.ToString();
+                txtUnitInfo[7].text = unit.pushResist.ToString();
+                txtUnitInfo[8].text = unit.attackDelayStat.ToString();
+                txtUnitInfo[9].text = unit.skillTxt;
+            }
+            else
+            {
+                num = 1;
+                txtUnitInfo[10].text = unit.unitName;
+                txtUnitInfo[11].text = unit.attackStat.ToString();
+                txtUnitInfo[12].text = unit.hpStat.ToString();
+                txtUnitInfo[13].text = unit.criRate + "%";
+                txtUnitInfo[14].text = unit.criDamage + "%";
+                txtUnitInfo[15].text = unit.speedStat.ToString();
+                txtUnitInfo[16].text = unit.pushRange.ToString();
+                txtUnitInfo[17].text = unit.pushResist.ToString();
+                txtUnitInfo[18].text = unit.attackDelayStat.ToString();
+                txtUnitInfo[19].text = unit.skillTxt;
+            }
         
-        goBase.transform.position = pos;
+            goBase[num].SetActive(true);
         
-        txtUnitName.text = unit.unitName + " (" + unit.type + ")";
-        txtUnitDesc.text = "소비하는 달빛 에너지 : " + unit.moonEnergy + "\n유닛 체력 : " + unit.hpStat + "\n유닛 공격력 : " + unit.attackStat + "\n공격 딜레이 : " + unit.attackDelayStat + "초" + "\n유닛 스피드 : " + unit.speedStat + "\n유닛 소환 쿨타임 : " + unit.spawnCoolTime + "초" + "\n유닛 치명타 확률 : " + unit.criRate + "\n유닛 치명타 대미지 : " + unit.criDamage;
+            if (stageManager.inStage == true)
+            {
+                pos += new Vector3(goBase[num].GetComponent<RectTransform>().rect.width * 0.5f, goBase[num].GetComponent<RectTransform>().rect.height * 0.5f, 0f);
+            }
+            else
+            {
+                pos += new Vector3(-goBase[num].GetComponent<RectTransform>().rect.width * 0.5f, -goBase[num].GetComponent<RectTransform>().rect.height * 0.25f, 0f);
+            }
+        
+            goBase[num].transform.position = pos;
 
-        if (isQuickSlot == true && stageManager.inStage == false)
-        {
-            txtUnitHowToUsed.text = "좌클릭 - 해제";
-        }
-        else if (isQuickSlot == true && stageManager.inStage == true)
-        {
-            txtUnitHowToUsed.text = "좌클릭 or (" + keyBord + ") - 소환";
-        }
-        else if (isQuickSlot == false)
-        {
-            txtUnitHowToUsed.text = "좌클릭 - 장착";
         }
     }
 
     public void HideToolTip()
     {
-        goBase.SetActive(false);
+        goBase[num].SetActive(false);
     }
 }

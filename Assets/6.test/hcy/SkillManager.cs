@@ -26,8 +26,7 @@ public class SkillManager : MonoBehaviour
         
     [SerializeField] private TextMeshProUGUI txtSkillName;
     [SerializeField] private TextMeshProUGUI txtSkillDesc;
-    [SerializeField] private TextMeshProUGUI txtSkillHowToUsed;
-    
+
     // 스킬 마다 다른 이펙트 설정
     public EffekseerEmitter[] skillEffect;
 
@@ -91,17 +90,13 @@ public class SkillManager : MonoBehaviour
     
     public void ShowSkillToolTip(Vector3 pos, int currentSkillNum, int skillNum)
     {
-        goBase.SetActive(true);
-    
-        if (stageManager.inStage == true)
+        if (stageManager.inStages == false)
         {
-            pos += new Vector3(-goBase.GetComponent<RectTransform>().rect.width * 0.5f, goBase.GetComponent<RectTransform>().rect.height * 0.5f, 0f);
+            goBase.SetActive(true);
+            
+            pos += new Vector3(goBase.GetComponent<RectTransform>().rect.width * 0.5f, -goBase.GetComponent<RectTransform>().rect.height * 0.5f, 0f);
         }
-        else
-        {
-            pos += new Vector3(-goBase.GetComponent<RectTransform>().rect.width * 0.5f, -goBase.GetComponent<RectTransform>().rect.height * 0.5f, 0f);
-        }
-        
+
         goBase.transform.position = pos;
         
         txtSkillName.text = playerSet.skillName[currentSkillNum];
@@ -119,26 +114,6 @@ public class SkillManager : MonoBehaviour
         {
             txtSkillDesc.text = "\n스킬 가이드 : 범위 안에 있는 모든 적군 유닛을 " + playerSet.addStat[7] + "~" + playerSet.addStat[8] + "랜덤 넉백 수치 만큼 넉백하고 고정 데미지 " + playerSet.addStat[9] + "를 입힌다";
         }
-        
-        if (stageManager.inStage == false)
-        {
-            txtSkillHowToUsed.text = "";
-        } 
-        else
-        {
-            if (skillNum == 0)
-            {
-                txtSkillHowToUsed.text = "좌클릭 or (Z) - 사용";
-            }
-            else if (skillNum == 1)
-            {
-                txtSkillHowToUsed.text = "좌클릭 or (X) - 사용";
-            }
-            else
-            {
-                txtSkillHowToUsed.text = "좌클릭 or (C) - 사용";
-            }
-        }
     }
 
     public void HideSkillToolTip()
@@ -147,6 +122,68 @@ public class SkillManager : MonoBehaviour
     }
     
     public void UseSkill(int skillNum)
+    {
+        Data.Instance.sfx.clip = Data.Instance.btnClip;
+        Data.Instance.sfx.Play();
+        
+        if (stageManager.inStage == true && stageManager.isStop == false)
+        {
+            if (skillNum == 0 && isActive[0] == true)
+            {
+                if (stageManager.nowMana >= playerSet.skillMoonEnergy[skillNum])
+                {
+                    // 첫번째 스킬 호출
+                    SkillEffect(6);
+                }
+                else
+                {
+                    if (!coolTimeManager.isCoolTime[6] == isMaintain[0] == false)
+                    {
+                        if (_manaCheck == false)
+                        {
+                            ShowManaWarningUI("마나가 없습니다");
+                        }
+                    }
+                }
+            }
+            else if (skillNum == 1 && isActive[1] == true)
+            {
+                if (stageManager.nowMana >= playerSet.skillMoonEnergy[skillNum])
+                {
+                    SkillEffect(7);
+                }
+                else
+                {
+                    if (!coolTimeManager.isCoolTime[6])
+                    {
+                        if (_manaCheck == false)
+                        {
+                            ShowManaWarningUI("마나가 없습니다");
+                        }
+                    }
+                }
+            }
+            else if (skillNum == 2 && isActive[2] == true)
+            {
+                if (stageManager.nowMana >= playerSet.skillMoonEnergy[skillNum])
+                {
+                    SkillEffect(8);
+                }
+                else
+                {
+                    if (!coolTimeManager.isCoolTime[7])
+                    {
+                        if (_manaCheck == false)
+                        {
+                            ShowManaWarningUI("마나가 부족합니다.");
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    public void UseSkillKeyBord(int skillNum)
     {
         if (stageManager.inStage == true && stageManager.isStop == false)
         {
@@ -365,7 +402,16 @@ public class SkillManager : MonoBehaviour
             if (_rays[i].transform.tag == "Enemy")
             {
                 int _r = Random.Range(playerSet.addStat[7], playerSet.addStat[8] + 1);
-                _rays[i].transform.position += new Vector3(_r, 0f, 0f);
+
+                if (_rays[i].transform.position.x + _r >= 40)
+                {
+                    _rays[i].transform.position = new Vector3(40, _rays[i].transform.position.y, _rays[i].transform.position.z);
+                }
+                else
+                {
+                    _rays[i].transform.position += new Vector3(_r, 0f, 0f);
+                }
+                
                 Enemy _enemy = _rays[i].transform.GetComponent<Enemy>();
 
                 // 출혈이 아니라면
@@ -437,15 +483,15 @@ public class SkillManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Z))
             {
-                UseSkill(0);
+                UseSkillKeyBord(0);
             }
             else if (Input.GetKeyDown(KeyCode.X))
             {
-                UseSkill(1);
+                UseSkillKeyBord(1);
             }
             else if (Input.GetKeyDown(KeyCode.C))
             {
-                UseSkill(2);
+                UseSkillKeyBord(2);
             }
             
             MaintainCalc();

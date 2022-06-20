@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c2c0b1638d628b48aa62ffee1ed9eb9, type: 3}
+  m_Name: BelleBoss
+  m_EditorClassIdentifier: 
+  unitName: "\uBCA8"
+  unitImage: {fileID: 21300000, guid: 48caec23e69ea0147b9a5627fe6d672d, type: 3}
+  unitPrefab: {fileID: 1609125915385617593, guid: 3f2c71e0c736c724fbde61665b56a6ec, type: 3}
+  moonEnergy: 35
+  spawnCoolTime: 30
+  attackStat: 55
+  healStat: 0
+  donMoveDistance: 9
+  donTowerMoveDistance: 9
+  attackRangeStat: 8
+  criRate: 25
+  criDamage: 150
+  pushRange: 6
+  pushResist: 2
+  attackDelayStat: 3
+  speedStat: 5
+  hpStat: 90
+  type: Melee
+  mpGet: 0
+  attackType: "\uADFC\uC811"
+  bossType: Boss
+  skillCoolTime: 6
+  skillTxt: "\uC7A5\uBBF8 \uAF43\uC78E\uC744 \uB0A0\uB824 \uC801\uB4E4\uC744 \uC2E4\uBA85\uC2DC\uD0A8\uB2E4"
+  skillIndex: 4
+  skillEffect: 2

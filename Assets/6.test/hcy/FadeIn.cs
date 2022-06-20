@@ -49,6 +49,8 @@ public class FadeIn : MonoBehaviour
 
     [SerializeField] private GameObject selectUnitTxt;
 
+    [SerializeField] private Animator animator;
+
     // 실제 시간을 담을 변수
     private float _time;
     // 몇초 동안 페이드인 또는 페이드 아웃을 시킬지 정하는 변수 (1초로 설정)
@@ -63,6 +65,8 @@ public class FadeIn : MonoBehaviour
     {
         // 코루틴 실행
         StartCoroutine(FadeFlow());
+        Data.Instance.sfx.clip = Data.Instance.scenechangeClip;
+        Data.Instance.sfx.Play();
     }
 
     /// <summary>
@@ -103,6 +107,7 @@ public class FadeIn : MonoBehaviour
         
         Data.Instance.mainAudio.clip = Data.Instance.defenseClip;
         Data.Instance.mainAudio.Play();
+        animator.SetTrigger("isFlag");
 
         // 임시 변수 값이 0보다 큰 동안 아래 코드 실행 (fadeImage의 알파 값이 255보다 크다면)
         while (alpha.a > 0f)
@@ -201,16 +206,17 @@ public class FadeIn : MonoBehaviour
             // 함수 호출
             stageManager.SetActiveUnitText();
 
+            stageManager.inStages = true;
+
             // 다음 1프레임까지 대기
             yield return null;
         }
         // fadeImage를 비활성화 시킴
-        fadeImage.gameObject.SetActive(false);
-
-        // 변수에 참이라는 값을 넣음 (전투 스테이지 진입)
-        stageManager.inStage = true;
+         fadeImage.gameObject.SetActive(false);
 
         // 다음 1프레임까지 대기
         yield return null;
     }
+
+    
 }

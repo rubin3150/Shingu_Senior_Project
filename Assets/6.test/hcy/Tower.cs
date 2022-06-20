@@ -47,6 +47,15 @@ public class Tower : MonoBehaviour
     public int nowDamagePos;
     
     public List<GameObject> damageTexts = new List<GameObject>();
+    private bool isBossSpwan;
+
+    [SerializeField] private LayerMask _layerMask;
+
+    [SerializeField] private float pushDistance;
+    
+    [SerializeField] private DataManager _dataManager;
+
+    private int z;
 
     private void Start()
     {
@@ -55,6 +64,25 @@ public class Tower : MonoBehaviour
 
     private void Update()
     {
+        if (towerHp <= maxTowerHp / 3)
+        {
+            if (isBossSpwan == false)
+            {
+                isBossSpwan = true;
+
+                if (Data.Instance.isStage[0] == true)
+                {
+                    SpawnBoss(5);
+                }
+                else if (Data.Instance.isStage[1] == true)
+                {
+                    SpawnBoss(6);
+                }
+
+                
+            }
+        }
+        
         towerHpImage.fillAmount = Mathf.Lerp(towerHpImage.fillAmount, towerHp / maxTowerHp, Time.deltaTime * 5f);
        
         if (backHpHit == true)
@@ -84,6 +112,45 @@ public class Tower : MonoBehaviour
                 SpawnMonster(2);
             }
         }
+    }
+    
+    private void SpawnBoss(int num)
+    {
+        RaycastHit2D[] rays = Physics2D.BoxCastAll(transform.position, new Vector2(1f, 30), 0, Vector2.left, pushDistance, _layerMask);
+
+        for (int i = 0; i < rays.Length; i++)
+        {
+            Debug.Log(rays.Length);
+            
+            UnitMove _unitMove = rays[i].transform.GetComponent<UnitMove>();
+            rays[i].transform.position = new Vector3(40 - pushDistance , rays[i].transform.position.y, rays[i].transform.position.z);
+            
+            if (_unitMove.unit.unitName == "팅커벨")
+            {
+                _unitMove.MoveAnim();
+            }
+        
+            if (_unitMove.isStop == false)
+            {
+                _unitMove.StopMove();
+            }
+        }
+        
+        // 몬스터 생성 부분 작성
+        GameObject go = Instantiate(Units[num].unitPrefab, Vector3.zero, Quaternion.identity);
+        
+        go.GetComponent<Enemy>().unit = Units[num];
+
+        go.GetComponent<RectTransform>().SetParent(parentTrans[1].transform, false);
+        
+        go.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+
+        go.GetComponent<RectTransform>().localPosition = new Vector3(40f, -1.5f, 0);
+        go.GetComponent<RectTransform>().localRotation = Quaternion.Euler(0, 180, 0);
+        
+        SpawnEnemySet(0);
+        SpawnEnemySet(1);
+        SpawnEnemySet(2);
     }
 
     private void SpawnMonster(int num)
@@ -197,6 +264,14 @@ public class Tower : MonoBehaviour
 
         if (towerHp <= 0)
         {
+            for (int i = 0; i < Data.Instance.isStage.Length; i++)
+            {
+                Data.Instance.isStage[i] = false;
+            }
+
+            z += 1;
+            Data.Instance.isStage[z] = true;
+            _dataManager.Fade1();
             isDead = true;
             boxCol.enabled = false;
             StartCoroutine(FadeUnit());

@@ -6,10 +6,12 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Effekseer;
+using UnityEngine.SceneManagement;
 
 public class StageManager : MonoBehaviour
 {
     // 스테이지에 진입 했는지 아닌지 체크할 변수
+    public bool inStages;
     public bool inStage;
 
     public GameObject[] spawnUnitTxt;
@@ -205,6 +207,8 @@ public class StageManager : MonoBehaviour
 
     public void StopUIBtn()
     {
+        Data.Instance.sfx.clip = Data.Instance.btnClip;
+        Data.Instance.sfx.Play();
         stopUI.SetActive(true);
         Time.timeScale = 0;
         isStop = true;
@@ -212,8 +216,27 @@ public class StageManager : MonoBehaviour
 
     public void RestartUIBtn()
     {
+        Data.Instance.sfx.clip = Data.Instance.btnClip;
+        Data.Instance.sfx.Play();
         stopUI.SetActive(false);
         Time.timeScale = 1;
         isStop = false;
+    }
+
+    public void GiveUpBtn()
+    {
+        Data.Instance.sfx.clip = Data.Instance.scenechangeClip;
+        Data.Instance.sfx.Play();
+        SceneManager.LoadScene("Tycoon");
+        stopUI.SetActive(false);
+        Time.timeScale = 1;
+        isStop = false;
+    }
+    
+    public void GoToWorld()
+    {
+        Data.Instance.sfx.clip = Data.Instance.scenechangeClip;
+        Data.Instance.sfx.Play();
+        SceneManager.LoadScene("Tycoon");
     }
 }
