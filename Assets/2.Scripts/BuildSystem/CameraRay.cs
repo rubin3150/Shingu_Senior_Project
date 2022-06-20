@@ -43,6 +43,8 @@ public class CameraRay : Singleton<CameraRay>
     public Material aa;
     public Material bb;
 
+    public GameObject[] castle;
+
     // 건설된 건물들을 저장할 리스트
     public List<GameObject> buildings = new List<GameObject>();
 
@@ -123,7 +125,12 @@ public class CameraRay : Singleton<CameraRay>
 
                 if(hit.transform.CompareTag("Manufacture"))
                 {
+                    
+                }
 
+                if(hit.transform.CompareTag("Castle"))
+                {
+                    castle[int.Parse(hit.transform.name)].SetActive(true);
                 }
             }
         }

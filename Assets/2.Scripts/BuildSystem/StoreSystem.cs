@@ -70,12 +70,6 @@ public class StoreSystem : MonoBehaviour
 
     public void buyBuilding()
     {
-        Debug.Log(
-            " 첫째 " +buildingData[buildingDataNum].cost1 + " " +
-            " 둘째 " +buildingData[buildingDataNum].cost2 + " " +
-            " 셋째 " +buildingData[buildingDataNum].cost3 + " " +
-            " 넷째 " +buildingData[buildingDataNum].cost4 + " " +
-            " 다섯째 " +buildingData[buildingDataNum].cost5);
         ResourceSystem.Instance.PayResource(
             buildingData[buildingDataNum].cost1,
             buildingData[buildingDataNum].cost2,

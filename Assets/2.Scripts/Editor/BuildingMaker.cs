@@ -44,9 +44,8 @@ public class BuildingMaker : EditorWindow
 
         GUILayout.Space(20);
         GUILayout.Label("빌딩의 한글 이름을 적어주세요", EditorStyles.label);
-        GUILayout.Space(20);
-
         buildingName = EditorGUILayout.TextField(buildingName);
+        GUILayout.Space(20);
 
         buildingImg = (Sprite)EditorGUILayout.ObjectField("건물 이미지", buildingImg, typeof(Sprite));
 
