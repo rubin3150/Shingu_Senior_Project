@@ -20,8 +20,6 @@ public class UIController : MonoBehaviour
     
     public Animator animator;
     private int levelToLoad;
-
-    public GameObject stage;
     
     void Start()
     {
@@ -31,8 +29,6 @@ public class UIController : MonoBehaviour
         btn[2].onClick.AddListener(() => FadeToLevel(1));
         btn[3].onClick.AddListener(() => SetController(true));
         btn[4].onClick.AddListener(() => SetController(true));
-
-        DontDestroyOnLoad(stage);
     }
 
     // Fade
