@@ -79,6 +79,8 @@ public class UIController : MonoBehaviour
         
         set.SetActive(_bool);
         blur.enabled = _bool;
+
+        CameraMove.Instance.isMove = !(_bool);
     }
 
     public void Exit()

@@ -38,41 +38,33 @@ public class WorldMapUI : MonoBehaviour
         Data.Instance.mainAudio.clip = Data.Instance.worldmapClip;
         Data.Instance.mainAudio.Play();
 
-        worldMapBtn[0].onClick.AddListener(() => PopUpOnController(0, false));
-        worldMapBtn[1].onClick.AddListener(() => PopUpOnController(1, false));
-        worldMapBtn[2].onClick.AddListener(() => PopUpOnController(2, false));
-        worldMapBtn[3].onClick.AddListener(() => PopUpOffController(0, true));
-        worldMapBtn[4].onClick.AddListener(() => PopUpOffController(1, true));
-        worldMapBtn[5].onClick.AddListener(() => PopUpOffController(3, true));
-        worldMapBtn[6].onClick.AddListener(() => PopUpOffController(4, true));
-        worldMapBtn[7].onClick.AddListener(() => PopUpOffController(5, true));
-        worldMapBtn[8].onClick.AddListener(() => PopUpOffController(6, true));
+        worldMapBtn[0].onClick.AddListener(() => PopUpController(0, true));
+        worldMapBtn[1].onClick.AddListener(() => PopUpController(1, true));
+        worldMapBtn[2].onClick.AddListener(() => PopUpController(2, true));
+        worldMapBtn[3].onClick.AddListener(() => PopUpController(0, false));
+        worldMapBtn[4].onClick.AddListener(() => PopUpController(1, false));
+        worldMapBtn[5].onClick.AddListener(() => PopUpController(3, false));
+        worldMapBtn[6].onClick.AddListener(() => PopUpController(4, false));
+        worldMapBtn[7].onClick.AddListener(() => PopUpController(5, false));
+        worldMapBtn[8].onClick.AddListener(() => PopUpController(6, false));
         worldMapBtn[9].onClick.AddListener(loadDefence);
         worldMapBtn[10].onClick.AddListener(loadDefence);
         worldMapBtn[11].onClick.AddListener(loadDefence);
         worldMapBtn[12].onClick.AddListener(loadDefence);
     }
 
-    public void PopUpOnController(int _int, bool _bool)
+    // Pop-Up On = (_bool == true)
+    public void PopUpController(int _int, bool _bool)
     {
         Data.Instance.sfx.clip = Data.Instance.btnClip;
         Data.Instance.sfx.Play();
 
-        blur.enabled = true;
+        blur.enabled = _bool;
 
-        CameraMove.Instance.isMove = _bool;
-        popup[_int].SetActive(true);
+        CameraMove.Instance.isMove = !(_bool);
+        popup[_int].SetActive(_bool);
     }
-    public void PopUpOffController(int _int, bool _bool)
-    {
-        Data.Instance.sfx.clip = Data.Instance.btnClip;
-        Data.Instance.sfx.Play();
 
-        blur.enabled = false;
-
-        CameraMove.Instance.isMove = _bool;
-        popup[_int].SetActive(false);
-    }
     public void loadDefence()
     {
         SceneManager.LoadScene(1);

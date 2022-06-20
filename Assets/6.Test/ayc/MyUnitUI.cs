@@ -9,6 +9,9 @@ public class MyUnitUI : MonoBehaviour
 
     void Start()
     {
+        Data.Instance.mainAudio.clip = Data.Instance.selectunitClip;
+        Data.Instance.mainAudio.Play();
+        
         myunitBtn[0].onClick.AddListener(() => UnitMatching(0));
         myunitBtn[1].onClick.AddListener(() => UnitMatching(1));
         myunitBtn[2].onClick.AddListener(() => UnitMatching(2));
@@ -18,6 +21,11 @@ public class MyUnitUI : MonoBehaviour
         myunitBtn[6].onClick.AddListener(() => UnitMatching(6));
     }
 
+    private void OnDisable()
+    {
+        Data.Instance.mainAudio.clip = Data.Instance.worldmapClip;
+        Data.Instance.mainAudio.Play();
+    }
     public void UnitMatching(int _int)
     {
         for(int i=0; i<matching.Length; i++)
