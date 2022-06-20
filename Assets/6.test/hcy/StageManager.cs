@@ -227,7 +227,7 @@ public class StageManager : MonoBehaviour
     {
         Data.Instance.sfx.clip = Data.Instance.scenechangeClip;
         Data.Instance.sfx.Play();
-        SceneManager.LoadScene("Tycoon");
+        SceneManager.LoadScene("Tycoon 1");
         stopUI.SetActive(false);
         Time.timeScale = 1;
         isStop = false;
@@ -237,6 +237,6 @@ public class StageManager : MonoBehaviour
     {
         Data.Instance.sfx.clip = Data.Instance.scenechangeClip;
         Data.Instance.sfx.Play();
-        SceneManager.LoadScene("Tycoon");
+        SceneManager.LoadScene("Tycoon 1");
     }
 }

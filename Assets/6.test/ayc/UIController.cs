@@ -16,6 +16,7 @@ public class UIController : MonoBehaviour
     2. Create Pop-Up - Y Btn;
     3. 타이틀 SETTING
     4. 월드맵 set
+    5~8. 입장버튼
     */
     
     public Animator animator;
@@ -29,6 +30,10 @@ public class UIController : MonoBehaviour
         btn[2].onClick.AddListener(() => FadeToLevel(1));
         btn[3].onClick.AddListener(() => SetController(true));
         btn[4].onClick.AddListener(() => SetController(true));
+        btn[5].onClick.AddListener(() => FadeToLevelSceneChange(1));
+        btn[6].onClick.AddListener(() => FadeToLevelSceneChange(1));
+        btn[7].onClick.AddListener(() => FadeToLevelSceneChange(1));
+        btn[8].onClick.AddListener(() => FadeToLevelSceneChange(1));
     }
 
     // Fade
@@ -61,8 +66,8 @@ public class UIController : MonoBehaviour
         levelToLoad = levelIndex;
         animator.SetTrigger("FadeOutSceneChange");
 
-        //Data.Instance.sfx.clip = Data.Instance.scenechangeClip;
-        //Data.Instance.sfx.Play();
+        Data.Instance.sfx.clip = Data.Instance.scenechangeClip;
+        Data.Instance.sfx.Play();
     }
 
     public void OnFadeCompleteSceneChange()

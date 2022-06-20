@@ -27,10 +27,6 @@ public class WorldMapUI : MonoBehaviour
     6. 전투입장2 - 닫기 버튼
     7. 전투입장3 - 닫기 버튼
     8. 전투입장4 - 닫기 버튼
-    9. 전투입장1 - 입장 버튼
-    10. 전투입장2 - 입장 버튼
-    11. 전투입장3 - 입장 버튼
-    12. 전투입장4 - 입장 버튼
     */
 
     void Start()
@@ -47,10 +43,6 @@ public class WorldMapUI : MonoBehaviour
         worldMapBtn[6].onClick.AddListener(() => PopUpController(4, false));
         worldMapBtn[7].onClick.AddListener(() => PopUpController(5, false));
         worldMapBtn[8].onClick.AddListener(() => PopUpController(6, false));
-        worldMapBtn[9].onClick.AddListener(loadDefence);
-        worldMapBtn[10].onClick.AddListener(loadDefence);
-        worldMapBtn[11].onClick.AddListener(loadDefence);
-        worldMapBtn[12].onClick.AddListener(loadDefence);
     }
 
     // Pop-Up On = (_bool == true)
@@ -63,10 +55,5 @@ public class WorldMapUI : MonoBehaviour
 
         CameraMove.Instance.isMove = !(_bool);
         popup[_int].SetActive(_bool);
-    }
-
-    public void loadDefence()
-    {
-        SceneManager.LoadScene(1);
     }
 }
