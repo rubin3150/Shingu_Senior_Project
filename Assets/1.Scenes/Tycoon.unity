@@ -23014,6 +23014,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5793879329099022277, guid: dda327df8f27e87428ce068a3da1b37b, type: 3}
+      propertyPath: isStage.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5793879329099022277, guid: dda327df8f27e87428ce068a3da1b37b, type: 3}
+      propertyPath: isStage.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5793879329099022278, guid: dda327df8f27e87428ce068a3da1b37b, type: 3}
       propertyPath: m_Name
       value: Stage

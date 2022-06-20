@@ -65,8 +65,8 @@ public class UIController : MonoBehaviour
         levelToLoad = levelIndex;
         animator.SetTrigger("FadeOutSceneChange");
 
-        Data.Instance.sfx.clip = Data.Instance.scenechangeClip;
-        Data.Instance.sfx.Play();
+        //Data.Instance.sfx.clip = Data.Instance.scenechangeClip;
+        //Data.Instance.sfx.Play();
     }
 
     public void OnFadeCompleteSceneChange()
