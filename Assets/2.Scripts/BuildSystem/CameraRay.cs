@@ -111,7 +111,7 @@ public class CameraRay : Singleton<CameraRay>
                 if (hit.transform.CompareTag("Resource"))
                 {
                     Building building = hit.transform.gameObject.GetComponent<Building>();
-                    building.StartCoroutine(building.GetResource(1f));
+                    building.StartCoroutine(building.GetResource(300f));
                 }
 
                 if (hit.transform.CompareTag("Unit"))

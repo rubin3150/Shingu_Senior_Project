@@ -7,12 +7,14 @@ public class OutLineSwitch : MonoBehaviour
     public MeshRenderer mesh;
     void OnMouseEnter()
     {
-        mesh.enabled = true;
+        if(!CameraRay.Instance.isEditing)
+            mesh.enabled = true;
     }
 
     void OnMouseDown()
     {
-        mesh.enabled = false;
+        if(!CameraRay.Instance.isEditing)
+            mesh.enabled = false;
     }
 
     void OnMouseExit()

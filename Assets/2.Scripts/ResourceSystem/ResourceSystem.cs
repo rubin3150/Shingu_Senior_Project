@@ -52,10 +52,10 @@ public class ResourceSystem : Singleton<ResourceSystem>
         // 코스트가 오버 될 경우 return;
         if (
         resourceElements[0].resourceValue < _cost1 ||
-        resourceElements[5].resourceValue < _cost2 ||
-        resourceElements[6].resourceValue < _cost3 ||
-        resourceElements[7].resourceValue < _cost4 ||
-        resourceElements[8].resourceValue < _cost5 )
+        resourceElements[1].resourceValue < _cost2 ||
+        resourceElements[2].resourceValue < _cost3 ||
+        resourceElements[3].resourceValue < _cost4 ||
+        resourceElements[4].resourceValue < _cost5 )
         {
             destroyText.SetActive(true);
             CameraRay.Instance.isEditing = false;
@@ -64,10 +64,10 @@ public class ResourceSystem : Singleton<ResourceSystem>
         else
         {
             resourceElements[0].resourceValue -= _cost1;
-            resourceElements[5].resourceValue -= _cost2;
-            resourceElements[6].resourceValue -= _cost3;
-            resourceElements[7].resourceValue -= _cost4;
-            resourceElements[8].resourceValue -= _cost5;
+            resourceElements[1].resourceValue -= _cost2;
+            resourceElements[2].resourceValue -= _cost3;
+            resourceElements[3].resourceValue -= _cost4;
+            resourceElements[4].resourceValue -= _cost5;
             CameraRay.Instance.isEditing = true;
             CameraRay.Instance.BringObject();
         }
